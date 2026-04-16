@@ -3,14 +3,16 @@ services:
     image: postgres:16
     container_name: postgres_agrosoft
     restart: always
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: db_agrosoft
-      POSTGRES_USER: agrosoft
-      POSTGRES_PASSWORD: agrosoft123
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "${DB_PORT}:5432"
 
 volumes:
   pgdata:
