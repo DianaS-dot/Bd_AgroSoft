@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActividadEjecutadaModule } from './actividad_ejecutada/actividad_ejecutada.module';
 import { AdministradorModule } from './administrador/administrador.module';
+import { EvidenciaModule } from './evidencia/evidencia.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AdministradorModule } from './administrador/administrador.module';
     }),
     ActividadEjecutadaModule,
     AdministradorModule,
+    EvidenciaModule,
   ],
   controllers: [],
   providers: [],
