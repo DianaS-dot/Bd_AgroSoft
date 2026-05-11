@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActividadEjecutadaModule } from './actividad_ejecutada/actividad_ejecutada.module';
 import { AdministradorModule } from './administrador/administrador.module';
 import { EvidenciaModule } from './evidencia/evidencia.module';
+import { TratamientoModule } from './tratamiento/tratamiento.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EvidenciaModule } from './evidencia/evidencia.module';
     ActividadEjecutadaModule,
     AdministradorModule,
     EvidenciaModule,
+    TratamientoModule,
   ],
   controllers: [],
   providers: [],
