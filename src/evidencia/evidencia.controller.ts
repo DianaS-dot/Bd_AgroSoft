@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { EvidenciaService } from './evidencia.service';
 import { CreateEvidenciaDto } from './dto/create-evidencia.dto';
 import { UpdateEvidenciaDto } from './dto/update-evidencia.dto';
@@ -18,17 +18,17 @@ export class EvidenciaController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.evidenciaService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.evidenciaService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEvidenciaDto: UpdateEvidenciaDto) {
-    return this.evidenciaService.update(+id, updateEvidenciaDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateEvidenciaDto: UpdateEvidenciaDto) {
+    return this.evidenciaService.update(id, updateEvidenciaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.evidenciaService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.evidenciaService.remove(id);
   }
 }

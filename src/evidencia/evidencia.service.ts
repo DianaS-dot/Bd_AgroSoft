@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Evidencia } from './entities/evidencia.entity';
 import { CreateEvidenciaDto } from './dto/create-evidencia.dto';
 import { UpdateEvidenciaDto } from './dto/update-evidencia.dto';
 
 @Injectable()
 export class EvidenciaService {
+  constructor(
+    @InjectRepository(Evidencia)
+    private readonly evidenciaRepository: Repository<Evidencia>,
+  ) {}
+
   create(createEvidenciaDto: CreateEvidenciaDto) {
-    return 'This action adds a new evidencia';
+    const nuevaEvidencia = this.evidenciaRepository.create(createEvidenciaDto);
+    return this.evidenciaRepository.save(nuevaEvidencia);
   }
 
   findAll() {
-    return `This action returns all evidencia`;
+    return this.evidenciaRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} evidencia`;
+    return this.evidenciaRepository.findOneBy({ id_evidencia: id });
   }
 
-  update(id: number, updateEvidenciaDto: UpdateEvidenciaDto) {
-    return `This action updates a #${id} evidencia`;
+  async update(id: number, updateEvidenciaDto: UpdateEvidenciaDto) {
+    await this.evidenciaRepository.update(id, updateEvidenciaDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} evidencia`;
+  async remove(id: number) {
+    await this.evidenciaRepository.delete(id);
+    return { deleted: true };
   }
 }

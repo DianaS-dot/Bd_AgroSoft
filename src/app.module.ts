@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActividadEjecutadaModule } from './actividad_ejecutada/actividad_ejecutada.module';
 import { AdministradorModule } from './administrador/administrador.module';
+import { CultivoBaseModule } from './cultivo_base/cultivo_base.module';
+import { CultivoRealModule } from './cultivo_real/cultivo_real.module';
 import { EvidenciaModule } from './evidencia/evidencia.module';
 import { TratamientoModule } from './tratamiento/tratamiento.module';
 
@@ -21,6 +23,8 @@ import { TratamientoModule } from './tratamiento/tratamiento.module';
     }),
     ActividadEjecutadaModule,
     AdministradorModule,
+    CultivoBaseModule,
+    CultivoRealModule,
     EvidenciaModule,
     TratamientoModule,
   ],
