@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .table { fill: #ffffff; stroke: #2f3a4a; stroke-width: 2; }
+      .head { fill: #1f6f5b; }
+      .headText { fill: #ffffff; font: 700 18px Arial, sans-serif; }
+      .field { fill: #263238; font: 14px Arial, sans-serif; }
+      .key { fill: #0d5b8c; font: 700 14px Arial, sans-serif; }
+      .rel { stroke: #596579; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .title { fill: #17202a; font: 700 28px Arial, sans-serif; }
+      .subtitle { fill: #526071; font: 16px Arial, sans-serif; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#596579" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="900"/>
+  <text class="title" x="60" y="55">Modulo de Actividades - Estructura de Base de Datos</text>
+  <text class="subtitle" x="60" y="82">Tablas principales y relaciones creadas para el backend NestJS/TypeORM</text>
+
+  <g transform="translate(520 160)">
+    <rect class="table" width="360" height="310" rx="8"/>
+    <rect class="head" width="360" height="48" rx="8"/>
+    <text class="headText" x="22" y="31">actividades</text>
+    <text class="key" x="22" y="76">PK id_actividad</text>
+    <text class="field" x="22" y="104">titulo</text>
+    <text class="field" x="22" y="130">descripcion</text>
+    <text class="field" x="22" y="156">tipo_actividad</text>
+    <text class="field" x="22" y="182">estado</text>
+    <text class="field" x="22" y="208">prioridad</text>
+    <text class="field" x="22" y="234">fecha_programada</text>
+    <text class="field" x="22" y="260">fecha_inicio / fecha_fin</text>
+    <text class="field" x="22" y="286">id_cultivo_real</text>
+  </g>
+
+  <g transform="translate(70 155)">
+    <rect class="table" width="345" height="220" rx="8"/>
+    <rect class="head" width="345" height="48" rx="8"/>
+    <text class="headText" x="22" y="31">actividades_responsables</text>
+    <text class="key" x="22" y="76">PK id_actividad_responsable</text>
+    <text class="key" x="22" y="104">FK id_actividad</text>
+    <text class="field" x="22" y="132">id_usuario</text>
+    <text class="field" x="22" y="158">rol</text>
+    <text class="field" x="22" y="184">estado_asignacion</text>
+  </g>
+
+  <g transform="translate(995 155)">
+    <rect class="table" width="335" height="250" rx="8"/>
+    <rect class="head" width="335" height="48" rx="8"/>
+    <text class="headText" x="22" y="31">actividades_evidencias</text>
+    <text class="key" x="22" y="76">PK id_actividad_evidencia</text>
+    <text class="key" x="22" y="104">FK id_actividad</text>
+    <text class="field" x="22" y="132">tipo_evidencia</text>
+    <text class="field" x="22" y="158">archivo_url</text>
+    <text class="field" x="22" y="184">descripcion</text>
+    <text class="field" x="22" y="210">fecha_registro</text>
+  </g>
+
+  <g transform="translate(80 560)">
+    <rect class="table" width="330" height="245" rx="8"/>
+    <rect class="head" width="330" height="48" rx="8"/>
+    <text class="headText" x="22" y="31">actividades_servicios</text>
+    <text class="key" x="22" y="76">PK id_actividad_servicio</text>
+    <text class="key" x="22" y="104">FK id_actividad</text>
+    <text class="field" x="22" y="132">nombre_servicio</text>
+    <text class="field" x="22" y="158">descripcion</text>
+    <text class="field" x="22" y="184">costo</text>
+    <text class="field" x="22" y="210">proveedor</text>
+  </g>
+
+  <g transform="translate(540 570)">
+    <rect class="table" width="330" height="255" rx="8"/>
+    <rect class="head" width="330" height="48" rx="8"/>
+    <text class="headText" x="22" y="31">actividades_herramientas</text>
+    <text class="key" x="22" y="76">PK id_actividad_herramienta</text>
+    <text class="key" x="22" y="104">FK id_actividad</text>
+    <text class="field" x="22" y="132">nombre_herramienta</text>
+    <text class="field" x="22" y="158">cantidad</text>
+    <text class="field" x="22" y="184">unidad_medida</text>
+    <text class="field" x="22" y="210">estado_uso</text>
+    <text class="field" x="22" y="236">observaciones</text>
+  </g>
+
+  <g transform="translate(1005 555)">
+    <rect class="table" width="330" height="285" rx="8"/>
+    <rect class="head" width="330" height="48" rx="8"/>
+    <text class="headText" x="22" y="31">actividad_historial</text>
+    <text class="key" x="22" y="76">PK id_actividad_historial</text>
+    <text class="key" x="22" y="104">FK id_actividad</text>
+    <text class="field" x="22" y="132">accion</text>
+    <text class="field" x="22" y="158">estado_anterior</text>
+    <text class="field" x="22" y="184">estado_nuevo</text>
+    <text class="field" x="22" y="210">id_usuario</text>
+    <text class="field" x="22" y="236">observaciones</text>
+    <text class="field" x="22" y="262">fecha_registro</text>
+  </g>
+
+  <path class="rel" d="M520 250 C470 250 465 250 415 250"/>
+  <path class="rel" d="M880 260 C930 260 945 260 995 260"/>
+  <path class="rel" d="M565 470 C470 545 470 680 410 680"/>
+  <path class="rel" d="M705 470 C705 515 705 535 705 570"/>
+  <path class="rel" d="M840 470 C930 535 945 695 1005 695"/>
+
+  <text class="subtitle" x="580" y="515">1 actividad puede tener muchos registros relacionados</text>
+</svg>
