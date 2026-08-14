@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoteProduccionOrmEntity } from './infrastructure/persistence/lote-produccion.orm-entity';
 import { LoteProduccionTypeOrmRepository } from './infrastructure/persistence/lote-produccion-typeorm.repository';
 import { LOTE_PRODUCCION_REPOSITORY } from './domain/ports/lote-produccion.repository.port';
-import { LoteProduccionController } from './infrastructure/http/lote-produccion.controller';
+import { LoteProduccionController } from './infrastructure/http/controllers/lote-produccion.controller';
 import { CrearLoteProduccionUseCase } from './application/use-cases/crear-lote-produccion.use-case';
 import { ListarLotesProduccionUseCase } from './application/use-cases/listar-lotes-produccion.use-case';
 import { ObtenerLoteProduccionUseCase } from './application/use-cases/obtener-lote-produccion.use-case';
@@ -15,7 +15,11 @@ import { EliminarLoteProduccionUseCase } from './application/use-cases/eliminar-
   imports: [TypeOrmModule.forFeature([LoteProduccionOrmEntity])],
   controllers: [LoteProduccionController],
   providers: [
-    { provide: LOTE_PRODUCCION_REPOSITORY, useClass: LoteProduccionTypeOrmRepository },
+    {
+      provide: LOTE_PRODUCCION_REPOSITORY,
+
+      useClass: LoteProduccionTypeOrmRepository,
+    },
     CrearLoteProduccionUseCase,
     ListarLotesProduccionUseCase,
     ObtenerLoteProduccionUseCase,

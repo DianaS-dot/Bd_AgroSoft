@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PagoOrmEntity } from './infrastructure/persistence/pago.orm-entity';
 import { PagoTypeOrmRepository } from './infrastructure/persistence/pago-typeorm.repository';
 import { PAGO_REPOSITORY } from './domain/ports/pago.repository.port';
-import { PagoController } from './infrastructure/http/pago.controller';
+import { PagoController } from './infrastructure/http/controllers/pago.controller';
 import { CrearPagoUseCase } from './application/use-cases/crear-pago.use-case';
 import { ListarPagosVentaUseCase } from './application/use-cases/listar-pagos-venta.use-case';
 import { ObtenerSaldoVentaUseCase } from './application/use-cases/obtener-saldo-venta.use-case';

@@ -2,7 +2,7 @@ import { Inject, Injectable, ConflictException } from '@nestjs/common';
 import { Factura } from '../../domain/entities/factura.entity';
 import { FACTURA_REPOSITORY } from '../../domain/ports/factura.repository.port';
 import type { FacturaRepositoryPort } from '../../domain/ports/factura.repository.port';
-import { CrearFacturaDto } from '../dto/crear-factura.dto';
+import { CrearFacturaDto } from '../../infrastructure/http/dto/crear-factura.dto';
 
 @Injectable()
 export class CrearFacturaUseCase {

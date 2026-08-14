@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Factura } from '../../domain/entities/factura.entity';
 import { FACTURA_REPOSITORY } from '../../domain/ports/factura.repository.port';
 import type { FacturaRepositoryPort } from '../../domain/ports/factura.repository.port';
-import { ActualizarFacturaDto } from '../dto/actualizar-factura.dto';
+import { ActualizarFacturaDto } from '../../infrastructure/http/dto/actualizar-factura.dto';
 
 @Injectable()
 export class ActualizarFacturaUseCase {

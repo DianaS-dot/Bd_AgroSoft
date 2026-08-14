@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, Query, ParseIntPipe } from '@nestjs/common';
-import { CrearAjusteManualUseCase } from '../../application/use-cases/crear-ajuste-manual.use-case';
-import { ListarMovimientosUseCase } from '../../application/use-cases/listar-movimientos.use-case';
-import { CrearAjusteManualDto } from '../../application/dto/crear-ajuste-manual.dto';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { CrearAjusteManualUseCase } from '../../../application/use-cases/crear-ajuste-manual.use-case';
+import { ListarMovimientosUseCase } from '../../../application/use-cases/listar-movimientos.use-case';
+import { CrearAjusteManualDto } from '../dto/crear-ajuste-manual.dto';
 
 @Controller('movimientos-produccion')
 export class MovimientoProduccionController {

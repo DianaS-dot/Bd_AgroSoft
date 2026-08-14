@@ -4,7 +4,7 @@ import {
   CLIENTE_REPOSITORY,
 } from '../../domain/ports/cliente.repository.port';
 import type { ClienteRepositoryPort } from '../../domain/ports/cliente.repository.port';
-import { CrearClienteDto } from '../dto/crear-cliente.dto';
+import { CrearClienteDto } from '../../infrastructure/http/dto/crear-cliente.dto';
 
 @Injectable()
 export class CrearClienteUseCase {

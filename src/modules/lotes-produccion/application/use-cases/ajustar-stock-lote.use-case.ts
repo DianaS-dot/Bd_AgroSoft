@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException, BadRequestException } from '@nes
 import { LoteProduccion } from '../../domain/entities/lote-produccion.entity';
 import { LOTE_PRODUCCION_REPOSITORY } from '../../domain/ports/lote-produccion.repository.port';
 import type { LoteProduccionRepositoryPort } from '../../domain/ports/lote-produccion.repository.port';
-import { AjustarStockDto } from '../dto/ajustar-stock.dto';
+import { AjustarStockDto } from '../../infrastructure/http/dto/ajustar-stock.dto';
 
 /**
  * Caso de uso reutilizable: lo usará este módulo vía endpoint administrativo,

@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException, BadRequestException } from '@nes
 import { Pago } from '../../domain/entities/pago.entity';
 import { PAGO_REPOSITORY } from '../../domain/ports/pago.repository.port';
 import type { PagoRepositoryPort } from '../../domain/ports/pago.repository.port';
-import { CrearPagoDto } from '../dto/crear-pago.dto';
+import { CrearPagoDto } from '../../infrastructure/http/dto/crear-pago.dto';
 import { VENTA_REPOSITORY } from '../../../ventas/domain/ports/venta.repository.port';
 import type { VentaRepositoryPort } from '../../../ventas/domain/ports/venta.repository.port';
 

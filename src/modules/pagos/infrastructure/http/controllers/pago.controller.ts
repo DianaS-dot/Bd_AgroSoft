@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
-import { CrearPagoUseCase } from '../../application/use-cases/crear-pago.use-case';
-import { ListarPagosVentaUseCase } from '../../application/use-cases/listar-pagos-venta.use-case';
-import { ObtenerSaldoVentaUseCase } from '../../application/use-cases/obtener-saldo-venta.use-case';
-import { EliminarPagoUseCase } from '../../application/use-cases/eliminar-pago.use-case';
-import { CrearPagoDto } from '../../application/dto/crear-pago.dto';
+import { CrearPagoUseCase } from '../../../application/use-cases/crear-pago.use-case';
+import { ListarPagosVentaUseCase } from '../../../application/use-cases/listar-pagos-venta.use-case';
+import { ObtenerSaldoVentaUseCase } from '../../../application/use-cases/obtener-saldo-venta.use-case';
+import { EliminarPagoUseCase } from '../../../application/use-cases/eliminar-pago.use-case';
+import { CrearPagoDto } from '../dto/crear-pago.dto';
 
 @Controller('pagos')
 export class PagoController {

@@ -4,7 +4,7 @@ import {
   CLIENTE_REPOSITORY,
 } from '../../domain/ports/cliente.repository.port';
 import type { ClienteRepositoryPort } from '../../domain/ports/cliente.repository.port';
-import { ActualizarClienteDto } from '../dto/actualizar-cliente.dto';
+import { ActualizarClienteDto } from '../../infrastructure/http/dto/actualizar-cliente.dto';
 
 @Injectable()
 export class ActualizarClienteUseCase {

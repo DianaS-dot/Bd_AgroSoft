@@ -9,11 +9,11 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CrearVentaDetalleUseCase } from '../../application/use-cases/crear-venta-detalle.use-case';
-import { ListarDetallesVentaUseCase } from '../../application/use-cases/listar-detalles-venta.use-case';
-import { EliminarVentaDetalleUseCase } from '../../application/use-cases/eliminar-venta-detalle.use-case';
-import { AnularVentaCompletaUseCase } from '../../application/use-cases/anular-venta-completa.use-case';
-import { CrearVentaDetalleDto } from '../../application/dto/crear-venta-detalle.dto';
+import { CrearVentaDetalleUseCase } from '../../../application/use-cases/crear-venta-detalle.use-case';
+import { ListarDetallesVentaUseCase } from '../../../application/use-cases/listar-detalles-venta.use-case';
+import { EliminarVentaDetalleUseCase } from '../../../application/use-cases/eliminar-venta-detalle.use-case';
+import { AnularVentaCompletaUseCase } from '../../../application/use-cases/anular-venta-completa.use-case';
+import { CrearVentaDetalleDto } from '../dto/crear-venta-detalle.dto';
 
 @Controller('ventas-detalles')
 export class VentaDetalleController {

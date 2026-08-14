@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FacturaOrmEntity } from './infrastructure/persistence/factura.orm-entity';
 import { FacturaTypeOrmRepository } from './infrastructure/persistence/factura-typeorm.repository';
 import { FACTURA_REPOSITORY } from './domain/ports/factura.repository.port';
-import { FacturaController } from './infrastructure/http/factura.controller';
+import { FacturaController } from './infrastructure/http/controllers/factura.controller';
 import { CrearFacturaUseCase } from './application/use-cases/crear-factura.use-case';
 import { ListarFacturasUseCase } from './application/use-cases/listar-facturas.use-case';
 import { ObtenerFacturaUseCase } from './application/use-cases/obtener-factura.use-case';

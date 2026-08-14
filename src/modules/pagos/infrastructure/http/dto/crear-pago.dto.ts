@@ -1,5 +1,5 @@
 import { IsEnum, IsInt, IsOptional, IsPositive, IsString, IsNotEmpty } from 'class-validator';
-import { MetodoPago } from '../../domain/entities/metodo-pago.enum';
+import { MetodoPago } from '../../../domain/entities/metodo-pago.enum';
 
 export class CrearPagoDto {
   @IsInt() @IsPositive()

@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { LoteProduccion } from '../../domain/entities/lote-produccion.entity';
 import { LOTE_PRODUCCION_REPOSITORY } from '../../domain/ports/lote-produccion.repository.port';
 import type { LoteProduccionRepositoryPort } from '../../domain/ports/lote-produccion.repository.port';
-import { ActualizarLoteProduccionDto } from '../dto/actualizar-lote-produccion.dto';
+import { ActualizarLoteProduccionDto } from '../../infrastructure/http/dto/actualizar-lote-produccion.dto';
 
 @Injectable()
 export class ActualizarLoteProduccionUseCase {

@@ -10,15 +10,15 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CrearLoteProduccionUseCase } from '../../application/use-cases/crear-lote-produccion.use-case';
-import { ListarLotesProduccionUseCase } from '../../application/use-cases/listar-lotes-produccion.use-case';
-import { ObtenerLoteProduccionUseCase } from '../../application/use-cases/obtener-lote-produccion.use-case';
-import { ActualizarLoteProduccionUseCase } from '../../application/use-cases/actualizar-lote-produccion.use-case';
-import { AjustarStockLoteUseCase } from '../../application/use-cases/ajustar-stock-lote.use-case';
-import { EliminarLoteProduccionUseCase } from '../../application/use-cases/eliminar-lote-produccion.use-case';
-import { CrearLoteProduccionDto } from '../../application/dto/crear-lote-produccion.dto';
-import { ActualizarLoteProduccionDto } from '../../application/dto/actualizar-lote-produccion.dto';
-import { AjustarStockDto } from '../../application/dto/ajustar-stock.dto';
+import { CrearLoteProduccionUseCase } from '../../../application/use-cases/crear-lote-produccion.use-case';
+import { ListarLotesProduccionUseCase } from '../../../application/use-cases/listar-lotes-produccion.use-case';
+import { ObtenerLoteProduccionUseCase } from '../../../application/use-cases/obtener-lote-produccion.use-case';
+import { ActualizarLoteProduccionUseCase } from '../../../application/use-cases/actualizar-lote-produccion.use-case';
+import { AjustarStockLoteUseCase } from '../../../application/use-cases/ajustar-stock-lote.use-case';
+import { EliminarLoteProduccionUseCase } from '../../../application/use-cases/eliminar-lote-produccion.use-case';
+import { CrearLoteProduccionDto } from '../dto/crear-lote-produccion.dto';
+import { ActualizarLoteProduccionDto } from '../dto/actualizar-lote-produccion.dto';
+import { AjustarStockDto } from '../dto/ajustar-stock.dto';
 
 @Controller('lotes-produccion')
 export class LoteProduccionController {
@@ -47,12 +47,18 @@ export class LoteProduccionController {
   }
 
   @Put(':id')
-  actualizarLote(@Param('id', ParseIntPipe) id: number, @Body() dto: ActualizarLoteProduccionDto) {
+  actualizarLote(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: ActualizarLoteProduccionDto,
+  ) {
     return this.actualizar.ejecutar(id, dto);
   }
 
   @Patch(':id/stock')
-  ajustarStockLote(@Param('id', ParseIntPipe) id: number, @Body() dto: AjustarStockDto) {
+  ajustarStockLote(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: AjustarStockDto,
+  ) {
     return this.ajustarStock.ejecutar(id, dto);
   }
 

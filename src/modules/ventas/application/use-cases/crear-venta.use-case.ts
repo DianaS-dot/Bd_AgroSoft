@@ -3,7 +3,7 @@ import { Venta } from '../../domain/entities/venta.entity';
 import { EstadoVenta } from '../../domain/entities/estado-venta.enum';
 import { VENTA_REPOSITORY } from '../../domain/ports/venta.repository.port';
 import type { VentaRepositoryPort } from '../../domain/ports/venta.repository.port';
-import { CrearVentaDto } from '../dto/crear-venta.dto';
+import { CrearVentaDto } from '../../infrastructure/http/dto/crear-venta.dto';
 
 @Injectable()
 export class CrearVentaUseCase {

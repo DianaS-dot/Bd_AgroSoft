@@ -2,7 +2,7 @@ import { Inject, Injectable, BadRequestException, NotFoundException } from '@nes
 import { VentaDetalle } from '../../domain/entities/venta-detalle.entity';
 import { VENTA_DETALLE_REPOSITORY } from '../../domain/ports/venta-detalle.repository.port';
 import type { VentaDetalleRepositoryPort } from '../../domain/ports/venta-detalle.repository.port';
-import { CrearVentaDetalleDto } from '../dto/crear-venta-detalle.dto';
+import { CrearVentaDetalleDto } from '../../infrastructure/http/dto/crear-venta-detalle.dto';
 import { TRANSACTION_MANAGER } from '../../../../shared/ports/transaction-manager.port';
 import type { TransactionManagerPort } from '../../../../shared/ports/transaction-manager.port';
 import { LOTE_PRODUCCION_REPOSITORY } from '../../../lotes-produccion/domain/ports/lote-produccion.repository.port';

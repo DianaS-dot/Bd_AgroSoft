@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { VentaOrmEntity } from './infrastructure/persistence/venta.orm-entity';
 import { VentaTypeOrmRepository } from './infrastructure/persistence/venta-typeorm.repository';
 import { VENTA_REPOSITORY } from './domain/ports/venta.repository.port';
-import { VentaController } from './infrastructure/http/venta.controller';
+import { VentaController } from './infrastructure/http/controllers/venta.controller';
 import { CrearVentaUseCase } from './application/use-cases/crear-venta.use-case';
 import { ListarVentasUseCase } from './application/use-cases/listar-ventas.use-case';
 import { ObtenerVentaUseCase } from './application/use-cases/obtener-venta.use-case';

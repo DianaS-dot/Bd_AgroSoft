@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
-import { CrearVentaUseCase } from '../../application/use-cases/crear-venta.use-case';
-import { ListarVentasUseCase } from '../../application/use-cases/listar-ventas.use-case';
-import { ObtenerVentaUseCase } from '../../application/use-cases/obtener-venta.use-case';
-import { AnularVentaUseCase } from '../../application/use-cases/anular-venta.use-case';
-import { CrearVentaDto } from '../../application/dto/crear-venta.dto';
-import { AnularVentaDto } from '../../application/dto/anular-venta.dto';
+import { CrearVentaUseCase } from '../../../application/use-cases/crear-venta.use-case';
+import { ListarVentasUseCase } from '../../../application/use-cases/listar-ventas.use-case';
+import { ObtenerVentaUseCase } from '../../../application/use-cases/obtener-venta.use-case';
+import { AnularVentaUseCase } from '../../../application/use-cases/anular-venta.use-case';
+import { CrearVentaDto } from '../dto/crear-venta.dto';
+import { AnularVentaDto } from '../dto/anular-venta.dto';
 
 @Controller('ventas')
 export class VentaController {

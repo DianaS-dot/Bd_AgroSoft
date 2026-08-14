@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException, BadRequestException } from '@nes
 import { Venta } from '../../domain/entities/venta.entity';
 import { VENTA_REPOSITORY } from '../../domain/ports/venta.repository.port';
 import type { VentaRepositoryPort } from '../../domain/ports/venta.repository.port';
-import { AnularVentaDto } from '../dto/anular-venta.dto';
+import { AnularVentaDto } from '../../infrastructure/http/dto/anular-venta.dto';
 
 @Injectable()
 export class AnularVentaUseCase {

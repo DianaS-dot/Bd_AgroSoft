@@ -2,7 +2,7 @@ import { Inject, Injectable, ConflictException } from '@nestjs/common';
 import { ProductoAgro } from '../../domain/entities/producto-agro.entity';
 import { PRODUCTO_AGRO_REPOSITORY } from '../../domain/ports/producto-agro.repository.port';
 import type { ProductoAgroRepositoryPort } from '../../domain/ports/producto-agro.repository.port';
-import { CrearProductoAgroDto } from '../dto/crear-producto-agro.dto';
+import { CrearProductoAgroDto } from '../../infrastructure/http/dto/crear-producto-agro.dto';
 
 @Injectable()
 export class CrearProductoAgroUseCase {

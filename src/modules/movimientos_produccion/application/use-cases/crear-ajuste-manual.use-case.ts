@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException, BadRequestException } from '@nes
 import { MovimientoProduccion } from '../../domain/entities/movimiento-produccion.entity';
 import { TipoMovimiento } from '../../domain/entities/tipo-movimiento.enum';
 import { RegistrarMovimientoUseCase } from './registrar-movimiento.use-case';
-import { CrearAjusteManualDto } from '../dto/crear-ajuste-manual.dto';
+import { CrearAjusteManualDto } from '../../infrastructure/http/dto/crear-ajuste-manual.dto';
 import { LOTE_PRODUCCION_REPOSITORY } from '../../../lotes-produccion/domain/ports/lote-produccion.repository.port';
 import type { LoteProduccionRepositoryPort } from '../../../lotes-produccion/domain/ports/lote-produccion.repository.port';
 import { TRANSACTION_MANAGER } from '../../../../shared/ports/transaction-manager.port';

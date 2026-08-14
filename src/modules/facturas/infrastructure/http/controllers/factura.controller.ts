@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
-import { CrearFacturaUseCase } from '../../application/use-cases/crear-factura.use-case';
-import { ListarFacturasUseCase } from '../../application/use-cases/listar-facturas.use-case';
-import { ObtenerFacturaUseCase } from '../../application/use-cases/obtener-factura.use-case';
-import { ObtenerFacturaPorVentaUseCase } from '../../application/use-cases/obtener-factura-por-venta.use-case';
-import { ActualizarFacturaUseCase } from '../../application/use-cases/actualizar-factura.use-case';
-import { EliminarFacturaUseCase } from '../../application/use-cases/eliminar-factura.use-case';
-import { CrearFacturaDto } from '../../application/dto/crear-factura.dto';
-import { ActualizarFacturaDto } from '../../application/dto/actualizar-factura.dto';
+import { CrearFacturaUseCase } from '../../../application/use-cases/crear-factura.use-case';
+import { ListarFacturasUseCase } from '../../../application/use-cases/listar-facturas.use-case';
+import { ObtenerFacturaUseCase } from '../../../application/use-cases/obtener-factura.use-case';
+import { ObtenerFacturaPorVentaUseCase } from '../../../application/use-cases/obtener-factura-por-venta.use-case';
+import { ActualizarFacturaUseCase } from '../../../application/use-cases/actualizar-factura.use-case';
+import { EliminarFacturaUseCase } from '../../../application/use-cases/eliminar-factura.use-case';
+import { CrearFacturaDto } from '../dto/crear-factura.dto';
+import { ActualizarFacturaDto } from '../dto/actualizar-factura.dto';
 
 @Controller('facturas')
 export class FacturaController {
