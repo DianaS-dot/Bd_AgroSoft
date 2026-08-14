@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -11,6 +13,7 @@ import { ActividadEvidencia } from '../../actividades_evidencias/entities/activi
 import { ActividadServicio } from '../../actividades_servicios/entities/actividad_servicio.entity';
 import { ActividadHerramienta } from '../../actividades_herramientas/entities/actividad_herramienta.entity';
 import { ActividadHistorial } from '../../actividad_historial/entities/actividad_historial.entity';
+import { CultivoReal } from '../../cultivo_real/entities/cultivo_real.entity';
 
 @Entity('actividades')
 export class Actividad {
@@ -43,6 +46,10 @@ export class Actividad {
 
   @Column({ nullable: true })
   id_cultivo_real?: number;
+
+  @ManyToOne(() => CultivoReal, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'id_cultivo_real' })
+  cultivo_real?: CultivoReal;
 
   @CreateDateColumn()
   fecha_creacion!: Date;

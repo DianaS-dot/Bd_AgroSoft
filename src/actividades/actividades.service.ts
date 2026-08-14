@@ -1,50 +1,43 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Actividad } from './entities/actividad.entity';
+import { Injectable } from '@nestjs/common';
+import { CreateActividadUseCase } from './application/use-cases/create-actividad.use-case';
+import { DeleteActividadUseCase } from './application/use-cases/delete-actividad.use-case';
+import { FindActividadByIdUseCase } from './application/use-cases/find-actividad-by-id.use-case';
+import { FindAllActividadesUseCase } from './application/use-cases/find-all-actividades.use-case';
+import { UpdateActividadUseCase } from './application/use-cases/update-actividad.use-case';
 import { CreateActividadDto } from './dto/create-actividad.dto';
 import { UpdateActividadDto } from './dto/update-actividad.dto';
 
 @Injectable()
 export class ActividadesService {
   constructor(
-    @InjectRepository(Actividad)
-    private readonly actividadesRepository: Repository<Actividad>,
+    private readonly createActividadUseCase: CreateActividadUseCase,
+    private readonly findAllActividadesUseCase: FindAllActividadesUseCase,
+    private readonly findActividadByIdUseCase: FindActividadByIdUseCase,
+    private readonly updateActividadUseCase: UpdateActividadUseCase,
+    private readonly deleteActividadUseCase: DeleteActividadUseCase,
   ) {}
 
-  create(createActividadDto: CreateActividadDto) {
-    const actividad = this.actividadesRepository.create(createActividadDto);
-    return this.actividadesRepository.save(actividad);
+  async create(createActividadDto: CreateActividadDto) {
+    const actividad = await this.createActividadUseCase.execute(createActividadDto);
+    return actividad.toPrimitives();
   }
 
-  findAll() {
-    return this.actividadesRepository.find({
-      relations: ['responsables', 'evidencias', 'servicios', 'herramientas', 'historial'],
-    });
+  async findAll() {
+    const actividades = await this.findAllActividadesUseCase.execute();
+    return actividades.map((actividad) => actividad.toPrimitives());
   }
 
   async findOne(id: number) {
-    const actividad = await this.actividadesRepository.findOne({
-      where: { id_actividad: id },
-      relations: ['responsables', 'evidencias', 'servicios', 'herramientas', 'historial'],
-    });
-
-    if (!actividad) {
-      throw new NotFoundException(`Actividad con id ${id} no encontrada`);
-    }
-
-    return actividad;
+    const actividad = await this.findActividadByIdUseCase.execute(id);
+    return actividad.toPrimitives();
   }
 
   async update(id: number, updateActividadDto: UpdateActividadDto) {
-    await this.findOne(id);
-    await this.actividadesRepository.update(id, updateActividadDto);
-    return this.findOne(id);
+    const actividad = await this.updateActividadUseCase.execute(id, updateActividadDto);
+    return actividad.toPrimitives();
   }
 
-  async remove(id: number) {
-    await this.findOne(id);
-    await this.actividadesRepository.delete(id);
-    return { deleted: true };
+  remove(id: number) {
+    return this.deleteActividadUseCase.execute(id);
   }
 }
