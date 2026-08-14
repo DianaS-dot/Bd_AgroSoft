@@ -1,0 +1,25 @@
+# dependencias
+node_modules
+
+# build
+dist
+
+# variables de entorno
+.env
+.env.*
+
+# logs
+*.log
+npm-debug.log*
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# sistema operativo
+.DS_Store
+Thumbs.db
+
+# coverage / tests
+coverage
