@@ -9,9 +9,9 @@ import {
     JoinColumn,
 } from "typeorm";
 
-import { LoteOrmEntity } from "../../../lotes/infrastructure/database/lote.orm-entity";
+import { LoteOrmEntity } from "../../../lotes/infrastructure/persistence/lote.orm-entity";
 import { OneToMany } from "typeorm";
-import { CultivoOrmEntity } from "../../../cultivos/infrastructure/database/cultivo.orm-entity";
+import { CultivoOrmEntity } from "../../../cultivos/infrastructure/persistence/cultivo.orm-entity";
 
 
 

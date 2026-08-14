@@ -12,13 +12,13 @@ import {
 import { CreateCultivoHistorialDto } from "../dto/create-cultivo-historial.dto";
 import { UpdateCultivoHistorialDto } from "../dto/update-cultivo-historial.dto";
 
-import { CultivoHistorial } from "../../domain/entities/cultivo-historial";
+import { CultivoHistorial } from "../../../domain/entities/cultivo-historial";
 
-import { CrearCultivoHistorialUseCase } from "../../application/use-cases/crear-cultivo-historial.use-case";
-import { ObtenerCultivosHistorialUseCase } from "../../application/use-cases/obtener-cultivos-historial.use-case";
-import { ObtenerCultivoHistorialUseCase } from "../../application/use-cases/obtener-cultivo-historial.use-case";
-import { ActualizarCultivoHistorialUseCase } from"../../application/use-cases/actualizar-cultivo-historial.use-case";
-import { EliminarCultivoHistorialUseCase } from "../../application/use-cases/eliminar-cultivo-historial.use-case";
+import { CrearCultivoHistorialUseCase } from "../../../application/use-cases/crear-cultivo-historial.use-case";
+import { ObtenerCultivosHistorialUseCase } from "../../../application/use-cases/obtener-cultivos-historial.use-case";
+import { ObtenerCultivoHistorialUseCase } from "../../../application/use-cases/obtener-cultivo-historial.use-case";
+import { ActualizarCultivoHistorialUseCase } from"../../../application/use-cases/actualizar-cultivo-historial.use-case";
+import { EliminarCultivoHistorialUseCase } from "../../../application/use-cases/eliminar-cultivo-historial.use-case";
 
 @Controller("cultivo-historial")
 export class CultivoHistorialController {

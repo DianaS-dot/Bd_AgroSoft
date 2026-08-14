@@ -12,13 +12,13 @@ import {
 import { CreateCultivoDto } from "../dto/create-cultivo.dto";
 import { UpdateCultivoDto } from "../dto/update-cultivo.dto";
 
-import { Cultivo } from "../../domain/entities/cultivo";
+import { Cultivo } from "../../../domain/entities/cultivo";
 
-import { CrearCultivoUseCase } from "../../application/use-cases/crear-cultivo.use-case";
-import { ObtenerCultivosUseCase } from "../../application/use-cases/obtener-cultivos.use-case";
-import { ObtenerCultivoUseCase } from "../../application/use-cases/obtener-cultivo.use-case";
-import { ActualizarCultivoUseCase } from "../../application/use-cases/actualizar-cultivo.use-case";
-import { EliminarCultivoUseCase } from "../../application/use-cases/eliminar-cultivo.use-case";
+import { CrearCultivoUseCase } from "../../../application/use-cases/crear-cultivo.use-case";
+import { ObtenerCultivosUseCase } from "../../../application/use-cases/obtener-cultivos.use-case";
+import { ObtenerCultivoUseCase } from "../../../application/use-cases/obtener-cultivo.use-case";
+import { ActualizarCultivoUseCase } from "../../../application/use-cases/actualizar-cultivo.use-case";
+import { EliminarCultivoUseCase } from "../../../application/use-cases/eliminar-cultivo.use-case";
 
 @Controller("cultivos")
 export class CultivoController {

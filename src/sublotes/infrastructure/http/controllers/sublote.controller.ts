@@ -12,13 +12,13 @@ import {
 import { CreateSubloteDto } from "../dto/create-sublote.dto";
 import { UpdateSubloteDto } from "../dto/update-sublote.dto";
 
-import { Sublote } from "../../domain/entities/sublote";
+import { Sublote } from "../../../domain/entities/sublote";
 
-import { CrearSubloteUseCase } from "../../application/use-cases/crear-sublote.use-case";
-import { ObtenerSublotesUseCase } from "../../application/use-cases/obtener-sublotes.use-case";
-import { ObtenerSubloteUseCase } from "../../application/use-cases/obtener-sublote.use-case";
-import { ActualizarSubloteUseCase } from "../../application/use-cases/actualizar-sublote.use-case";
-import { EliminarSubloteUseCase } from "../../application/use-cases/eliminar-sublote.use-case";
+import { CrearSubloteUseCase } from "../../../application/use-cases/crear-sublote.use-case";
+import { ObtenerSublotesUseCase } from "../../../application/use-cases/obtener-sublotes.use-case";
+import { ObtenerSubloteUseCase } from "../../../application/use-cases/obtener-sublote.use-case";
+import { ActualizarSubloteUseCase } from "../../../application/use-cases/actualizar-sublote.use-case";
+import { EliminarSubloteUseCase } from "../../../application/use-cases/eliminar-sublote.use-case";
 
 @Controller("sublotes")
 export class SubloteController {

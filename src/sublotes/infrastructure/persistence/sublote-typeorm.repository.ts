@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 
 import { SubloteRepository } from "../../domain/ports/sublote.repository";
 import { Sublote } from "../../domain/entities/sublote";
-import { SubloteOrmEntity } from "../database/sublote.orm-entity";
+import { SubloteOrmEntity } from "./sublote.orm-entity";
 
 @Injectable()
 export class SublotePostgresRepository implements SubloteRepository {

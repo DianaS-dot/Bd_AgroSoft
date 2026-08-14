@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { LoteOrmEntity } from "./infrastructure/database/lote.orm-entity";
+import { LoteOrmEntity } from "./infrastructure/persistence/lote.orm-entity";
 
-import { LoteController } from "./infrastructure/controllers/lote.controller";
+import { LoteController } from "./infrastructure/http/controllers/lote.controller";
 
-import { LotePostgresRepository } from "./infrastructure/repositories/lote-postgres.repository";
+import { LotePostgresRepository } from "./infrastructure/persistence/lote-typeorm.repository";
 
 import { CrearLoteUseCase } from "./application/use-cases/crear-lote.use-case";
 import { ObtenerLotesUseCase } from "./application/use-cases/obtener-lotes.use-case";

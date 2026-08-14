@@ -9,9 +9,9 @@ import {
     JoinColumn,
 } from "typeorm";
 
-import { SubloteOrmEntity } from "../../../sublotes/infrastructure/database/sublote.orm-entity";
+import { SubloteOrmEntity } from "../../../sublotes/infrastructure/persistence/sublote.orm-entity";
 import { OneToMany } from "typeorm";
-import { CultivoHistorialOrmEntity } from "../../../cultivo-historial/infrastructure/database/cultivo-historial.orm.entity";
+import { CultivoHistorialOrmEntity } from "../../../cultivo-historial/infrastructure/persistence/cultivo-historial.orm.entity";
 @Entity('cultivos')
 export class CultivoOrmEntity {
 

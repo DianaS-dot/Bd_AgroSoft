@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CultivoOrmEntity } from './infrastructure/database/cultivo.orm-entity';
-import { CultivoController } from './infrastructure/controllers/cultivo.controller';
-import { CultivoPostgresRepository } from './infrastructure/repositories/cultivo-postgres.repository';
+import { CultivoOrmEntity } from './infrastructure/persistence/cultivo.orm-entity';
+import { CultivoController } from './infrastructure/http/controllers/cultivo.controller';
+import { CultivoPostgresRepository } from './infrastructure/persistence/cultivo-typeorm.repository';
 
 import { CrearCultivoUseCase } from './application/use-cases/crear-cultivo.use-case';
 import { ObtenerCultivosUseCase } from './application/use-cases/obtener-cultivos.use-case';

@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { SubloteOrmEntity } from "./infrastructure/database/sublote.orm-entity";
+import { SubloteOrmEntity } from "./infrastructure/persistence/sublote.orm-entity";
 
-import { SubloteController } from "./infrastructure/controllers/sublote.controller";
+import { SubloteController } from "./infrastructure/http/controllers/sublote.controller";
 
-import { SublotePostgresRepository } from "./infrastructure/repositories/sublote-postgres.repository";
+import { SublotePostgresRepository } from "./infrastructure/persistence/sublote-typeorm.repository";
 
 import { CrearSubloteUseCase } from "./application/use-cases/crear-sublote.use-case";
 import { ObtenerSublotesUseCase } from "./application/use-cases/obtener-sublotes.use-case";

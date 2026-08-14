@@ -12,13 +12,13 @@ import {
 import { CreateLoteDto } from "../dto/create-lote.dto";
 import { UpdateLoteDto } from "../dto/update-lote.dto";
 
-import { Lote } from "../../domain/entities/lote";
+import { Lote } from "../../../domain/entities/lote";
 
-import { CrearLoteUseCase } from "../../application/use-cases/crear-lote.use-case";
-import { ObtenerLotesUseCase } from "../../application/use-cases/obtener-lotes.use-case";
-import { ObtenerLoteUseCase } from "../../application/use-cases/obtener-lote.use-case";
-import { ActualizarLoteUseCase } from "../../application/use-cases/actualizar-lote.use-case";
-import { EliminarLoteUseCase } from "../../application/use-cases/eliminar-lote.use-case";
+import { CrearLoteUseCase } from "../../../application/use-cases/crear-lote.use-case";
+import { ObtenerLotesUseCase } from "../../../application/use-cases/obtener-lotes.use-case";
+import { ObtenerLoteUseCase } from "../../../application/use-cases/obtener-lote.use-case";
+import { ActualizarLoteUseCase } from "../../../application/use-cases/actualizar-lote.use-case";
+import { EliminarLoteUseCase } from "../../../application/use-cases/eliminar-lote.use-case";
 
 @Controller("lotes")
 export class LoteController {

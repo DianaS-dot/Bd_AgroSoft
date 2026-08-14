@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { CultivoHistorialOrmEntity } from "./infrastructure/database/cultivo-historial.orm.entity";
+import { CultivoHistorialOrmEntity } from "./infrastructure/persistence/cultivo-historial.orm.entity";
 
-import { CultivoHistorialController } from "./infrastructure/controllers/cultivo-historial.controller";
+import { CultivoHistorialController } from "./infrastructure/http/controllers/cultivo-historial.controller";
 
 import { CultivoHistorialRepository } from "./domain/ports/cultivo-historial.repository";
-import { CultivoHistorialPostgresRepository } from "./infrastructure/repositories/cultivo-historial-postgres.repository";
+import { CultivoHistorialPostgresRepository } from "./infrastructure/persistence/cultivo-historial-typeorm.repository";
 
 import { CrearCultivoHistorialUseCase } from "./application/use-cases/crear-cultivo-historial.use-case";
 import { ObtenerCultivosHistorialUseCase } from "./application/use-cases/obtener-cultivos-historial.use-case";

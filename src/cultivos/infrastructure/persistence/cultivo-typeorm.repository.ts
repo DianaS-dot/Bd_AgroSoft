@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 
 import { CultivoRepository } from "../../domain/ports/cultivo.repository";
 import { Cultivo } from "../../domain/entities/cultivo";
-import { CultivoOrmEntity } from "../database/cultivo.orm-entity";
+import { CultivoOrmEntity } from "./cultivo.orm-entity";
 
 @Injectable()
 export class CultivoPostgresRepository implements CultivoRepository {

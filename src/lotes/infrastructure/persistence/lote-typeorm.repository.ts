@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 
 import { LoteRepository } from "../../domain/ports/lote.repository";
 import { Lote } from "../../domain/entities/lote";
-import { LoteOrmEntity } from "../database/lote.orm-entity";
+import { LoteOrmEntity } from "./lote.orm-entity";
 
 @Injectable()
 export class LotePostgresRepository implements LoteRepository {

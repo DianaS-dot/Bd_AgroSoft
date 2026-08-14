@@ -9,7 +9,7 @@ import {
   JoinColumn,
 } from "typeorm";
 
-import { CultivoOrmEntity } from "../../../cultivos/infrastructure/database/cultivo.orm-entity";
+import { CultivoOrmEntity } from "../../../cultivos/infrastructure/persistence/cultivo.orm-entity";
 
 @Entity("cultivo_historial")
 export class CultivoHistorialOrmEntity {

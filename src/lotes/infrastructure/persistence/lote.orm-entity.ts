@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from "typeorm";
 
-import { SubloteOrmEntity } from "../../../sublotes/infrastructure/database/sublote.orm-entity";
+import { SubloteOrmEntity } from "../../../sublotes/infrastructure/persistence/sublote.orm-entity";
 
 @Entity("lotes")
 export class LoteOrmEntity {
