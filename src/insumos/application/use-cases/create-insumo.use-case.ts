@@ -1,0 +1,17 @@
+import { Injectable, Inject } from '@nestjs/common';
+import { Insumo } from '../../domain/entities/insumo.entity';
+import type { InsumoRepository } from '../../domain/ports/insumo-repository.port';
+import { INSUMO_REPOSITORY } from '../../domain/ports/insumo-repository.port';
+
+@Injectable()
+export class CreateInsumoUseCase {
+  constructor(
+    @Inject(INSUMO_REPOSITORY)
+    private readonly insumoRepository: InsumoRepository,
+  ) {}
+
+  async execute(data: any): Promise<Insumo> {
+    const nuevoInsumo = Insumo.create(data);
+    return await this.insumoRepository.save(nuevoInsumo);
+  }
+}
