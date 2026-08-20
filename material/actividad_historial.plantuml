@@ -1,0 +1,727 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class actividad_historial {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   usuarioId: integer
+   motivo: text
+   cambios: jsonb
+   id: integer
+}
+class actividad_insumos {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividad_id: integer
+   insumo_id: integer
+   cantidad_usada: double precision
+   unidad: varchar
+   costo_unitario: double precision
+   costo_total: double precision
+   actividadId: integer
+   insumoId: integer
+   id: integer
+}
+class actividades {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   tipo: varchar
+   subtipo: varchar
+   loteId: integer
+   subLoteId: integer
+   cultivoId: integer
+   fecha: timestamp
+   horasActividad: double precision
+   precioHoraActividad: double precision
+   costoManoObra: double precision
+   descripcion: text
+   estado: varchar
+   creado_por_usuario_id: integer
+   cantidadPlantas: integer
+   kgRecolectados: double precision
+   productoAgroId: integer
+   id: integer
+}
+class actividades_evidencias {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   descripcion: text
+   imagenes: text
+   id: integer
+}
+class actividades_herramientas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   activoFijoId: integer
+   horasEstimadas: double precision
+   id: integer
+}
+class actividades_insumos_reserva {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   insumoId: integer
+   cantidadReservada: double precision
+   id: integer
+}
+class actividades_insumos_uso {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   insumoId: integer
+   cantidadUso: double precision
+   costoUnitarioUso: double precision
+   costoTotal: double precision
+   movimientoInsumoId: integer
+   id: integer
+}
+class actividades_responsables {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   usuarioId: integer
+   horas: double precision
+   precioHora: double precision
+   costo: double precision
+   id: integer
+}
+class actividades_servicios {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   nombreServicio: varchar
+   horas: double precision
+   precioHora: double precision
+   costo: double precision
+   maquinariaId: integer
+   id: integer
+}
+class almacenes {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   descripcion: text
+   ubicacion: varchar
+   id: integer
+}
+class categorias {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   descripcion: varchar
+   tipoInsumo: varchar
+   id: integer
+}
+class clientes {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   identificacion: varchar
+   telefono: varchar
+   email: varchar
+   direccion: varchar
+   notas: text
+   id: integer
+}
+class cultivo_historial {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   cultivo_id: integer
+   usuario_id: integer
+   motivo: text
+   cambios: jsonb
+   id: integer
+}
+class cultivos {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombreCultivo: varchar
+   tipoCultivo: varchar
+   descripcion: varchar
+   lote_id: integer
+   sublote_id: integer
+   img_cultivo: varchar
+   fechaSiembra: date
+   fechaFinalizacion: date
+   costoTotal: double precision
+   estado: varchar
+   fechaCreacion: timestamp
+   id: integer
+}
+class email_codes {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   usuarioId: integer
+   tipo: varchar(10)
+   code: varchar(6)
+   expiresAt: timestamp
+   usedAt: timestamp
+   id: integer
+}
+class epa_tipos_cultivos_wiki {
+   epaId: integer
+   tipoCultivoWikiId: integer
+}
+class epas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   tipoEpa: varchar
+   descripcion: text
+   sintomas: text
+   manejoYControl: text
+   mesesProbables: integer[]
+   temporadas: text[]
+   notasEstacionalidad: text
+   fotosSintomas: text[]
+   fotosGenerales: text[]
+   tags: text[]
+   creadoPorUsuarioId: integer
+   id: integer
+}
+class facturas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   ventaId: integer
+   numero: varchar
+   prefijo: varchar
+   fechaEmision: timestamp
+   vencimiento: timestamp
+   qrUrl: varchar
+   pdfUrl: varchar
+   id: integer
+}
+class historial_precios_lote {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   loteProduccionId: integer
+   precioAnterior: double precision
+   precioNuevo: double precision
+   usuarioId: integer
+   fecha: timestamp
+   razon: varchar
+   id: integer
+}
+class insumos {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   descripcion: text
+   fotoUrl: varchar
+   presentacionTipo: varchar
+   presentacionCantidad: double precision
+   presentacionUnidad: varchar
+   unidadUso: varchar
+   tipoMateria: varchar
+   factorConversionUso: double precision
+   stockPresentacion: double precision
+   stockUso: double precision
+   precioUnitarioPresentacion: double precision
+   precioUnitarioUso: double precision
+   valorInventario: double precision
+   almacenId: integer
+   proveedorId: integer
+   categoriaId: integer
+   fechaRegistro: timestamp
+   creadoPorUsuarioId: integer
+   tipoInsumo: insumos_tipoinsumo_enum
+   costoAdquisicion: double precision
+   valorResidual: double precision
+   vidaUtilHoras: double precision
+   horasUsadas: double precision
+   stockReservado: double precision
+   depreciacionAcumulada: double precision
+   stockMinimo: integer
+   estado: insumos_estado_enum
+   costoUnitario: numeric(10,2)
+   fechaAdquisicion: date
+   fechaUltimoMantenimiento: date
+   fechaBaja: date
+   id: integer
+}
+class iot_global_config {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   name: varchar
+   broker: varchar
+   port: integer
+   protocol: varchar
+   topic_prefix: varchar
+   default_topics: text
+   custom_topics: text
+   lote_id: integer
+   sub_lote_id: integer
+   username: varchar
+   password: varchar
+   activo: boolean
+   default_sensors_initialized: boolean
+   auto_discover: boolean
+   id: integer
+}
+class lotes {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   geom: geometry(polygon,4326)
+   areaM2: numeric(12,2)
+   areaHa: numeric(12,4)
+   centroide: geometry(point,4326)
+   descripcion: varchar
+   estado: varchar
+   id: integer
+}
+class lotes_produccion {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   productoAgroId: integer
+   cultivoId: integer
+   loteId: integer
+   subLoteId: integer
+   actividadCosechaId: integer
+   calidad: varchar
+   cantidadKg: double precision
+   stock_disponible_kg: double precision
+   costoUnitarioKg: double precision
+   costoTotal: double precision
+   precioSugeridoKg: double precision
+   id: integer
+}
+class movimientos_insumos {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   insumoId: integer
+   tipo: movimientos_insumos_tipo_enum
+   cantidadPresentacion: double precision
+   cantidadUso: double precision
+   costoUnitarioPresentacion: double precision
+   costoUnitarioUso: double precision
+   costoTotal: double precision
+   valorInventarioResultante: double precision
+   descripcion: text
+   actividadId: integer
+   usuarioId: integer
+   almacenOrigenId: integer
+   almacenDestinoId: integer
+   id: integer
+}
+class movimientos_produccion {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   loteProduccionId: integer
+   tipo: varchar
+   cantidadKg: double precision
+   costoUnitarioKg: double precision
+   costoTotal: double precision
+   ventaId: integer
+   descripcion: text
+   usuarioId: integer
+   fecha: timestamp
+   id: integer
+}
+class notificaciones {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   titulo: varchar
+   mensaje: text
+   leida: boolean
+   tipo: varchar
+   metadata: jsonb
+   usuarioId: integer
+   id: integer
+}
+class pagos {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   ventaId: integer
+   metodo: varchar
+   monto: double precision
+   moneda: varchar
+   referencia: varchar
+   id: integer
+}
+class permisos {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   modulo: varchar
+   accion: varchar
+   clave: varchar
+   id: integer
+}
+class productos_agro {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   unidadBase: varchar
+   descripcion: text
+   imagen: text
+   id: integer
+}
+class programas_formacion {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   numeroFicha: varchar(20)
+   nombre: varchar(100)
+   tipo: varchar(50)
+   descripcion: text
+   fechaInicio: date
+   fechaFin: date
+   estado: varchar
+   cantidadAprendices: integer
+   id: integer
+}
+class proveedores {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   id: integer
+}
+class reservas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   insumoId: integer
+   cantidad: double precision
+   fechaReserva: date
+   motivo: varchar
+   estado: reservas_estado_enum
+   usuarioId: integer
+   actividadId: integer
+   id: integer
+}
+class rol_permisos {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   rolId: integer
+   permisoId: integer
+   id: integer
+}
+class roles {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   descripcion: varchar
+   es_sistema: boolean
+   estado: varchar
+   id: integer
+}
+class seed_execution_log {
+   seed_name: varchar(255)
+   executed_at: timestamp
+   description: text
+   id: integer
+}
+class sensor_alertas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   sensor_id: integer
+   valor: double precision
+   umbral: double precision
+   tipo: varchar(10)
+   fecha_alerta: timestamp
+   lote_id: integer
+   sub_lote_id: integer
+   id: integer
+}
+class sensor_lecturas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   sensor_id: integer
+   valor: varchar
+   fecha_lectura: timestamp with time zone
+   unidad: varchar
+   observaciones: varchar
+   id: integer
+}
+class sensores {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre_sensor: varchar
+   tipo_sensor_id: integer
+   protocolo: varchar
+   endpoint_url: varchar
+   mqtt_topic: varchar
+   valor_minimo_sensor: double precision
+   valor_maximo_sensor: double precision
+   activo: boolean
+   estado_conexion: varchar
+   estado: text
+   ultimo_valor: varchar
+   ultima_medicion: timestamp
+   last_seen_at: timestamp
+   cultivoId: integer
+   creadoPorUsuarioId: integer
+   global_config_id: integer
+   lote_id: integer
+   sub_lote_id: integer
+   id: integer
+}
+class spatial_ref_sys {
+   auth_name: varchar(256)
+   auth_srid: integer
+   srtext: varchar(2048)
+   proj4text: varchar(2048)
+   srid: integer
+}
+class sublotes {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   lote_id: integer
+   geom: geometry(polygon,4326)
+   areaM2: numeric(12,2)
+   areaHa: numeric(12,4)
+   centroide: geometry(point,4326)
+   descripcion: varchar
+   estado: varchar
+   id: integer
+}
+class node45 as "telegram_form_estado  /* Tabla para mantener el estado de los formularios del bot de T... */" {
+   user_id  /* ID del usuario de Telegram (único) */: bigint
+   step  /* Paso actual en el formulario */: integer
+   data  /* Datos del formulario en formato JSON */: jsonb
+   estado  /* Estado del formulario (activo, logged_in, etc.) */: varchar(20)
+   updated_at  /* Fecha y hora de última actualización */: timestamp
+   access_token  /* Token de acceso para autenticación */: text
+   id  /* Identificador único autoincremental */: integer
+}
+class tipos_cultivos_wiki {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   descripcion: text
+   id: integer
+}
+class tipos_formacion {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   codigo: varchar(50)
+   nombre: varchar(100)
+   descripcion: text
+   activo: boolean
+   orden: integer
+   id: integer
+}
+class tipos_sensores {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   unidad: varchar
+   decimales: integer
+   descripcion: varchar
+   imagen: varchar
+   ttl_minutos: integer
+   id: integer
+}
+class transacciones_financieras {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   tipo: varchar
+   categoria: varchar
+   monto: double precision
+   descripcion: text
+   fecha: timestamp
+   actividadId: integer
+   insumoId: integer
+   ventaId: integer
+   usuarioId: integer
+   id: integer
+}
+class usos_herramientas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   actividadId: integer
+   insumoId: integer
+   horasUsadas: double precision
+   depreciacionGenerada: double precision
+   valorEnLibrosAntes: double precision
+   valorEnLibrosDespues: double precision
+   fechaUso: timestamp
+   id: integer
+}
+class usuarios {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   apellido: varchar
+   identificacion: varchar
+   idFicha: varchar
+   programaFormacionId: integer
+   telefono: varchar
+   correo: varchar
+   passwordHash: varchar
+   emailVerifiedAt: timestamp
+   estado: varchar
+   lastLoginAt: timestamp
+   avatarUrl: varchar
+   rolId: integer
+   id: integer
+}
+class usuarios_permisos {
+   usuarioId: integer
+   permisoId: integer
+}
+class ventas {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   fecha: timestamp
+   clienteId: integer
+   subtotal: double precision
+   impuestos: double precision
+   descuento: double precision
+   total: double precision
+   estado: varchar
+   usuarioId: integer
+   anulada_por_usuario_id: integer
+   fecha_anulacion: timestamp
+   id: integer
+}
+class ventas_detalles {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   ventaId: integer
+   productoAgroId: integer
+   loteProduccionId: integer
+   cultivoId: integer
+   cantidadKg: double precision
+   precioUnitarioKg: double precision
+   precioTotal: double precision
+   costoUnitarioKg: double precision
+   costoTotal: double precision
+   id: integer
+}
+class wiki_tipo_epa {
+   created_at: timestamp
+   updated_at: timestamp
+   deleted_at: timestamp
+   nombre: varchar
+   descripcion: text
+   tipoEpaEnum: varchar
+   id: integer
+}
+
+actividad_historial          -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividad_historial          -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+actividad_insumos            -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividad_insumos            -[#595959,plain]-^  insumos                     : "insumoId:id"
+actividad_insumos            -[#595959,plain]-^  insumos                     : "insumo_id:id"
+actividades                  -[#595959,plain]-^  cultivos                    : "cultivoId:id"
+actividades                  -[#595959,plain]-^  lotes                       : "loteId:id"
+actividades                  -[#595959,plain]-^  productos_agro              : "productoAgroId:id"
+actividades                  -[#595959,plain]-^  sublotes                    : "subLoteId:id"
+actividades                  -[#595959,plain]-^  usuarios                    : "creado_por_usuario_id:id"
+actividades_evidencias       -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividades_herramientas     -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividades_herramientas     -[#595959,plain]-^  insumos                     : "activoFijoId:id"
+actividades_insumos_reserva  -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividades_insumos_reserva  -[#595959,plain]-^  insumos                     : "insumoId:id"
+actividades_insumos_uso      -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividades_insumos_uso      -[#595959,plain]-^  insumos                     : "insumoId:id"
+actividades_responsables     -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividades_responsables     -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+actividades_servicios        -[#595959,plain]-^  actividades                 : "actividadId:id"
+actividades_servicios        -[#595959,plain]-^  insumos                     : "maquinariaId:id"
+cultivo_historial            -[#595959,plain]-^  cultivos                    : "cultivo_id:id"
+cultivo_historial            -[#595959,plain]-^  usuarios                    : "usuario_id:id"
+cultivos                     -[#595959,plain]-^  lotes                       : "lote_id:id"
+cultivos                     -[#595959,plain]-^  sublotes                    : "sublote_id:id"
+email_codes                  -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+epa_tipos_cultivos_wiki      -[#595959,plain]-^  epas                        : "epaId:id"
+epa_tipos_cultivos_wiki      -[#595959,plain]-^  tipos_cultivos_wiki         : "tipoCultivoWikiId:id"
+facturas                     -[#595959,plain]-^  ventas                      : "ventaId:id"
+historial_precios_lote       -[#595959,plain]-^  lotes_produccion            : "loteProduccionId:id"
+historial_precios_lote       -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+insumos                      -[#595959,plain]-^  almacenes                   : "almacenId:id"
+insumos                      -[#595959,plain]-^  categorias                  : "categoriaId:id"
+insumos                      -[#595959,plain]-^  proveedores                 : "proveedorId:id"
+iot_global_config            -[#595959,plain]-^  lotes                       : "lote_id:id"
+lotes_produccion             -[#595959,plain]-^  cultivos                    : "cultivoId:id"
+lotes_produccion             -[#595959,plain]-^  productos_agro              : "productoAgroId:id"
+movimientos_insumos          -[#595959,plain]-^  actividades                 : "actividadId:id"
+movimientos_insumos          -[#595959,plain]-^  insumos                     : "insumoId:id"
+movimientos_insumos          -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+movimientos_produccion       -[#595959,plain]-^  lotes_produccion            : "loteProduccionId:id"
+movimientos_produccion       -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+movimientos_produccion       -[#595959,plain]-^  ventas                      : "ventaId:id"
+notificaciones               -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+pagos                        -[#595959,plain]-^  ventas                      : "ventaId:id"
+reservas                     -[#595959,plain]-^  insumos                     : "insumoId:id"
+rol_permisos                 -[#595959,plain]-^  permisos                    : "permisoId:id"
+rol_permisos                 -[#595959,plain]-^  roles                       : "rolId:id"
+sensor_alertas               -[#595959,plain]-^  lotes                       : "lote_id:id"
+sensor_alertas               -[#595959,plain]-^  sensores                    : "sensor_id:id"
+sensor_alertas               -[#595959,plain]-^  sublotes                    : "sub_lote_id:id"
+sensor_lecturas              -[#595959,plain]-^  sensores                    : "sensor_id:id"
+sensores                     -[#595959,plain]-^  cultivos                    : "cultivoId:id"
+sensores                     -[#595959,plain]-^  iot_global_config           : "global_config_id:id"
+sensores                     -[#595959,plain]-^  lotes                       : "lote_id:id"
+sensores                     -[#595959,plain]-^  sublotes                    : "sub_lote_id:id"
+sensores                     -[#595959,plain]-^  tipos_sensores              : "tipo_sensor_id:id"
+sublotes                     -[#595959,plain]-^  lotes                       : "lote_id:id"
+transacciones_financieras    -[#595959,plain]-^  actividades                 : "actividadId:id"
+transacciones_financieras    -[#595959,plain]-^  insumos                     : "insumoId:id"
+transacciones_financieras    -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+transacciones_financieras    -[#595959,plain]-^  ventas                      : "ventaId:id"
+usos_herramientas            -[#595959,plain]-^  actividades                 : "actividadId:id"
+usos_herramientas            -[#595959,plain]-^  insumos                     : "insumoId:id"
+usuarios                     -[#595959,plain]-^  programas_formacion         : "programaFormacionId:id"
+usuarios                     -[#595959,plain]-^  roles                       : "rolId:id"
+usuarios_permisos            -[#595959,plain]-^  permisos                    : "permisoId:id"
+usuarios_permisos            -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+ventas                       -[#595959,plain]-^  clientes                    : "clienteId:id"
+ventas                       -[#595959,plain]-^  usuarios                    : "usuarioId:id"
+ventas_detalles              -[#595959,plain]-^  cultivos                    : "cultivoId:id"
+ventas_detalles              -[#595959,plain]-^  lotes_produccion            : "loteProduccionId:id"
+ventas_detalles              -[#595959,plain]-^  productos_agro              : "productoAgroId:id"
+ventas_detalles              -[#595959,plain]-^  ventas                      : "ventaId:id"
+@enduml
