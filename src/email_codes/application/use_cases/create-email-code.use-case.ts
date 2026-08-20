@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateEmailCodeInput, EmailCode } from '../domain/email_code.entity';
+import { CreateEmailCodeInput, EmailCode } from '../../domain/email_code.entity';
 import {
   EMAIL_CODE_REPOSITORY,
   type EmailCodeRepository,
-} from '../domain/email-code-repository.port';
-import { EmailCodeAlreadyExistsError } from '../domain/errors/email-code-already-exists.error';
+} from '../../domain/email-code-repository.port';
+import { EmailCodeAlreadyExistsError } from '../../domain/errors/email-code-already-exists.error';
 
 @Injectable()
 export class CreateEmailCodeUseCase {

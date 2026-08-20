@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CreatePermisoUseCase } from './application/create-permiso.use-case';
-import { GetPermisoUseCase } from './application/get-permiso.use-case';
+import { CreatePermisoUseCase } from './application/use_cases/create-permiso.use-case';
+import { GetPermisoUseCase } from './application/use_cases/get-permiso.use-case';
 import { PERMISO_REPOSITORY } from './domain/permiso-repository.port';
 import { PermisoTypeOrmRepository } from './infrastructure/persistence/permiso-typeorm.repository';
 import { PermisoOrmEntity } from './infrastructure/persistence/permiso.orm-entity';

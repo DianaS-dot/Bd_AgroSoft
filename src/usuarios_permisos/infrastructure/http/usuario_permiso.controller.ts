@@ -10,7 +10,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateUsuarioPermisoUseCase } from '../../application/create-usuario_permiso.use-case';
+import { CreateUsuarioPermisoUseCase } from '../../application/use_cases/create-usuario_permiso.use-case';
 import { CreateUsuarioPermisoDto } from './dto/create-usuario_permiso.dto';
 import { ChangeUsuarioPermisoEstadoDto } from './dto/change-usuario_permiso-estado.dto';
 

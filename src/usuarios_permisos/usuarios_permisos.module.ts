@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CreateUsuarioPermisoUseCase } from './application/create-usuario_permiso.use-case';
+import { CreateUsuarioPermisoUseCase } from './application/use_cases/create-usuario_permiso.use-case';
 import { USUARIO_PERMISO_REPOSITORY } from './domain/usuario_permiso-repository.port';
 import { UsuarioPermisoTypeOrmRepository } from './infrastructure/persistence/usuario_permiso-typeorm.repository';
 import { UsuarioPermisoOrmEntity } from './infrastructure/persistence/usuario_permiso.orm-entity';

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CreateRolPermisoUseCase } from './application/create-rol_permiso.use-case';
-import { GetRolPermisoUseCase } from './application/get-rol_permiso.use-case';
+import { CreateRolPermisoUseCase } from './application/use_cases/create-rol_permiso.use-case';
+import { GetRolPermisoUseCase } from './application/use_cases/get-rol_permiso.use-case';
 import { ROL_PERMISO_REPOSITORY } from './domain/rol_permiso-repository.port';
 import { RolPermisoTypeOrmRepository } from './infrastructure/persistence/rol_permiso-typeorm.repository';
 import { RolPermisoOrmEntity } from './infrastructure/persistence/rol_permiso.orm-entity';

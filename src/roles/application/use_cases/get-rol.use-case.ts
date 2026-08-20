@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Rol } from '../domain/rol.entity';
+import { Rol } from '../../domain/rol.entity';
 import {
   ROL_REPOSITORY,
   type RolRepository,
-} from '../domain/rol-repository.port';
-import { RolNotFoundError } from '../domain/errors/rol-not-found.error';
+} from '../../domain/rol-repository.port';
+import { RolNotFoundError } from '../../domain/errors/rol-not-found.error';
 
 @Injectable()
 export class GetRolUseCase {

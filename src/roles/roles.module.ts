@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CreateRolUseCase } from './application/create-rol.use-case';
-import { GetRolUseCase } from './application/get-rol.use-case';
+import { CreateRolUseCase } from './application/use_cases/create-rol.use-case';
+import { GetRolUseCase } from './application/use_cases/get-rol.use-case';
 import { ROL_REPOSITORY } from './domain/rol-repository.port';
 import { RolTypeOrmRepository } from './infrastructure/persistence/rol-typeorm.repository';
 import { RolOrmEntity } from './infrastructure/persistence/rol.orm-entity';

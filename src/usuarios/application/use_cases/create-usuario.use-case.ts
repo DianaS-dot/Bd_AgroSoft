@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Usuario } from '../domain/usuario.entity';
-import { CreateUsuarioInput } from '../domain/usuario.entity';
+import { Usuario } from '../../domain/usuario.entity';
+import { CreateUsuarioInput } from '../../domain/usuario.entity';
 import {
   USUARIO_REPOSITORY,
   type UsuarioRepository,
-} from '../domain/usuario-repository.port';
-import { UsuarioAlreadyExistsError } from '../domain/errors/usuario-already-exists.error';
+} from '../../domain/usuario-repository.port';
+import { UsuarioAlreadyExistsError } from '../../domain/errors/usuario-already-exists.error';
 
 @Injectable()
 export class CreateUsuarioUseCase {

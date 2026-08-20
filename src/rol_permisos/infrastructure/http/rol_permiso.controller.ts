@@ -10,8 +10,8 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateRolPermisoUseCase } from '../../application/create-rol_permiso.use-case';
-import { GetRolPermisoUseCase } from '../../application/get-rol_permiso.use-case';
+import { CreateRolPermisoUseCase } from '../../application/use_cases/create-rol_permiso.use-case';
+import { GetRolPermisoUseCase } from '../../application/use_cases/get-rol_permiso.use-case';
 import { CreateRolPermisoDto } from './dto/create-rol_permiso.dto';
 import { ChangeRolPermisoEstadoDto } from './dto/change-rol_permiso-estado.dto';
 

@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateRolInput, Rol } from '../domain/rol.entity';
+import { CreateRolInput, Rol } from '../../domain/rol.entity';
 import {
   ROL_REPOSITORY,
   type RolRepository,
-} from '../domain/rol-repository.port';
-import { RolAlreadyExistsError } from '../domain/errors/rol-already-exists.error';
+} from '../../domain/rol-repository.port';
+import { RolAlreadyExistsError } from '../../domain/errors/rol-already-exists.error';
 
 @Injectable()
 export class CreateRolUseCase {
