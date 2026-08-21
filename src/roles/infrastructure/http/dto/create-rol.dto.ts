@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, IsOptional, IsIn, MinLength, MaxLength } from 'class-validator';
-import type { Estado } from '../../../domain/rol.entity';
+import type { Estado } from '../../../domain/entities/rol.entity';
 
 export class CreateRolDto {
   @IsString()

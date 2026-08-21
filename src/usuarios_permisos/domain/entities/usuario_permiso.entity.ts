@@ -1,17 +1,17 @@
-import { InvalidRolPermisoError } from './errors/invalid-rol-permiso.error';
+import { InvalidUsuarioPermisoError } from '../errors/invalid-usuario-permiso.error';
 
 export type Estado = 'ACTIVO' | 'INACTIVO';
 
-export interface CreateRolPermisoInput {
-  rolId: number;
+export interface CreateUsuarioPermisoInput {
+  usuarioId: number;
   permisoId: number;
   estado?: Estado;
 }
 
-export class RolPermiso {
+export class UsuarioPermiso {
   constructor(
     public readonly id: number | null,
-    public readonly rolId: number,
+    public readonly usuarioId: number,
     public readonly permisoId: number,
     public estado: Estado,
     public readonly createdAt: Date,
@@ -21,27 +21,27 @@ export class RolPermiso {
 
   /**
    * Reglas de negocio:
-   * - el rol y el permiso deben tener IDs válidos.
-   * - el par (rolId, permisoId) no puede repetirse (se valida en el repositorio).
+   * - el usuario y el permiso deben tener IDs válidos.
+   * - el par (usuarioId, permisoId) no puede repetirse (se valida en el repositorio).
    */
-  static create(input: CreateRolPermisoInput): RolPermiso {
-    if (!Number.isInteger(input.rolId) || input.rolId <= 0) {
-      throw new InvalidRolPermisoError(
-        'El rol es obligatorio y debe tener un ID válido',
+  static create(input: CreateUsuarioPermisoInput): UsuarioPermiso {
+    if (!Number.isInteger(input.usuarioId) || input.usuarioId <= 0) {
+      throw new InvalidUsuarioPermisoError(
+        'El usuario es obligatorio y debe tener un ID válido',
       );
     }
 
     if (!Number.isInteger(input.permisoId) || input.permisoId <= 0) {
-      throw new InvalidRolPermisoError(
+      throw new InvalidUsuarioPermisoError(
         'El permiso es obligatorio y debe tener un ID válido',
       );
     }
 
     const now = new Date();
 
-    return new RolPermiso(
+    return new UsuarioPermiso(
       null,
-      input.rolId,
+      input.usuarioId,
       input.permisoId,
       input.estado ?? 'ACTIVO',
       now,
@@ -57,8 +57,8 @@ export class RolPermiso {
 
   eliminar(): void {
     if (this.deletedAt) {
-      throw new InvalidRolPermisoError(
-        'La relación rol-permiso ya fue eliminada',
+      throw new InvalidUsuarioPermisoError(
+        'La relación usuario-permiso ya fue eliminada',
       );
     }
     this.deletedAt = new Date();

@@ -1,4 +1,4 @@
-import { InvalidRolError } from './errors/invalid-rol.error';
+import { InvalidRolError } from '../errors/invalid-rol.error';
 
 export type Estado = 'ACTIVO' | 'INACTIVO';
 

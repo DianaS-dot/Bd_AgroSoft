@@ -1,5 +1,5 @@
 import { IsInt, IsPositive, IsIn } from 'class-validator';
-import type { TipoEmailCode } from '../../../domain/email_code.entity';
+import type { TipoEmailCode } from '../../../domain/entities/email_code.entity';
 
 
 /**

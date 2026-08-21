@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   CreateRolPermisoInput,
   RolPermiso,
-} from '../../domain/rol_permiso.entity';
+} from '../../domain/entities/rol_permiso.entity';
 import {
   ROL_PERMISO_REPOSITORY,
   type RolPermisoRepository,
-} from '../../domain/rol_permiso-repository.port';
+} from '../../domain/ports/rol_permiso-repository.port';
 import { RolPermisoAlreadyExistsError } from '../../domain/errors/rol-permiso-already-exists.error';
 
 @Injectable()

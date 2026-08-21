@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EmailCode, TipoEmailCode } from '../../domain/email_code.entity';
+import { EmailCode, TipoEmailCode } from '../../domain/entities/email_code.entity';
 import {
   EMAIL_CODE_REPOSITORY,
   type EmailCodeRepository,
-} from '../../domain/email-code-repository.port';
+} from '../../domain/ports/email-code-repository.port';
 import { EmailCodeNotFoundError } from '../../domain/errors/email-code-not-found.error';
 
 @Injectable()

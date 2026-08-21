@@ -9,7 +9,7 @@ import {
   MaxLength,
   Matches,
 } from 'class-validator';
-import type { Estado } from '../../../domain/usuario.entity';
+import type { Estado } from '../../../domain/entities/usuario.entity';
 
 /**
  * Todos los campos son opcionales para permitir actualizaciones parciales (PATCH).

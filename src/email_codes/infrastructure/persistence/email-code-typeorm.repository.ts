@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { EmailCode } from '../../domain/email_code.entity';
-import { TipoEmailCode } from '../../domain/email_code.entity';
-import { type EmailCodeRepository } from '../../domain/email-code-repository.port';
+import { EmailCode } from '../../domain/entities/email_code.entity';
+import { TipoEmailCode } from '../../domain/entities/email_code.entity';
+import { type EmailCodeRepository } from '../../domain/ports/email-code-repository.port';
 import { EmailCodeOrmEntity } from './email-code.orm-entity';
 
 @Injectable()

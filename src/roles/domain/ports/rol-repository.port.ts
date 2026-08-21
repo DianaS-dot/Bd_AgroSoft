@@ -1,4 +1,4 @@
-import { Rol } from './rol.entity';
+import { Rol } from '../entities/rol.entity';
 
 export interface RolRepository {
   save(rol: Rol): Promise<Rol>;

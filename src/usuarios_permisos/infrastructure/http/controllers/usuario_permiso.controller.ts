@@ -10,9 +10,9 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateUsuarioPermisoUseCase } from '../../application/use_cases/create-usuario_permiso.use-case';
-import { CreateUsuarioPermisoDto } from './dto/create-usuario_permiso.dto';
-import { ChangeUsuarioPermisoEstadoDto } from './dto/change-usuario_permiso-estado.dto';
+import { CreateUsuarioPermisoUseCase } from '../../../application/use_cases/create-usuario_permiso.use-case';
+import { CreateUsuarioPermisoDto } from '../dto/create-usuario_permiso.dto';
+import { ChangeUsuarioPermisoEstadoDto } from '../dto/change-usuario_permiso-estado.dto';
 
 @Controller('usuarios-permisos')
 export class UsuarioPermisoController {

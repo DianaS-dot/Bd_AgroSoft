@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Permiso } from '../../domain/permiso.entity';
+import { Permiso } from '../../domain/entities/permiso.entity';
 import {
   PERMISO_REPOSITORY,
   type PermisoRepository,
-} from '../../domain/permiso-repository.port';
+} from '../../domain/ports/permiso-repository.port';
 import { PermisoNotFoundError } from '../../domain/errors/permiso-not-found.error';
 
 @Injectable()

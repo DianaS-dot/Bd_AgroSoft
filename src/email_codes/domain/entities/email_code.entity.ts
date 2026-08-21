@@ -1,5 +1,5 @@
-import { InvalidEmailCodeError } from './errors/invalid-email-code.error';
-import { EmailCodeExpiredError } from './errors/email-code-expired.error';
+import { InvalidEmailCodeError } from '../errors/invalid-email-code.error';
+import { EmailCodeExpiredError } from '../errors/email-code-expired.error';
 
 export type TipoEmailCode = 'VERIFICACION' | 'RECUPERACION';
 

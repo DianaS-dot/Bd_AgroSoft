@@ -8,10 +8,10 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateEmailCodeUseCase } from '../../application/use_cases/create-email-code.use-case';
-import { GetEmailCodeUseCase } from '../../application/use_cases/get-email-code.use-case';
-import { CreateEmailCodeDto } from './dto/create-email-code.dto';
-import { VerifyEmailCodeDto } from './dto/verify-email-code.dto';
+import { CreateEmailCodeUseCase } from '../../../application/use_cases/create-email-code.use-case';
+import { GetEmailCodeUseCase } from '../../../application/use_cases/get-email-code.use-case';
+import { CreateEmailCodeDto } from '../dto/create-email-code.dto';
+import { VerifyEmailCodeDto } from '../dto/verify-email-code.dto';
 
 @Controller('email-codes')
 export class EmailCodeController {

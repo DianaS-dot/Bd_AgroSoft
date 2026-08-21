@@ -10,10 +10,10 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateRolUseCase } from '../../application/use_cases/create-rol.use-case';
-import { GetRolUseCase } from '../../application/use_cases/get-rol.use-case';
-import { CreateRolDto } from './dto/create-rol.dto';
-import { UpdateRolDto } from './dto/update-rol.dto';
+import { CreateRolUseCase } from '../../../application/use_cases/create-rol.use-case';
+import { GetRolUseCase } from '../../../application/use_cases/get-rol.use-case';
+import { CreateRolDto } from '../dto/create-rol.dto';
+import { UpdateRolDto } from '../dto/update-rol.dto';
 
 @Controller('roles')
 export class RolController {

@@ -1,5 +1,5 @@
 import { IsInt, IsPositive, IsOptional, IsIn } from 'class-validator';
-import type { Estado } from '../../../domain/usuario_permiso.entity';
+import type { Estado } from '../../../domain/entities/usuario_permiso.entity';
 
 /**
  * DTO para asignar un permiso directo a un usuario (override del rol).

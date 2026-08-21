@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Rol } from '../../domain/rol.entity';
+import { Rol } from '../../domain/entities/rol.entity';
 import {
   ROL_REPOSITORY,
   type RolRepository,
-} from '../../domain/rol-repository.port';
+} from '../../domain/ports/rol-repository.port';
 import { RolNotFoundError } from '../../domain/errors/rol-not-found.error';
 
 @Injectable()

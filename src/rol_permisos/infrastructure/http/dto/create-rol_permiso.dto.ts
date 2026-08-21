@@ -1,5 +1,5 @@
 import { IsInt, IsPositive, IsOptional, IsIn } from 'class-validator';
-import type { Estado } from '../../../domain/rol_permiso.entity';
+import type { Estado } from '../../../domain/entities/rol_permiso.entity';
 
 /**
  * DTO para asignar un permiso a un rol.

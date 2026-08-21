@@ -1,4 +1,4 @@
-import { RolPermiso } from './rol_permiso.entity';
+import { RolPermiso } from '../entities/rol_permiso.entity';
 
 export interface RolPermisoRepository {
   save(rolPermiso: RolPermiso): Promise<RolPermiso>;

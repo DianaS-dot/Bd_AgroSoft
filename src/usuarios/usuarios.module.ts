@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateUsuarioUseCase } from './application/use_cases/create-usuario.use-case';
 import { GetUsuarioUseCase } from './application/use_cases/get-usuario.use-case';
-import { USUARIO_REPOSITORY } from './domain/usuario-repository.port';
+import { USUARIO_REPOSITORY } from './domain/ports/usuario-repository.port';
 import { UsuarioTypeOrmRepository } from './infrastructure/persistence/usuario-typeorm.repository';
 import { UsuarioOrmEntity } from './infrastructure/persistence/usuario.orm-entity';
-import { UsuarioController } from './infrastructure/http/usuario.controller';
+import { UsuarioController } from './infrastructure/http/controllers/usuario.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UsuarioOrmEntity])],

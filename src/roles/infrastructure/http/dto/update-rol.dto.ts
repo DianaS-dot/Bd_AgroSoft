@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsIn, MinLength, MaxLength } from 'class-validator';
-import type { Estado } from '../../../domain/rol.entity';
+import type { Estado } from '../../../domain/entities/rol.entity';
 
 /** Todos los campos opcionales para soportar PATCH parcial */
 export class UpdateRolDto {

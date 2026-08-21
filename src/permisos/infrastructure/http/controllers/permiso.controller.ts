@@ -10,10 +10,10 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreatePermisoUseCase } from '../../application/use_cases/create-permiso.use-case';
-import { GetPermisoUseCase } from '../../application/use_cases/get-permiso.use-case';
-import { CreatePermisoDto } from './dto/create-permiso.dto';
-import { UpdatePermisoDto } from './dto/update-permiso.dto';
+import { CreatePermisoUseCase } from '../../../application/use_cases/create-permiso.use-case';
+import { GetPermisoUseCase } from '../../../application/use_cases/get-permiso.use-case';
+import { CreatePermisoDto } from '../dto/create-permiso.dto';
+import { UpdatePermisoDto } from '../dto/update-permiso.dto';
 
 @Controller('permisos')
 export class PermisoController {

@@ -1,5 +1,5 @@
 import { IsIn, IsNotEmpty } from 'class-validator';
-import type { Estado } from '../../../domain/usuario_permiso.entity';
+import type { Estado } from '../../../domain/entities/usuario_permiso.entity';
 
 /**
  * DTO para cambiar el estado de un permiso asignado directamente a un usuario.

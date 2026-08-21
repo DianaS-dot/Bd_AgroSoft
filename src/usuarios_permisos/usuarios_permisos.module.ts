@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateUsuarioPermisoUseCase } from './application/use_cases/create-usuario_permiso.use-case';
-import { USUARIO_PERMISO_REPOSITORY } from './domain/usuario_permiso-repository.port';
+import { USUARIO_PERMISO_REPOSITORY } from './domain/ports/usuario_permiso-repository.port';
 import { UsuarioPermisoTypeOrmRepository } from './infrastructure/persistence/usuario_permiso-typeorm.repository';
 import { UsuarioPermisoOrmEntity } from './infrastructure/persistence/usuario_permiso.orm-entity';
-import { UsuarioPermisoController } from './infrastructure/http/usuario_permiso.controller';
+import { UsuarioPermisoController } from './infrastructure/http/controllers/usuario_permiso.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UsuarioPermisoOrmEntity])],

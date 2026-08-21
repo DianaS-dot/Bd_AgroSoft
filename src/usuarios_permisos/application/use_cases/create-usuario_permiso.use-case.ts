@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UsuarioPermiso } from '../../domain/usuario_permiso.entity';
-import { CreateUsuarioPermisoInput } from '../../domain/usuario_permiso.entity';
+import { UsuarioPermiso } from '../../domain/entities/usuario_permiso.entity';
+import { CreateUsuarioPermisoInput } from '../../domain/entities/usuario_permiso.entity';
 import {
   USUARIO_PERMISO_REPOSITORY,
   type UsuarioPermisoRepository,
-} from '../../domain/usuario_permiso-repository.port';
+} from '../../domain/ports/usuario_permiso-repository.port';
 import { UsuarioPermisoAlreadyExistsError } from '../../domain/errors/usuario-permiso-already-exists.error';
 
 @Injectable()

@@ -10,7 +10,7 @@ import {
   MaxLength,
   Matches,
 } from 'class-validator';
-import type { Estado } from '../../../domain/usuario.entity';
+import type { Estado } from '../../../domain/entities/usuario.entity';
 
 export class CreateUsuarioDto {
   @IsString()

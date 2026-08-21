@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Usuario } from '../../domain/usuario.entity';
+import { Usuario } from '../../domain/entities/usuario.entity';
 import {
   USUARIO_REPOSITORY,
   type UsuarioRepository,
-} from '../../domain/usuario-repository.port';
+} from '../../domain/ports/usuario-repository.port';
 import { UsuarioNotFoundError } from '../../domain/errors/usuario-not-found.error';
 
 @Injectable()

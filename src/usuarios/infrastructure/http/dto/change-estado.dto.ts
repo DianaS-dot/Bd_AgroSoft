@@ -1,5 +1,5 @@
 import { IsIn, IsNotEmpty } from 'class-validator';
-import type { Estado } from '../../../domain/usuario.entity';
+import type { Estado } from '../../../domain/entities/usuario.entity';
 
 /**
  * DTO para el endpoint PATCH /usuarios/:id/estado

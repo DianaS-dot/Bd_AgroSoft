@@ -1,4 +1,4 @@
-import { EmailCode, TipoEmailCode } from './email_code.entity';
+import { EmailCode, TipoEmailCode } from '../entities/email_code.entity';
 
 export interface EmailCodeRepository {
   save(emailCode: EmailCode): Promise<EmailCode>;

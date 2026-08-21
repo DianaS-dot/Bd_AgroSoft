@@ -1,4 +1,4 @@
-import { UsuarioPermiso } from './usuario_permiso.entity';
+import { UsuarioPermiso } from '../entities/usuario_permiso.entity';
 
 export interface UsuarioPermisoRepository {
   save(usuarioPermiso: UsuarioPermiso): Promise<UsuarioPermiso>;

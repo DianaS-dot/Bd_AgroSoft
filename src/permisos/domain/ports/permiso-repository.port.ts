@@ -1,4 +1,4 @@
-import { Permiso } from './permiso.entity';
+import { Permiso } from '../entities/permiso.entity';
 
 export interface PermisoRepository {
   save(permiso: Permiso): Promise<Permiso>;

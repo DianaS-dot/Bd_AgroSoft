@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RolPermiso } from '../../domain/rol_permiso.entity';
+import { RolPermiso } from '../../domain/entities/rol_permiso.entity';
 import {
   ROL_PERMISO_REPOSITORY,
   type RolPermisoRepository,
-} from '../../domain/rol_permiso-repository.port';
+} from '../../domain/ports/rol_permiso-repository.port';
 import { RolPermisoNotFoundError } from '../../domain/errors/rol-permiso-not-found.error';
 
 @Injectable()

@@ -10,12 +10,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateUsuarioUseCase } from '../../application/use_cases/create-usuario.use-case';
-import { GetUsuarioUseCase } from '../../application/use_cases/get-usuario.use-case';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { ChangeEstadoDto } from './dto/change-estado.dto';
+import { CreateUsuarioUseCase } from '../../../application/use_cases/create-usuario.use-case';
+import { GetUsuarioUseCase } from '../../../application/use_cases/get-usuario.use-case';
+import { CreateUsuarioDto } from '../dto/create-usuario.dto';
+import { UpdateUsuarioDto } from '../dto/update-usuario.dto';
+import { ChangePasswordDto } from '../dto/change-password.dto';
+import { ChangeEstadoDto } from '../dto/change-estado.dto';
 
 @Controller('usuarios')
 export class UsuarioController {

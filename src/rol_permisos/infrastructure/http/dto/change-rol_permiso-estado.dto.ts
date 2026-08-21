@@ -1,5 +1,5 @@
 import { IsIn, IsNotEmpty } from 'class-validator';
-import type { Estado } from '../../../domain/rol_permiso.entity';
+import type { Estado } from '../../../domain/entities/rol_permiso.entity';
 
 /**
  * DTO para cambiar el estado de una asignación rol-permiso.

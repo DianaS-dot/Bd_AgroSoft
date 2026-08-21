@@ -1,4 +1,4 @@
-import { InvalidUsuarioError } from './errors/invalid-usuario.error';
+import { InvalidUsuarioError } from '../errors/invalid-usuario.error';
 
 export type Estado = 'ACTIVO' | 'INACTIVO' | 'BLOQUEADO';
 

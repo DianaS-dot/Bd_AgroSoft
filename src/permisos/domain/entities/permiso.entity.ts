@@ -1,4 +1,4 @@
-import { InvalidPermisoError } from './errors/invalid-permiso.error';
+import { InvalidPermisoError } from '../errors/invalid-permiso.error';
 
 export type Estado = 'ACTIVO' | 'INACTIVO';
 
