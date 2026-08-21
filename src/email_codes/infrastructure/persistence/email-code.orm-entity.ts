@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UsuarioOrmEntity } from '../../../usuarios/infrastructure/persistence/usuario.orm-entity.js';
 
 @Entity('email_codes')
 export class EmailCodeOrmEntity {
@@ -14,6 +17,10 @@ export class EmailCodeOrmEntity {
 
   @Column()
   usuarioId: number;
+
+  @ManyToOne(() => UsuarioOrmEntity, (usuario) => usuario.emailCodes)
+  @JoinColumn({ name: 'usuarioId' })
+  usuario: UsuarioOrmEntity;
 
   @Column({ name: 'code', type: 'varchar', length: 6 })
   codigo: string;

@@ -3,9 +3,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { RolOrmEntity } from '../../../roles/infrastructure/persistence/rol.orm-entity.js';
+import { UsuarioPermisoOrmEntity } from '../../../usuarios_permisos/infrastructure/persistence/usuario_permiso.orm-entity.js';
+import { EmailCodeOrmEntity } from '../../../email_codes/infrastructure/persistence/email-code.orm-entity.js';
 
 @Entity('usuarios')
 export class UsuarioOrmEntity {
@@ -51,6 +57,10 @@ export class UsuarioOrmEntity {
   @Column()
   rolId: number;
 
+  @ManyToOne(() => RolOrmEntity, (rol) => rol.usuarios)
+  @JoinColumn({ name: 'rolId' })
+  rol: RolOrmEntity;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -59,4 +69,10 @@ export class UsuarioOrmEntity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
+
+  @OneToMany(() => UsuarioPermisoOrmEntity, (usuarioPermiso) => usuarioPermiso.usuario)
+  usuariosPermisos: UsuarioPermisoOrmEntity[];
+
+  @OneToMany(() => EmailCodeOrmEntity, (emailCode) => emailCode.usuario)
+  emailCodes: EmailCodeOrmEntity[];
 }
