@@ -16,7 +16,7 @@ import { CreateUsuarioDto } from '../dto/create-usuario.dto';
 import { UpdateUsuarioDto } from '../dto/update-usuario.dto';
 import { ChangePasswordDto } from '../dto/change-password.dto';
 import { ChangeEstadoDto } from '../dto/change-estado.dto';
-
+import * as bcrypt from 'bcrypt';
 @Controller('usuarios')
 export class UsuarioController {
   constructor(
@@ -38,7 +38,7 @@ export class UsuarioController {
       correo: dto.correo,
       // En producción se haría hash aquí antes de pasar al caso de uso
       // ej: passwordHash: await bcrypt.hash(dto.password, 10)
-      passwordHash: dto.password,
+      passwordHash: await bcrypt.hash(dto.password, 10),   
       rolId: dto.rolId,
       estado: dto.estado,
     });

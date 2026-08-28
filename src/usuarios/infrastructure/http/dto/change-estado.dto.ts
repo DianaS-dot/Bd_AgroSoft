@@ -10,5 +10,5 @@ export class ChangeEstadoDto {
   @IsIn(['ACTIVO', 'INACTIVO', 'BLOQUEADO'], {
     message: "El estado debe ser 'ACTIVO', 'INACTIVO' o 'BLOQUEADO'",
   })
-  estado: Estado;
+  estado!: Estado;
 }

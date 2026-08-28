@@ -16,63 +16,63 @@ import { EmailCodeOrmEntity } from '../../../email_codes/infrastructure/persiste
 @Entity('usuarios')
 export class UsuarioOrmEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  nombre: string;
+  nombre!: string;
 
   @Column()
-  apellido: string;
+  apellido!: string;
 
   @Column({ unique: true })
-  identificacion: string;
+  identificacion !: string;
 
   @Column({ type: 'varchar', nullable: true })
-  idFicha: string | null;
+  idFicha!: string | null;
 
   @Column()
-  programaFormacionId: number;
+  programaFormacionId!: number;
 
   @Column({ type: 'varchar', nullable: true })
-  telefono: string | null;
+  telefono! : string | null;
 
   @Column({ unique: true })
-  correo: string;
+  correo!: string;
 
   @Column()
-  passwordHash: string;
+  passwordHash!: string;
 
   @Column({ type: 'timestamp', nullable: true })
-  emailVerifiedAt: Date | null;
+  emailVerifiedAt!: Date | null;
 
   @Column()
-  estado: string;
+  estado! : string;
 
   @Column({ type: 'timestamp', nullable: true })
-  lastLoginAt: Date | null;
+  lastLoginAt!  : Date | null;
 
   @Column({ type: 'varchar', nullable: true })
-  avatarUrl: string | null;
+  avatarUrl!: string | null;
 
   @Column()
-  rolId: number;
+  rolId!: number;
 
   @ManyToOne(() => RolOrmEntity, (rol) => rol.usuarios)
   @JoinColumn({ name: 'rolId' })
-  rol: RolOrmEntity;
+  rol!: RolOrmEntity;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @DeleteDateColumn()
-  deletedAt: Date | null;
+  deletedAt!: Date | null;
 
   @OneToMany(() => UsuarioPermisoOrmEntity, (usuarioPermiso) => usuarioPermiso.usuario)
-  usuariosPermisos: UsuarioPermisoOrmEntity[];
+  usuariosPermisos!: UsuarioPermisoOrmEntity[];
 
   @OneToMany(() => EmailCodeOrmEntity, (emailCode) => emailCode.usuario)
-  emailCodes: EmailCodeOrmEntity[];
+  emailCodes!: EmailCodeOrmEntity[];
 }
