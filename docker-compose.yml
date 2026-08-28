@@ -3,18 +3,18 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16
-    container_name: agrosoft-postgres
+    container_name: ${POSTGRES_CONTAINER_NAME:-agrosoft-postgres}
     restart: always
     environment:
-      POSTGRES_USER: agrosoft
-      POSTGRES_PASSWORD: agrosoft123
-      POSTGRES_DB: db_agrosoft
+      POSTGRES_USER: ${DB_USERNAME:-agrosoft}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-agrosoft123}
+      POSTGRES_DB: ${DB_NAME:-db_agrosoft}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U agrosoft"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-agrosoft}"]
       interval: 10s
       timeout: 5s
       retries: 5

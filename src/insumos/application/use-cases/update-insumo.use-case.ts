@@ -1,0 +1,22 @@
+import { Injectable, Inject } from '@nestjs/common';
+import { Insumo } from '../../domain/entities/insumo.entity';
+import type { InsumoRepository } from '../../domain/ports/insumo-repository.port';
+import { INSUMO_REPOSITORY } from '../../domain/ports/insumo-repository.port';
+
+@Injectable()
+export class UpdateInsumoUseCase {
+  constructor(
+    @Inject(INSUMO_REPOSITORY)
+    private readonly insumoRepository: InsumoRepository,
+  ) {}
+
+  async execute(id: number, data: Partial<Insumo>): Promise<Insumo> {
+    const existingInsumo = await this.insumoRepository.findById(id);
+    
+    if (!existingInsumo) {
+      throw new Error('Insumo no encontrado');
+    }
+
+    return await this.insumoRepository.update(id, data);
+  }
+}
