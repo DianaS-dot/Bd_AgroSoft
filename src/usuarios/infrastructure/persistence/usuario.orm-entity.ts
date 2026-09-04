@@ -3,12 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToOne,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { RolOrmEntity } from '../../../roles/infrastructure/persistence/rol.orm-entity.js';
 import { UsuarioPermisoOrmEntity } from '../../../usuarios_permisos/infrastructure/persistence/usuario_permiso.orm-entity.js';
 import { EmailCodeOrmEntity } from '../../../email_codes/infrastructure/persistence/email-code.orm-entity.js';
@@ -25,7 +26,7 @@ export class UsuarioOrmEntity {
   apellido!: string;
 
   @Column({ unique: true })
-  identificacion !: string;
+  identificacion!: string;
 
   @Column({ type: 'varchar', nullable: true })
   idFicha!: string | null;
@@ -34,7 +35,7 @@ export class UsuarioOrmEntity {
   programaFormacionId!: number;
 
   @Column({ type: 'varchar', nullable: true })
-  telefono! : string | null;
+  telefono!: string | null;
 
   @Column({ unique: true })
   correo!: string;
@@ -46,19 +47,22 @@ export class UsuarioOrmEntity {
   emailVerifiedAt!: Date | null;
 
   @Column()
-  estado! : string;
+  estado!: string;
 
   @Column({ type: 'timestamp', nullable: true })
-  lastLoginAt!  : Date | null;
+  lastLoginAt!: Date | null;
 
   @Column({ type: 'varchar', nullable: true })
   avatarUrl!: string | null;
 
+  // FK hacia roles.id
   @Column()
   rolId!: number;
 
-  @ManyToOne(() => RolOrmEntity, (rol) => rol.usuarios)
-  @JoinColumn({ name: 'rolId' })
+  @ManyToOne(() => RolOrmEntity, (rol) => rol.usuarios, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'rolId', referencedColumnName: 'id' })
   rol!: RolOrmEntity;
 
   @CreateDateColumn()
@@ -70,9 +74,15 @@ export class UsuarioOrmEntity {
   @DeleteDateColumn()
   deletedAt!: Date | null;
 
-  @OneToMany(() => UsuarioPermisoOrmEntity, (usuarioPermiso) => usuarioPermiso.usuario)
+  @OneToMany(
+    () => UsuarioPermisoOrmEntity,
+    (usuarioPermiso) => usuarioPermiso.usuario,
+  )
   usuariosPermisos!: UsuarioPermisoOrmEntity[];
 
-  @OneToMany(() => EmailCodeOrmEntity, (emailCode) => emailCode.usuario)
+  @OneToMany(
+    () => EmailCodeOrmEntity,
+    (emailCode) => emailCode.usuario,
+  )
   emailCodes!: EmailCodeOrmEntity[];
 }

@@ -1,43 +1,110 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Usuario } from '../../domain/entities/usuario.entity';
-import { CreateUsuarioInput } from '../../domain/entities/usuario.entity';
 import {
-  USUARIO_REPOSITORY,
-  type UsuarioRepository,
-} from '../../domain/ports/usuario-repository.port';
-import { UsuarioAlreadyExistsError } from '../../domain/errors/usuario-already-exists.error';
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+
+import * as bcrypt from 'bcrypt';
+
+import { CreateUsuarioDto } from '../../infrastructure/http/dto/create-usuario.dto';
+import { UsuarioOrmEntity } from '../../infrastructure/persistence/usuario.orm-entity';
+import { RolOrmEntity } from '../../../roles/infrastructure/persistence/rol.orm-entity';
+
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CreateUsuarioUseCase {
   constructor(
-    @Inject(USUARIO_REPOSITORY)
-    private readonly usuarioRepository: UsuarioRepository,
+    @InjectRepository(UsuarioOrmEntity)
+    private readonly usuarioRepository: Repository<UsuarioOrmEntity>,
+
+    @InjectRepository(RolOrmEntity)
+    private readonly rolRepository: Repository<RolOrmEntity>,
   ) {}
 
-  async execute(input: CreateUsuarioInput): Promise<Usuario> {
-    // Valida las reglas de negocio (nombre, apellido, correo, etc.).
-    const usuario = Usuario.create(input);
+  async execute(dto: CreateUsuarioDto) {
+    // Buscar rol
+    const rol = await this.rolRepository.findOne({
+      where: {
+        id: dto.rolId,
+      },
+    });
 
-    // Unicidad de correo e identificación (reglas de negocio).
-    const usuarioPorCorreo = await this.usuarioRepository.findByCorreo(
-      usuario.correo,
+    if (!rol) {
+      throw new NotFoundException(
+        `El rol con ID ${dto.rolId} no existe`,
+      );
+    }
+
+    // Verificar correo
+    const usuarioCorreo =
+      await this.usuarioRepository.findOne({
+        where: {
+          correo: dto.correo,
+        },
+      });
+
+    if (usuarioCorreo) {
+      throw new ConflictException(
+        'El correo ya está registrado',
+      );
+    }
+
+    // Verificar identificación
+    const usuarioIdentificacion =
+      await this.usuarioRepository.findOne({
+        where: {
+          identificacion: dto.identificacion,
+        },
+      });
+
+    if (usuarioIdentificacion) {
+      throw new ConflictException(
+        'La identificación ya está registrada',
+      );
+    }
+
+    // Hashear contraseña
+    const passwordHash = await bcrypt.hash(
+      dto.password,
+      10,
     );
-    if (usuarioPorCorreo) {
-      throw new UsuarioAlreadyExistsError(
-        `Ya existe un usuario con el correo ${usuario.correo}`,
-      );
-    }
 
-    if (
-      await this.usuarioRepository.existsByIdentificacion(
-        usuario.identificacion,
-      )
-    ) {
-      throw new UsuarioAlreadyExistsError(
-        `Ya existe un usuario con la identificación ${usuario.identificacion}`,
-      );
-    }
+    const usuario = this.usuarioRepository.create({
+      nombre: dto.nombre,
+      apellido: dto.apellido,
+      identificacion: dto.identificacion,
+      idFicha: dto.idFicha ?? null,
+      programaFormacionId: dto.programaFormacionId,
+      telefono: dto.telefono ?? null,
+      correo: dto.correo,
+      passwordHash,
+      emailVerifiedAt: null,
+      estado: dto.estado ?? 'ACTIVO',
+      lastLoginAt: null,
+      avatarUrl: null,
 
-    return this.usuarioRepository.save(usuario);
+      // Aquí se guarda el ID real del rol
+      rolId: rol.id,
+
+      rol,
+    });
+
+    const usuarioGuardado =
+      await this.usuarioRepository.save(usuario);
+
+    return {
+      id: usuarioGuardado.id,
+      nombre: usuarioGuardado.nombre,
+      apellido: usuarioGuardado.apellido,
+      correo: usuarioGuardado.correo,
+      estado: usuarioGuardado.estado,
+      rolId: usuarioGuardado.rolId,
+      rol: {
+        id: rol.id,
+        nombre: rol.nombre,
+      },
+    };
   }
 }

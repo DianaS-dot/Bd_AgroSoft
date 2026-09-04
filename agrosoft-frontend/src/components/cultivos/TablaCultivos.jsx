@@ -1,10 +1,10 @@
 export default function TablaCultivos({
-  cultivos,
+  cultivos = [],
   alVer,
   alEditar,
   alEliminar,
 }) {
-  if (cultivos.length === 0) {
+  if (!cultivos || cultivos.length === 0) {
     return (
       <div className="rounded-xl border border-[#dce6df] bg-white px-6 py-14 text-center shadow-sm">
         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#eef7f0] text-[#178343]">
@@ -25,7 +25,7 @@ export default function TablaCultivos({
   return (
     <div className="overflow-hidden rounded-xl border border-[#dce6df] bg-white shadow-sm">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-950px text-left">
+        <table className="w-full min-w-[950px] text-left">
           <thead className="border-b border-[#dce6df] bg-[#f8faf8]">
             <tr>
               <th className="px-4 py-3 text-[11px] font-semibold text-[#27543a]">
@@ -68,9 +68,10 @@ export default function TablaCultivos({
                 key={cultivo.id}
                 className="border-b border-[#e8eee9] transition hover:bg-[#f9fcfa]"
               >
+                {/* CULTIVO */}
                 <td className="px-4 py-3">
                   <p className="text-xs font-bold text-[#155b36]">
-                    {cultivo.nombreCultivo}
+                    {cultivo.nombreCultivo || "Sin nombre"}
                   </p>
 
                   <p className="mt-0.5 text-[10px] text-[#8a9d91]">
@@ -78,34 +79,42 @@ export default function TablaCultivos({
                   </p>
                 </td>
 
+                {/* TIPO */}
                 <td className="px-4 py-3 text-xs text-[#294e3a]">
-                  {cultivo.tipoCultivo}
+                  {cultivo.tipoCultivo || "—"}
                 </td>
 
+                {/* LOTE */}
                 <td className="px-4 py-3 text-xs text-[#385c47]">
-                  Lote {cultivo.loteId}
+                  {cultivo.loteId ? `Lote ${cultivo.loteId}` : "—"}
                 </td>
 
+                {/* SUBLOTE */}
                 <td className="px-4 py-3 text-xs text-[#385c47]">
-                  Sublote {cultivo.subloteId}
+                  {cultivo.subloteId
+                    ? `Sublote ${cultivo.subloteId}`
+                    : "—"}
                 </td>
 
+                {/* FECHA SIEMBRA */}
                 <td className="px-4 py-3 text-xs text-[#385c47]">
                   {formatearFecha(cultivo.fechaSiembra)}
                 </td>
 
+                {/* FECHA FINALIZACIÓN */}
                 <td className="px-4 py-3 text-xs text-[#385c47]">
-                  {formatearFecha(
-                    cultivo.fechaFinalizacion
-                  )}
+                  {formatearFecha(cultivo.fechaFinalizacion)}
                 </td>
 
+                {/* ESTADO */}
                 <td className="px-4 py-3">
                   <EstadoCultivo estado={cultivo.estado} />
                 </td>
 
+                {/* ACCIONES */}
                 <td className="px-4 py-3">
                   <div className="flex justify-center gap-1.5">
+                    {/* VER */}
                     <button
                       type="button"
                       title="Ver cultivo"
@@ -115,6 +124,7 @@ export default function TablaCultivos({
                       <VerIcono />
                     </button>
 
+                    {/* EDITAR */}
                     <button
                       type="button"
                       title="Editar cultivo"
@@ -124,12 +134,11 @@ export default function TablaCultivos({
                       <EditarIcono />
                     </button>
 
+                    {/* ELIMINAR */}
                     <button
                       type="button"
                       title="Eliminar cultivo"
-                      onClick={() =>
-                        alEliminar(cultivo.id)
-                      }
+                      onClick={() => alEliminar(cultivo.id)}
                       className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500 text-white transition hover:bg-red-600"
                     >
                       <EliminarIcono />
@@ -145,24 +154,23 @@ export default function TablaCultivos({
   );
 }
 
+/* =====================================================
+   ESTADO DEL CULTIVO
+===================================================== */
+
 function EstadoCultivo({ estado }) {
   const estilos = {
     Sembrado: "bg-blue-100 text-blue-700",
-    "En crecimiento":
-      "bg-emerald-100 text-emerald-700",
-    "En tratamiento":
-      "bg-amber-100 text-amber-700",
-    "Listo para cosecha":
-      "bg-green-100 text-green-700",
-    Cosechado:
-      "bg-gray-100 text-gray-700",
+    "En crecimiento": "bg-emerald-100 text-emerald-700",
+    "En tratamiento": "bg-amber-100 text-amber-700",
+    "Listo para cosecha": "bg-green-100 text-green-700",
+    Cosechado: "bg-gray-100 text-gray-700",
   };
 
   return (
     <span
       className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold ${
-        estilos[estado] ||
-        "bg-gray-100 text-gray-700"
+        estilos[estado] || "bg-gray-100 text-gray-700"
       }`}
     >
       {estado || "Sin estado"}
@@ -170,10 +178,17 @@ function EstadoCultivo({ estado }) {
   );
 }
 
+/* =====================================================
+   FORMATEAR FECHA
+===================================================== */
+
 function formatearFecha(fecha) {
-  if (!fecha) return "—";
+  if (!fecha) {
+    return "—";
+  }
 
   const fechaLimpia = String(fecha).slice(0, 10);
+
   const fechaObjeto = new Date(
     `${fechaLimpia}T00:00:00`
   );
@@ -184,6 +199,10 @@ function formatearFecha(fecha) {
 
   return fechaObjeto.toLocaleDateString("es-CO");
 }
+
+/* =====================================================
+   ICONO PLANTA
+===================================================== */
 
 function PlantaIcono() {
   return (
@@ -204,6 +223,10 @@ function PlantaIcono() {
   );
 }
 
+/* =====================================================
+   ICONO VER
+===================================================== */
+
 function VerIcono() {
   return (
     <svg
@@ -222,6 +245,10 @@ function VerIcono() {
   );
 }
 
+/* =====================================================
+   ICONO EDITAR
+===================================================== */
+
 function EditarIcono() {
   return (
     <svg
@@ -239,6 +266,10 @@ function EditarIcono() {
     </svg>
   );
 }
+
+/* =====================================================
+   ICONO ELIMINAR
+===================================================== */
 
 function EliminarIcono() {
   return (

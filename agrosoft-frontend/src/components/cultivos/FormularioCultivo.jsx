@@ -6,6 +6,7 @@ const formularioInicial = {
   descripcion: "",
   loteId: "",
   subloteId: "",
+  areaM2: "",
   imgCultivo: "",
   fechaSiembra: "",
   fechaFinalizacion: "",
@@ -42,6 +43,8 @@ export default function FormularioCultivo({
           cultivo.loteId?.toString() || "",
         subloteId:
           cultivo.subloteId?.toString() || "",
+        areaM2:
+          cultivo.areaM2?.toString() || "",
         imgCultivo:
           cultivo.imgCultivo || "",
         fechaSiembra:
@@ -102,6 +105,7 @@ export default function FormularioCultivo({
     const costoTotal = Number(
       formulario.costoTotal
     );
+    const areaM2 = Number(formulario.areaM2);
 
     if (
       !Number.isInteger(loteId) ||
@@ -143,6 +147,14 @@ export default function FormularioCultivo({
       return;
     }
 
+    if (
+  Number.isNaN(areaM2) ||
+  areaM2 <= 0
+) {
+  setError("El área en m² no es válida.");
+  return;
+}
+
     const datos = {
       nombreCultivo:
         formulario.nombreCultivo.trim(),
@@ -155,7 +167,7 @@ export default function FormularioCultivo({
 
       loteId,
       subloteId,
-
+      areaM2,
       imgCultivo:
         formulario.imgCultivo.trim(),
 
@@ -278,6 +290,17 @@ export default function FormularioCultivo({
               onChange={cambiarCampo}
               required
             />
+            
+            <Campo
+  label="Área (m²)"
+  name="areaM2"
+  type="number"
+  min="0.01"
+  step="0.01"
+  value={formulario.areaM2}
+  onChange={cambiarCampo}
+  required
+/>
 
             <Campo
               label="Fecha de siembra"

@@ -7,35 +7,36 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { UsuarioOrmEntity } from '../../../usuarios/infrastructure/persistence/usuario.orm-entity.js';
 import { RolPermisoOrmEntity } from '../../../rol_permisos/infrastructure/persistence/rol_permiso.orm-entity.js';
 
 @Entity('roles')
 export class RolOrmEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ unique: true })
-  nombre: string;
+  nombre!: string;
 
   @Column()
-  descripcion: string;
+  descripcion!: string;
 
   @Column()
-  estado: string;
+  estado!: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @DeleteDateColumn()
-  deletedAt: Date | null;
+  deletedAt!: Date | null;
 
   @OneToMany(() => UsuarioOrmEntity, (usuario) => usuario.rol)
-  usuarios: UsuarioOrmEntity[];
+  usuarios!: UsuarioOrmEntity[];
 
   @OneToMany(() => RolPermisoOrmEntity, (rolPermiso) => rolPermiso.rol)
-  rolPermisos: RolPermisoOrmEntity[];
+  rolPermisos!: RolPermisoOrmEntity[];
 }

@@ -100,21 +100,55 @@ export default function Cultivos({
     setCultivoSeleccionado(null);
   };
 
-  const guardarCultivo = async (datos) => {
-    if (
-      modoEdicion &&
-      cultivoSeleccionado?.id
-    ) {
-      await actualizarCultivo(
+ const guardarCultivo = async (datos) => {
+  try {
+    setError("");
+
+    let cultivoGuardado;
+
+    if (modoEdicion && cultivoSeleccionado?.id) {
+      cultivoGuardado = await actualizarCultivo(
         cultivoSeleccionado.id,
         datos
       );
     } else {
-      await crearCultivo(datos);
+      cultivoGuardado = await crearCultivo(datos);
     }
 
-    await cargarCultivos();
-  };
+    console.log("✅ CULTIVO GUARDADO:", cultivoGuardado);
+
+    // Agregar inmediatamente el cultivo a la tabla
+    if (!modoEdicion) {
+      setCultivos((actuales) => [
+        ...actuales,
+        cultivoGuardado,
+      ]);
+    } else {
+      setCultivos((actuales) =>
+        actuales.map((cultivo) =>
+          cultivo.id === cultivoGuardado.id
+            ? cultivoGuardado
+            : cultivo
+        )
+      );
+    }
+
+    setModalFormulario(false);
+    setCultivoSeleccionado(null);
+    setModoEdicion(false);
+
+  } catch (error) {
+    console.error(
+      "❌ Error al guardar cultivo:",
+      error
+    );
+
+    setError(
+      error.response?.data?.message ||
+      "No se pudo guardar el cultivo."
+    );
+  }
+};
 
   const eliminar = async (id) => {
     const confirmar = window.confirm(

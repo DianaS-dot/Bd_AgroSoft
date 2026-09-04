@@ -1,16 +1,14 @@
-
 import { useState } from "react";
 
 import BarraLateral from "./components/diseño/BarraLateral";
 import Encabezado from "./components/diseño/Encabezado";
 import Cultivos from "./pages/Cultivos";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 import CrearCuenta from "./pages/CrearCuenta";
 
 export default function App() {
-
-  const [autenticado] = useState(
-    !!localStorage.getItem("token")
+  const [autenticado, setAutenticado] = useState(
+    Boolean(localStorage.getItem("token"))
   );
 
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
@@ -18,9 +16,24 @@ export default function App() {
   const [pagina, setPagina] = useState("Cultivos");
   const [busqueda, setBusqueda] = useState("");
 
-  // No está autenticado
-  if (!autenticado) {
+  const manejarLogin = () => {
+    console.log("LOGIN EXITOSO - CAMBIANDO A DASHBOARD");
+    setAutenticado(true);
+  };
 
+  const cerrarSesion = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+
+    setAutenticado(false);
+    setMostrarRegistro(false);
+  };
+
+  // ==========================================
+  // USUARIO NO AUTENTICADO
+  // ==========================================
+
+  if (!autenticado) {
     if (mostrarRegistro) {
       return (
         <CrearCuenta
@@ -32,20 +45,26 @@ export default function App() {
     return (
       <Login
         irARegistro={() => setMostrarRegistro(true)}
+        loginExitoso={manejarLogin}
       />
     );
   }
 
-  // Usuario autenticado
+  // ==========================================
+  // USUARIO AUTENTICADO
+  // ==========================================
+
   return (
     <div className="min-h-screen bg-[#f5f7f5]">
 
       <BarraLateral
         paginaActual={pagina}
         cambiarPagina={setPagina}
+        cerrarSesion={cerrarSesion}
       />
 
-      <main className="lg:ml-245px">
+      {/* CONTENIDO PRINCIPAL */}
+      <main className="min-w-0 lg:ml-[245px]">
 
         <Encabezado
           busqueda={busqueda}
@@ -55,11 +74,8 @@ export default function App() {
         <div className="p-4 md:p-6">
 
           {pagina === "Cultivos" ? (
-
             <Cultivos busqueda={busqueda} />
-
           ) : (
-
             <div className="rounded-xl border border-[#dce6df] bg-white p-8 text-center shadow-sm">
 
               <h2 className="text-lg font-bold text-[#173b2a]">
@@ -71,14 +87,11 @@ export default function App() {
               </p>
 
             </div>
-
           )}
 
         </div>
-
       </main>
 
     </div>
   );
 }
-

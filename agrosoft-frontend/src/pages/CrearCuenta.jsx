@@ -1,162 +1,116 @@
 
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 
-export default function CrearCuenta({ volverLogin }) {
+// Icono de hoja
+function HojaIcono() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-10 w-10 text-white"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M20.5 3.5C13 3.5 7 5.5 4.5 10c-2 3.5-.5 7.5 3 8.5 4.5 1.5 8-2 9.5-5.5 1.5-3.5 1.5-6.5 3.5-9.5Z"
+      />
+
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4 20c2.5-4.5 6-7 10-8.5"
+      />
+    </svg>
+  );
+}
+
+function CrearCuenta({ irALogin }) {
   const [formulario, setFormulario] = useState({
     nombre: "",
     apellido: "",
-    identificacion: "",
-    idFicha: "",
-    programaFormacionId: "",
-    telefono: "",
     correo: "",
     password: "",
     confirmarPassword: "",
-    rolId: "",
   });
 
-  const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
 
-  // =========================
-  // CAMBIAR CAMPOS
-  // =========================
-  const cambiarCampo = (e) => {
-    const { name, value } = e.target;
-
-    setFormulario((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Quitar mensajes cuando el usuario empiece a corregir
-    setError("");
-    setMensaje("");
+  // Cambiar valores del formulario
+  const manejarCambio = (e) => {
+    setFormulario({
+      ...formulario,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  // =========================
-  // CREAR CUENTA
-  // =========================
+  // Crear cuenta
   const crearCuenta = async (e) => {
     e.preventDefault();
 
-    setError("");
     setMensaje("");
+    setError("");
 
-    // =========================
-    // VALIDACIONES FRONTEND
-    // =========================
+    // Validar campos
+    if (
+      !formulario.nombre.trim() ||
+      !formulario.apellido.trim() ||
+      !formulario.correo.trim() ||
+      !formulario.password ||
+      !formulario.confirmarPassword
+    ) {
+      setError("Todos los campos son obligatorios");
+      return;
+    }
 
-    // Validar contraseñas
+    // Validar contraseña
     if (formulario.password !== formulario.confirmarPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
 
-    // Validar longitud de contraseña
-    if (formulario.password.length < 8) {
-      setError("La contraseña debe tener al menos 8 caracteres");
-      return;
-    }
-
-    // Validar ID de ficha
-    if (!formulario.idFicha.trim()) {
-      setError("El ID de ficha es obligatorio");
-      return;
-    }
-
-    if (formulario.idFicha.length > 20) {
-      setError("El ID de ficha no puede tener más de 20 caracteres");
-      return;
-    }
-
-    // Validar programa
-    if (!formulario.programaFormacionId) {
-      setError("Debes ingresar el ID del programa de formación");
-      return;
-    }
-
-    // Validar rol
-    if (!formulario.rolId) {
-      setError("Debes ingresar el ID del rol");
-      return;
-    }
-
-    setCargando(true);
-
     try {
-      // =========================
-      // DATOS PARA EL BACKEND
-      // =========================
-      const datos = {
-        nombre: formulario.nombre.trim(),
-        apellido: formulario.apellido.trim(),
-        identificacion: formulario.identificacion.trim(),
+      setCargando(true);
 
-        // IMPORTANTE:
-        // idFicha debe ser STRING
-        idFicha: formulario.idFicha.trim(),
-
-        // Estos sí son números
-        programaFormacionId: Number(formulario.programaFormacionId),
-
-        telefono: formulario.telefono.trim(),
-        correo: formulario.correo.trim(),
-
+      // Enviar datos al backend
+      await api.post("/auth/register", {
+        nombre: formulario.nombre,
+        apellido: formulario.apellido,
+        correo: formulario.correo,
         password: formulario.password,
+      });
 
-        // Rol como número
-        rolId: Number(formulario.rolId),
+      setMensaje("¡Cuenta creada correctamente!");
 
-        // Usuario nuevo activo
-        estado: "ACTIVO",
-      };
-
-      console.log("Datos enviados al backend:", datos);
-
-      // =========================
-      // PETICIÓN POST
-      // =========================
-      const respuesta = await axios.post(
-        "http://localhost:3000/usuarios",
-        datos
-      );
-
-      console.log("Usuario creado:", respuesta.data);
-
-      // =========================
-      // MENSAJE DE ÉXITO
-      // =========================
-      setMensaje(
-        "Cuenta creada correctamente. Ya puedes iniciar sesión."
-      );
-
-      // =========================
-      // LIMPIAR FORMULARIO
-      // =========================
+      // Limpiar formulario
       setFormulario({
         nombre: "",
         apellido: "",
-        identificacion: "",
-        idFicha: "",
-        programaFormacionId: "",
-        telefono: "",
         correo: "",
         password: "",
         confirmarPassword: "",
-        rolId: "",
       });
+
+      // Regresar al login
+      setTimeout(() => {
+        irALogin();
+      }, 1500);
     } catch (error) {
-      console.error("Error creando usuario:", error);
+      console.error("Error al crear cuenta:", error);
 
-      const mensajeBackend = error.response?.data?.message;
+      if (error.response?.data?.message) {
+        const mensajeError = error.response.data.message;
 
-      if (Array.isArray(mensajeBackend)) {
-        setError(mensajeBackend.join(", "));
-      } else if (mensajeBackend) {
-        setError(mensajeBackend);
+        setError(
+          Array.isArray(mensajeError)
+            ? mensajeError.join(", ")
+            : mensajeError
+        );
       } else {
         setError("No se pudo crear la cuenta");
       }
@@ -165,169 +119,135 @@ export default function CrearCuenta({ volverLogin }) {
     }
   };
 
-  // =========================
-  // DISEÑO
-  // =========================
   return (
-    <div className="min-h-screen bg-[#f5f7f5] flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-2xl">
+    <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center">
 
-        {/* =========================
-            ENCABEZADO
-        ========================= */}
-        <div className="mb-6 text-center">
+      <div className="w-full min-h-screen bg-white flex overflow-hidden">
 
-          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#dcefe3]">
-            <span className="text-4xl">
-              🌱
-            </span>
+        {/* ================================================= */}
+        {/* PARTE IZQUIERDA */}
+        {/* ================================================= */}
+
+        <div
+          className="relative hidden lg:flex lg:w-1/2 min-h-screen overflow-hidden"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* Filtro verde */}
+          <div className="absolute inset-0 bg-[#185b3b]/85"></div>
+
+          {/* Contenido */}
+          <div className="relative z-10 flex w-full flex-col items-center justify-center px-10 text-center text-white">
+
+            {/* Logo */}
+            <div className="mb-7 flex items-center gap-4">
+
+              <div className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm">
+                <HojaIcono />
+              </div>
+
+              <h1 className="text-[34px] font-bold tracking-tight">
+                AGROSOFT
+              </h1>
+
+            </div>
+
+            {/* Título */}
+            <h2 className="mb-3 text-[24px] font-bold">
+              Gestión de finca
+            </h2>
+
+            {/* Descripción */}
+            <p className="max-w-[440px] text-[18px] leading-7 text-white/90">
+              Optimiza tus cultivos y administra tu tierra de
+              forma inteligente.
+            </p>
+
           </div>
-
-          <h1 className="text-3xl font-bold text-[#173b2a]">
-            Crear cuenta
-          </h1>
-
-          <p className="mt-2 text-sm text-[#789184]">
-            Regístrate para comenzar a utilizar AgroSoft
-          </p>
-
         </div>
 
-        {/* =========================
-            FORMULARIO
-        ========================= */}
-        <div className="rounded-2xl border border-[#dce6df] bg-white p-6 md:p-8 shadow-lg">
+        {/* ================================================= */}
+        {/* PARTE DERECHA - FORMULARIO */}
+        {/* ================================================= */}
 
-          <form onSubmit={crearCuenta}>
+        <div className="w-full lg:w-1/2 min-h-screen flex items-center justify-center bg-white px-6 py-10">
 
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="w-full max-w-[500px]">
 
-              {/* =========================
-                  NOMBRE
-              ========================= */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
-                  Nombre
-                </label>
+            {/* Encabezado */}
+            <div className="text-center mb-8">
 
-                <input
-                  type="text"
-                  name="nombre"
-                  value={formulario.nombre}
-                  onChange={cambiarCampo}
-                  placeholder="Tu nombre"
-                  required
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
-                />
+              <h2 className="text-3xl font-bold text-gray-800">
+                Crear cuenta
+              </h2>
+
+              <p className="text-gray-500 mt-2">
+                Regístrate para comenzar a usar AgroSoft
+              </p>
+
+            </div>
+
+            {/* MENSAJE DE ÉXITO */}
+            {mensaje && (
+              <div className="mb-5 rounded-xl bg-green-100 border border-green-200 px-4 py-3 text-sm text-green-700 text-center">
+                {mensaje}
+              </div>
+            )}
+
+            {/* MENSAJE DE ERROR */}
+            {error && (
+              <div className="mb-5 rounded-xl bg-red-100 border border-red-200 px-4 py-3 text-sm text-red-700 text-center">
+                {error}
+              </div>
+            )}
+
+            {/* FORMULARIO */}
+            <form onSubmit={crearCuenta} className="space-y-5">
+
+              {/* NOMBRE Y APELLIDO */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nombre
+                  </label>
+
+                  <input
+                    type="text"
+                    name="nombre"
+                    value={formulario.nombre}
+                    onChange={manejarCambio}
+                    placeholder="Tu nombre"
+                    autoComplete="given-name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-gray-800 outline-none transition focus:border-[#185b3b] focus:ring-2 focus:ring-[#185b3b]/20"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Apellido
+                  </label>
+
+                  <input
+                    type="text"
+                    name="apellido"
+                    value={formulario.apellido}
+                    onChange={manejarCambio}
+                    placeholder="Tu apellido"
+                    autoComplete="family-name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-gray-800 outline-none transition focus:border-[#185b3b] focus:ring-2 focus:ring-[#185b3b]/20"
+                  />
+                </div>
+
               </div>
 
-              {/* =========================
-                  APELLIDO
-              ========================= */}
+              {/* CORREO */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
-                  Apellido
-                </label>
-
-                <input
-                  type="text"
-                  name="apellido"
-                  value={formulario.apellido}
-                  onChange={cambiarCampo}
-                  placeholder="Tu apellido"
-                  required
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
-                />
-              </div>
-
-              {/* =========================
-                  IDENTIFICACIÓN
-              ========================= */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
-                  Identificación
-                </label>
-
-                <input
-                  type="text"
-                  name="identificacion"
-                  value={formulario.identificacion}
-                  onChange={cambiarCampo}
-                  placeholder="Número de identificación"
-                  required
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
-                />
-              </div>
-
-              {/* =========================
-                  ID FICHA
-              ========================= */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
-                  ID de ficha
-                </label>
-
-                <input
-                  type="text"
-                  name="idFicha"
-                  value={formulario.idFicha}
-                  onChange={cambiarCampo}
-                  placeholder="Ej: 1234567"
-                  required
-                  maxLength={20}
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
-                />
-
-                <p className="mt-1 text-xs text-[#789184]">
-                  Máximo 20 caracteres
-                </p>
-              </div>
-
-              {/* =========================
-                  PROGRAMA
-              ========================= */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
-                  Programa de formación
-                </label>
-
-                <input
-                  type="number"
-                  name="programaFormacionId"
-                  value={formulario.programaFormacionId}
-                  onChange={cambiarCampo}
-                  placeholder="ID del programa"
-                  required
-                  min="1"
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
-                />
-              </div>
-
-              {/* =========================
-                  TELÉFONO
-              ========================= */}
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
-                  Teléfono
-                </label>
-
-                <input
-                  type="tel"
-                  name="telefono"
-                  value={formulario.telefono}
-                  onChange={cambiarCampo}
-                  placeholder="300 000 0000"
-                  required
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
-                />
-              </div>
-
-              {/* =========================
-                  CORREO
-              ========================= */}
-              <div className="md:col-span-2">
-
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Correo electrónico
                 </label>
 
@@ -335,20 +255,16 @@ export default function CrearCuenta({ volverLogin }) {
                   type="email"
                   name="correo"
                   value={formulario.correo}
-                  onChange={cambiarCampo}
-                  placeholder="ejemplo@gmail.com"
-                  required
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
+                  onChange={manejarCambio}
+                  placeholder="ejemplo@correo.com"
+                  autoComplete="email"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-gray-800 outline-none transition focus:border-[#185b3b] focus:ring-2 focus:ring-[#185b3b]/20"
                 />
-
               </div>
 
-              {/* =========================
-                  CONTRASEÑA
-              ========================= */}
+              {/* CONTRASEÑA */}
               <div>
-
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Contraseña
                 </label>
 
@@ -356,25 +272,16 @@ export default function CrearCuenta({ volverLogin }) {
                   type="password"
                   name="password"
                   value={formulario.password}
-                  onChange={cambiarCampo}
-                  placeholder="Mínimo 8 caracteres"
-                  required
-                  minLength={8}
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
+                  onChange={manejarCambio}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-gray-800 outline-none transition focus:border-[#185b3b] focus:ring-2 focus:ring-[#185b3b]/20"
                 />
-
-                <p className="mt-1 text-xs text-[#789184]">
-                  Mínimo 8 caracteres
-                </p>
-
               </div>
 
-              {/* =========================
-                  CONFIRMAR CONTRASEÑA
-              ========================= */}
+              {/* CONFIRMAR CONTRASEÑA */}
               <div>
-
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Confirmar contraseña
                 </label>
 
@@ -382,87 +289,42 @@ export default function CrearCuenta({ volverLogin }) {
                   type="password"
                   name="confirmarPassword"
                   value={formulario.confirmarPassword}
-                  onChange={cambiarCampo}
-                  placeholder="Repite tu contraseña"
-                  required
-                  minLength={8}
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
+                  onChange={manejarCambio}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-gray-800 outline-none transition focus:border-[#185b3b] focus:ring-2 focus:ring-[#185b3b]/20"
                 />
-
               </div>
 
-              {/* =========================
-                  ROL
-              ========================= */}
-              <div className="md:col-span-2">
+              {/* BOTÓN */}
+              <button
+                type="submit"
+                disabled={cargando}
+                className="w-full bg-[#185b3b] hover:bg-[#12452d] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-xl transition duration-200 shadow-md hover:shadow-lg"
+              >
+                {cargando ? "Creando cuenta..." : "Crear cuenta"}
+              </button>
 
-                <label className="mb-2 block text-sm font-semibold text-[#173b2a]">
-                  Rol
-                </label>
+            </form>
 
-                <input
-                  type="number"
-                  name="rolId"
-                  value={formulario.rolId}
-                  onChange={cambiarCampo}
-                  placeholder="ID del rol"
-                  required
-                  min="1"
-                  className="w-full rounded-xl border border-[#dce6df] px-4 py-3 text-sm outline-none focus:border-[#4f9d69] focus:ring-2 focus:ring-[#dcefe3]"
-                />
+            {/* VOLVER AL LOGIN */}
+            <div className="text-center mt-7">
 
-              </div>
+              <p className="text-gray-500 text-sm">
+                ¿Ya tienes una cuenta?
+              </p>
+
+              <button
+                type="button"
+                onClick={irALogin}
+                className="mt-1 text-[#185b3b] hover:text-[#12452d] font-semibold transition"
+              >
+                Iniciar sesión
+              </button>
 
             </div>
 
-            {/* =========================
-                ERROR
-            ========================= */}
-            {error && (
-              <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-600">
-                {error}
-              </div>
-            )}
-
-            {/* =========================
-                ÉXITO
-            ========================= */}
-            {mensaje && (
-              <div className="mt-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-center text-sm font-medium text-green-700">
-                {mensaje}
-              </div>
-            )}
-
-            {/* =========================
-                BOTÓN
-            ========================= */}
-            <button
-              type="submit"
-              disabled={cargando}
-              className="mt-6 w-full rounded-xl bg-[#4f9d69] py-3 font-bold text-white transition hover:bg-[#3f8156] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {cargando
-                ? "Creando cuenta..."
-                : "Crear cuenta"}
-            </button>
-
-          </form>
-
-          {/* =========================
-              VOLVER AL LOGIN
-          ========================= */}
-          <div className="mt-6 text-center">
-
-            <button
-              type="button"
-              onClick={volverLogin}
-              className="text-sm font-semibold text-[#4f9d69] hover:text-[#173b2a]"
-            >
-              ← Volver al inicio de sesión
-            </button>
-
           </div>
-
         </div>
 
       </div>
@@ -470,3 +332,4 @@ export default function CrearCuenta({ volverLogin }) {
   );
 }
 
+export default CrearCuenta;

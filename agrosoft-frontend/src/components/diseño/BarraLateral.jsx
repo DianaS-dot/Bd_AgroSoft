@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function BarraLateral({
   paginaActual,
   cambiarPagina,
+  cerrarSesion,
 }) {
   const [menuAbierto, setMenuAbierto] = useState(false);
 
@@ -21,9 +22,9 @@ export default function BarraLateral({
   ];
 
   const seleccionarPagina = (opcion) => {
-    cambiarPagina(opcion);
-    setMenuAbierto(false);
-  };
+  cambiarPagina(opcion);
+  setMenuAbierto(false);
+};
 
   return (
     <>
@@ -72,6 +73,7 @@ export default function BarraLateral({
         <div className="absolute bottom-0 left-0 w-full border-t border-[#e4ebe6] p-3">
           <button
             type="button"
+            onClick={cerrarSesion}
             className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#245b3c] transition hover:bg-[#eef7f0]"
           >
             <CerrarSesionIcono />
@@ -167,6 +169,7 @@ export default function BarraLateral({
         <div className="absolute bottom-0 left-0 w-full border-t border-[#e4ebe6] bg-white p-3">
           <button
             type="button"
+            onClick={cerrarSesion}
             className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#245b3c] transition hover:bg-[#eef7f0]"
           >
             <CerrarSesionIcono />

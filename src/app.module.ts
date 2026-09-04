@@ -14,26 +14,36 @@ import { RolPermisosModule } from './rol_permisos/rol_permisos.module';
 import { UsuariosPermisosModule } from './usuarios_permisos/usuarios_permisos.module';
 import { EmailCodesModule } from './email_codes/email_codes.module';
 import { AuthModule } from './auth/auth.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
 
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
-        autoLoadEntities: true,
-        synchronize: true,
-      }),
-    }),
+   TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  inject: [ConfigService],
+
+  useFactory: (configService: ConfigService) => ({
+    type: 'postgres',
+
+    host: configService.get<string>('DB_HOST'),
+
+    port: Number(
+      configService.get<string>('DB_PORT'),
+    ),
+
+    username: configService.get<string>('DB_USERNAME'),
+
+    password: configService.get<string>('DB_PASSWORD'),
+
+    database: configService.get<string>('DB_DATABASE'),
+
+    autoLoadEntities: true,
+    synchronize: true,
+  }),
+}),
 
     CultivosModule,
     LotesModule,
@@ -46,6 +56,7 @@ import { AuthModule } from './auth/auth.module';
     RolPermisosModule,
     UsuariosPermisosModule,
     EmailCodesModule,
+
     AuthModule,
   ],
 })

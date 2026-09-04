@@ -1,20 +1,50 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CreateUsuarioUseCase } from './application/use_cases/create-usuario.use-case';
-import { GetUsuarioUseCase } from './application/use_cases/get-usuario.use-case';
-import { USUARIO_REPOSITORY } from './domain/ports/usuario-repository.port';
-import { UsuarioTypeOrmRepository } from './infrastructure/persistence/usuario-typeorm.repository';
-import { UsuarioOrmEntity } from './infrastructure/persistence/usuario.orm-entity';
-import { UsuarioController } from './infrastructure/http/controllers/usuario.controller';
+
+import { UsuarioOrmEntity } from './infrastructure/persistence/usuario.orm-entity.js';
+import { RolOrmEntity } from '../roles/infrastructure/persistence/rol.orm-entity.js';
+
+import { UsuarioController } from './infrastructure/http/controllers/usuario.controller.js';
+
+import { CreateUsuarioUseCase } from './application/use_cases/create-usuario.use-case.js';
+import { GetUsuarioUseCase } from './application/use_cases/get-usuario.use-case.js';
+
+import { UsuarioRepositoryImpl } from './infrastructure/persistence/usuario.repository.js';
+
+import {
+  USUARIO_REPOSITORY,
+} from './domain/ports/usuario-repository.port.js';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsuarioOrmEntity])],
-  controllers: [UsuarioController],
+  imports: [
+    TypeOrmModule.forFeature([
+      UsuarioOrmEntity,
+      RolOrmEntity,
+    ]),
+  ],
+
+  controllers: [
+    UsuarioController,
+  ],
+
   providers: [
-    { provide: USUARIO_REPOSITORY, useClass: UsuarioTypeOrmRepository },
     CreateUsuarioUseCase,
     GetUsuarioUseCase,
+
+    // Conecta el puerto con la implementación
+    {
+      provide: USUARIO_REPOSITORY,
+      useClass: UsuarioRepositoryImpl,
+    },
   ],
-  exports: [USUARIO_REPOSITORY, CreateUsuarioUseCase, GetUsuarioUseCase],
+
+  exports: [
+    CreateUsuarioUseCase,
+    GetUsuarioUseCase,
+
+    // MUY IMPORTANTE:
+    // permite que AuthModule use USUARIO_REPOSITORY
+    USUARIO_REPOSITORY,
+  ],
 })
 export class UsuariosModule {}
