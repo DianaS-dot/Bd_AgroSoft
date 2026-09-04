@@ -1,11 +1,6 @@
-import {
-  IsString,
-  IsNumber,
-  IsNotEmpty,
-} from "class-validator";
+import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class CreateLoteDto {
-
   @IsString()
   @IsNotEmpty()
   nombre!: string;
@@ -27,5 +22,4 @@ export class CreateLoteDto {
 
   @IsString()
   estado!: string;
-
 }

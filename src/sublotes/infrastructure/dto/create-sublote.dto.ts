@@ -1,11 +1,6 @@
-import {
-  IsString,
-  IsNumber,
-  IsNotEmpty,
-} from "class-validator";
+import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class CreateSubloteDto {
-
   @IsString()
   @IsNotEmpty()
   nombre!: string;
@@ -30,5 +25,4 @@ export class CreateSubloteDto {
 
   @IsString()
   estado!: string;
-
 }

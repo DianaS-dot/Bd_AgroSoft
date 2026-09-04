@@ -1,76 +1,65 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { LoteOrmEntity } from "./infrastructure/database/lote.orm-entity";
+import { LoteOrmEntity } from './infrastructure/database/lote.orm-entity';
 
-import { LoteController } from "./infrastructure/controllers/lote.controller";
+import { LoteController } from './infrastructure/controllers/lote.controller';
 
-import { LotePostgresRepository } from "./infrastructure/repositories/lote-postgres.repository";
+import { LotePostgresRepository } from './infrastructure/repositories/lote-postgres.repository';
 
-import { CrearLoteUseCase } from "./application/use-cases/crear-lote.use-case";
-import { ObtenerLotesUseCase } from "./application/use-cases/obtener-lotes.use-case";
-import { ObtenerLoteUseCase } from "./application/use-cases/obtener-lote.use-case";
-import { ActualizarLoteUseCase } from "./application/use-cases/actualizar-lote.use-case";
-import { EliminarLoteUseCase } from "./application/use-cases/eliminar-lote.use-case";
+import { CrearLoteUseCase } from './application/use-cases/crear-lote.use-case';
+import { ObtenerLotesUseCase } from './application/use-cases/obtener-lotes.use-case';
+import { ObtenerLoteUseCase } from './application/use-cases/obtener-lote.use-case';
+import { ActualizarLoteUseCase } from './application/use-cases/actualizar-lote.use-case';
+import { EliminarLoteUseCase } from './application/use-cases/eliminar-lote.use-case';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([LoteOrmEntity])],
 
-    imports:[
-        TypeOrmModule.forFeature([
-            LoteOrmEntity
-        ])
-    ],
+  controllers: [LoteController],
 
-    controllers:[
-        LoteController
-    ],
+  providers: [
+    LotePostgresRepository,
 
-    providers:[
+    {
+      provide: CrearLoteUseCase,
+      useFactory: (repository: LotePostgresRepository) =>
+        new CrearLoteUseCase(repository),
 
-        LotePostgresRepository,
+      inject: [LotePostgresRepository],
+    },
 
-        {
-            provide: CrearLoteUseCase,
-            useFactory:(repository:LotePostgresRepository)=>
-                new CrearLoteUseCase(repository),
+    {
+      provide: ObtenerLotesUseCase,
+      useFactory: (repository: LotePostgresRepository) =>
+        new ObtenerLotesUseCase(repository),
 
-            inject:[LotePostgresRepository],
-        },
+      inject: [LotePostgresRepository],
+    },
 
-        {
-            provide: ObtenerLotesUseCase,
-            useFactory:(repository:LotePostgresRepository)=>
-                new ObtenerLotesUseCase(repository),
+    {
+      provide: ObtenerLoteUseCase,
+      useFactory: (repository: LotePostgresRepository) =>
+        new ObtenerLoteUseCase(repository),
 
-            inject:[LotePostgresRepository],
-        },
+      inject: [LotePostgresRepository],
+    },
 
-        {
-            provide: ObtenerLoteUseCase,
-            useFactory:(repository:LotePostgresRepository)=>
-                new ObtenerLoteUseCase(repository),
+    {
+      provide: ActualizarLoteUseCase,
+      useFactory: (repository: LotePostgresRepository) =>
+        new ActualizarLoteUseCase(repository),
 
-            inject:[LotePostgresRepository],
-        },
+      inject: [LotePostgresRepository],
+    },
 
-        {
-            provide: ActualizarLoteUseCase,
-            useFactory:(repository:LotePostgresRepository)=>
-                new ActualizarLoteUseCase(repository),
+    {
+      provide: EliminarLoteUseCase,
+      useFactory: (repository: LotePostgresRepository) =>
+        new EliminarLoteUseCase(repository),
 
-            inject:[LotePostgresRepository],
-        },
-
-        {
-            provide: EliminarLoteUseCase,
-            useFactory:(repository:LotePostgresRepository)=>
-                new EliminarLoteUseCase(repository),
-
-            inject:[LotePostgresRepository],
-        },
-
-    ]
-
+      inject: [LotePostgresRepository],
+    },
+  ],
 })
-
-export class LotesModule{}
+export class LotesModule {}

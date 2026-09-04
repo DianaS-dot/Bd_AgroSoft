@@ -1,16 +1,10 @@
-import { IotGlobalConfig } from "../../domain/entities/iot-global-config";
-import { IotGlobalConfigRepository } from "../../domain/ports/iot-global-config.repository";
+import { IotGlobalConfig } from '../../domain/entities/iot-global-config';
+import { IotGlobalConfigRepository } from '../../domain/ports/iot-global-config.repository';
 
 export class ObtenerIotGlobalConfigsUseCase {
+  constructor(private readonly configRepository: IotGlobalConfigRepository) {}
 
-    constructor(
-        private readonly configRepository: IotGlobalConfigRepository,
-    ) {}
-
-    async ejecutar(): Promise<IotGlobalConfig[]> {
-
-        return await this.configRepository.obtenerTodas();
-
-    }
-
+  async ejecutar(): Promise<IotGlobalConfig[]> {
+    return await this.configRepository.obtenerTodas();
+  }
 }

@@ -1,7 +1,6 @@
-import { IotGlobalConfig } from "../entities/iot-global-config";
+import { IotGlobalConfig } from '../entities/iot-global-config';
 
 export interface IotGlobalConfigRepository {
-
   crear(config: IotGlobalConfig): Promise<IotGlobalConfig>;
 
   obtenerTodas(): Promise<IotGlobalConfig[]>;
@@ -13,5 +12,4 @@ export interface IotGlobalConfigRepository {
   actualizar(config: IotGlobalConfig): Promise<IotGlobalConfig>;
 
   eliminar(id: number): Promise<void>;
-
 }

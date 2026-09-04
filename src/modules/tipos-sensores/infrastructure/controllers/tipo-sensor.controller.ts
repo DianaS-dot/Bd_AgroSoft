@@ -7,22 +7,21 @@ import {
   ParseIntPipe,
   Post,
   Put,
-} from "@nestjs/common";
+} from '@nestjs/common';
 
-import { CreateTipoSensorDto } from "../dto/create-tipo-sensor.dto";
-import { UpdateTipoSensorDto } from "../dto/update-tipo-sensor.dto";
+import { CreateTipoSensorDto } from '../dto/create-tipo-sensor.dto';
+import { UpdateTipoSensorDto } from '../dto/update-tipo-sensor.dto';
 
-import { TipoSensor } from "../../domain/entities/tipo-sensor";
+import { TipoSensor } from '../../domain/entities/tipo-sensor';
 
-import { CrearTipoSensorUseCase } from "../../application/use-cases/crear-tipo-sensor.use-case";
-import { ObtenerTiposSensoresUseCase } from "../../application/use-cases/obtener-tipos-sensores.use-case";
-import { ObtenerTipoSensorUseCase } from "../../application/use-cases/obtener-tipo-sensor.use-case";
-import { ActualizarTipoSensorUseCase } from "../../application/use-cases/actualizar-tipo-sensor.use-case";
-import { EliminarTipoSensorUseCase } from "../../application/use-cases/eliminar-tipo-sensor.use-case";
+import { CrearTipoSensorUseCase } from '../../application/use-cases/crear-tipo-sensor.use-case';
+import { ObtenerTiposSensoresUseCase } from '../../application/use-cases/obtener-tipos-sensores.use-case';
+import { ObtenerTipoSensorUseCase } from '../../application/use-cases/obtener-tipo-sensor.use-case';
+import { ActualizarTipoSensorUseCase } from '../../application/use-cases/actualizar-tipo-sensor.use-case';
+import { EliminarTipoSensorUseCase } from '../../application/use-cases/eliminar-tipo-sensor.use-case';
 
-@Controller("tipos-sensores")
+@Controller('tipos-sensores')
 export class TipoSensorController {
-
   constructor(
     private readonly crearTipoSensor: CrearTipoSensorUseCase,
     private readonly obtenerTiposSensores: ObtenerTiposSensoresUseCase,
@@ -33,7 +32,6 @@ export class TipoSensorController {
 
   @Post()
   crear(@Body() dto: CreateTipoSensorDto) {
-
     const tipoSensor = new TipoSensor({
       nombre: dto.nombre,
       unidad: dto.unidad,
@@ -44,7 +42,6 @@ export class TipoSensorController {
     });
 
     return this.crearTipoSensor.ejecutar(tipoSensor);
-
   }
 
   @Get()
@@ -52,19 +49,16 @@ export class TipoSensorController {
     return this.obtenerTiposSensores.ejecutar();
   }
 
-  @Get(":id")
-  obtenerUno(
-    @Param("id", ParseIntPipe) id: number,
-  ) {
+  @Get(':id')
+  obtenerUno(@Param('id', ParseIntPipe) id: number) {
     return this.obtenerTipoSensor.ejecutar(id);
   }
 
-  @Put(":id")
+  @Put(':id')
   actualizar(
-    @Param("id", ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateTipoSensorDto,
   ) {
-
     const tipoSensor = new TipoSensor({
       id,
       nombre: dto.nombre!,
@@ -76,14 +70,10 @@ export class TipoSensorController {
     });
 
     return this.actualizarTipoSensor.ejecutar(tipoSensor);
-
   }
 
-  @Delete(":id")
-  eliminar(
-    @Param("id", ParseIntPipe) id: number,
-  ) {
+  @Delete(':id')
+  eliminar(@Param('id', ParseIntPipe) id: number) {
     return this.eliminarTipoSensor.ejecutar(id);
   }
-
 }

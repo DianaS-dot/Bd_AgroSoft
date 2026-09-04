@@ -1,5 +1,4 @@
 export class IotGlobalConfig {
-
   id?: number;
 
   name!: string;
@@ -20,5 +19,4 @@ export class IotGlobalConfig {
   constructor(data: Partial<IotGlobalConfig>) {
     Object.assign(this, data);
   }
-
 }

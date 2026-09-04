@@ -1,5 +1,4 @@
 export class Sensor {
-
   id?: number;
 
   nombreSensor!: string;
@@ -24,5 +23,4 @@ export class Sensor {
   constructor(data: Partial<Sensor>) {
     Object.assign(this, data);
   }
-
 }

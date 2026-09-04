@@ -1,53 +1,42 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    DeleteDateColumn,
-    ManyToOne,
-    JoinColumn,
-} from "typeorm";
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
-import { LoteOrmEntity } from "../../../lotes/infrastructure/database/lote.orm-entity";
-import { OneToMany } from "typeorm";
-import { CultivoOrmEntity } from "../../../cultivos/infrastructure/database/cultivo.orm-entity";
+import { LoteOrmEntity } from '../../../lotes/infrastructure/database/lote.orm-entity';
+import { OneToMany } from 'typeorm';
+import { CultivoOrmEntity } from '../../../cultivos/infrastructure/database/cultivo.orm-entity';
 
-
-
-@Entity("sublotes")
+@Entity('sublotes')
 export class SubloteOrmEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
   nombre!: string;
 
-  @ManyToOne(
-    () => LoteOrmEntity,
-    (lote) => lote.sublotes,
-)
-@JoinColumn({
-    name:"lote_id",
-})
-lote!:LoteOrmEntity;
+  @ManyToOne(() => LoteOrmEntity, (lote) => lote.sublotes)
+  @JoinColumn({
+    name: 'lote_id',
+  })
+  lote!: LoteOrmEntity;
 
-
-@OneToMany(
-    () => CultivoOrmEntity,
-    (cultivo) => cultivo.sublote,
-)
-cultivos!: CultivoOrmEntity[];
-
+  @OneToMany(() => CultivoOrmEntity, (cultivo) => cultivo.sublote)
+  cultivos!: CultivoOrmEntity[];
 
   @Column()
   geom!: string;
 
-  @Column("double precision")
+  @Column('double precision')
   areaM2!: number;
 
-  @Column("double precision")
+  @Column('double precision')
   areaHa!: number;
 
   @Column()
@@ -67,5 +56,4 @@ cultivos!: CultivoOrmEntity[];
 
   @DeleteDateColumn()
   deleted_at!: Date;
-
 }

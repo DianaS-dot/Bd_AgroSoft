@@ -1,15 +1,15 @@
-import { Lote } from "../entities/lote";
+import { Lote } from '../entities/lote';
 
 export interface LoteRepository {
+  crear(lote: Lote): Promise<Lote>; // crear un nuevo lote
 
-  crear(lote: Lote): Promise<Lote>;
+  obtenerTodos(): Promise<Lote[]>; // obtener todos los lotes
 
-  obtenerTodos(): Promise<Lote[]>;
+  obtenerPorId(id: number): Promise<Lote | null>; // obtener un lote por su id
 
-  obtenerPorId(id:number): Promise<Lote | null>;
+  actualizar(lote: Lote): Promise<Lote>; // actualizar un lote existente
 
-  actualizar(lote:Lote): Promise<Lote>;
-
-  eliminar(id:number): Promise<void>;
-
+  eliminar(id: number): Promise<void>; // eliminar un lote por su id
 }
+
+//# sourceMappingURL=lote.repository.js.map

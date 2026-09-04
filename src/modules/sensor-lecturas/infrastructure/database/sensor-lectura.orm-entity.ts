@@ -5,13 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
+} from 'typeorm';
 
 @Entity('sensor_lecturas')
 export class SensorLecturaOrmEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -38,5 +35,4 @@ export class SensorLecturaOrmEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deleted_at!: Date;
-
 }

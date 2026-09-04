@@ -1,5 +1,4 @@
 export class SensorLectura {
-
   readonly id?: number;
   readonly createdAt?: Date;
 
@@ -12,5 +11,4 @@ export class SensorLectura {
   constructor(data: Partial<SensorLectura>) {
     Object.assign(this, data);
   }
-
 }

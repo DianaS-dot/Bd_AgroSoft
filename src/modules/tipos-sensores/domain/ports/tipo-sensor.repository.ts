@@ -1,7 +1,6 @@
-import { TipoSensor } from "../entities/tipo-sensor";
+import { TipoSensor } from '../entities/tipo-sensor';
 
 export interface TipoSensorRepository {
-
   crear(tipoSensor: TipoSensor): Promise<TipoSensor>;
 
   obtenerTodos(): Promise<TipoSensor[]>;
@@ -11,5 +10,4 @@ export interface TipoSensorRepository {
   actualizar(tipoSensor: TipoSensor): Promise<TipoSensor>;
 
   eliminar(id: number): Promise<void>;
-
 }

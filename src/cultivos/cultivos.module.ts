@@ -12,13 +12,9 @@ import { ActualizarCultivoUseCase } from './application/use-cases/actualizar-cul
 import { EliminarCultivoUseCase } from './application/use-cases/eliminar-cultivo.use-case';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([CultivoOrmEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([CultivoOrmEntity])],
 
-  controllers: [
-    CultivoController,
-  ],
+  controllers: [CultivoController],
 
   providers: [
     CultivoPostgresRepository,
@@ -60,6 +56,5 @@ import { EliminarCultivoUseCase } from './application/use-cases/eliminar-cultivo
   ],
 })
 export class CultivosModule {}
-
 
 // aqui nestjs aprende que calses debe de crear y como conctarlas, cuando llega una peticion nestjs ya sabe que objeto entregar al controlador gracias a los privers

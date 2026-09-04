@@ -1,5 +1,4 @@
 export class TipoSensor {
-
   id?: number;
 
   nombre!: string;
@@ -12,5 +11,4 @@ export class TipoSensor {
   constructor(data: Partial<TipoSensor>) {
     Object.assign(this, data);
   }
-
 }

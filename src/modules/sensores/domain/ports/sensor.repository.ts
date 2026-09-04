@@ -1,7 +1,6 @@
-import { Sensor } from "../entities/sensor";
+import { Sensor } from '../entities/sensor';
 
 export interface SensorRepository {
-
   crear(sensor: Sensor): Promise<Sensor>;
 
   obtenerTodos(): Promise<Sensor[]>;
@@ -13,5 +12,4 @@ export interface SensorRepository {
   actualizar(sensor: Sensor): Promise<Sensor>;
 
   eliminar(id: number): Promise<void>;
-
 }

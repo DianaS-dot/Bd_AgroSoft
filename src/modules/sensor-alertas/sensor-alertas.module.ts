@@ -9,16 +9,13 @@ import { CrearSensorAlertaUseCase } from './application/use-cases/crear-sensor-a
 import { ObtenerSensorAlertasUseCase } from './application/use-cases/obtener-sensor-alertas.use-case';
 import { ObtenerSensorAlertaUseCase } from './application/use-cases/obtener-sensor-alerta.use-case';
 import { ObtenerAlertasPorSensorUseCase } from './application/use-cases/obtener-alertas-por-sensor.use-case';
+import { ActualizarSensorAlertaUseCase } from './application/use-cases/actualizar-sensor-alerta.use-case';
 import { EliminarSensorAlertaUseCase } from './application/use-cases/eliminar-sensor-alerta.use-case';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([SensorAlertaOrmEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([SensorAlertaOrmEntity])],
 
-  controllers: [
-    SensorAlertaController,
-  ],
+  controllers: [SensorAlertaController],
 
   providers: [
     SensorAlertaPostgresRepository,
@@ -48,6 +45,13 @@ import { EliminarSensorAlertaUseCase } from './application/use-cases/eliminar-se
       provide: ObtenerAlertasPorSensorUseCase,
       useFactory: (repository: SensorAlertaPostgresRepository) =>
         new ObtenerAlertasPorSensorUseCase(repository),
+      inject: [SensorAlertaPostgresRepository],
+    },
+
+    {
+      provide: ActualizarSensorAlertaUseCase,
+      useFactory: (repository: SensorAlertaPostgresRepository) =>
+        new ActualizarSensorAlertaUseCase(repository),
       inject: [SensorAlertaPostgresRepository],
     },
 

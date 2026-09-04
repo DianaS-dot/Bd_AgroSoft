@@ -13,13 +13,9 @@ import { ActualizarSensorUseCase } from './application/use-cases/actualizar-sens
 import { EliminarSensorUseCase } from './application/use-cases/eliminar-sensor.use-case';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([SensorOrmEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([SensorOrmEntity])],
 
-  controllers: [
-    SensorController,
-  ],
+  controllers: [SensorController],
 
   providers: [
     SensorPostgresRepository,

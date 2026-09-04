@@ -1,20 +1,19 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    DeleteDateColumn,
-    ManyToOne,
-    JoinColumn,
-} from "typeorm";
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
-import { SubloteOrmEntity } from "../../../sublotes/infrastructure/database/sublote.orm-entity";
-import { OneToMany } from "typeorm";
-import { CultivoHistorialOrmEntity } from "../../../cultivo-historial/infrastructure/database/cultivo-historial.orm.entity";
+import { SubloteOrmEntity } from '../../../sublotes/infrastructure/database/sublote.orm-entity';
+import { OneToMany } from 'typeorm';
+import { CultivoHistorialOrmEntity } from '../../../cultivo-historial/infrastructure/database/cultivo-historial.orm.entity';
 @Entity('cultivos')
 export class CultivoOrmEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -27,26 +26,19 @@ export class CultivoOrmEntity {
   @Column()
   descripcion!: string;
 
-  @Column({name:'lote_id'})
+  @Column({ name: 'lote_id' })
   loteId!: number;
 
-@ManyToOne(
-    () => SubloteOrmEntity,
-    (sublote) => sublote.cultivos,
-)
-@JoinColumn({
-    name: "sublote_id",
-})
-sublote!: SubloteOrmEntity;
+  @ManyToOne(() => SubloteOrmEntity, (sublote) => sublote.cultivos)
+  @JoinColumn({
+    name: 'sublote_id',
+  })
+  sublote!: SubloteOrmEntity;
 
+  @OneToMany(() => CultivoHistorialOrmEntity, (historial) => historial.cultivo)
+  historiales!: CultivoHistorialOrmEntity[];
 
-@OneToMany(
-    () => CultivoHistorialOrmEntity,
-    (historial) => historial.cultivo,
-)
-historiales!: CultivoHistorialOrmEntity[];
-
-  @Column({name:'img_cultivo'})
+  @Column({ name: 'img_cultivo' })
   imgCultivo!: string;
 
   @Column({ type: 'date' })
@@ -61,9 +53,7 @@ historiales!: CultivoHistorialOrmEntity[];
   @Column()
   estado!: string;
 
-
-  
-  @CreateDateColumn({name:'created_at'})
+  @CreateDateColumn({ name: 'created_at' })
   created_at!: Date;
 
   @UpdateDateColumn()
@@ -77,7 +67,6 @@ historiales!: CultivoHistorialOrmEntity[];
     default: () => 'CURRENT_TIMESTAMP',
   })
   fechaCreacion!: Date;
-
 }
 
 // el ! le dice que esta prpiedad si sera inicializada

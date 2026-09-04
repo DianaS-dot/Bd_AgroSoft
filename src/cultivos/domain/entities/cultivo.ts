@@ -1,5 +1,4 @@
 export class Cultivo {
-
   id?: number;
 
   nombreCultivo!: string;
@@ -16,7 +15,6 @@ export class Cultivo {
   constructor(data: Partial<Cultivo>) {
     Object.assign(this, data);
   }
-
 }
 
 // readolny significa qu eel id solo se asigna una vez los demas no lo son porque si pueden cambiar

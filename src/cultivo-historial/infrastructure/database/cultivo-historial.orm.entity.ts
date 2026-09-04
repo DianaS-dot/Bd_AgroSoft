@@ -7,27 +7,23 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
-} from "typeorm";
+} from 'typeorm';
 
-import { CultivoOrmEntity } from "../../../cultivos/infrastructure/database/cultivo.orm-entity";
+import { CultivoOrmEntity } from '../../../cultivos/infrastructure/database/cultivo.orm-entity';
 
-@Entity("cultivo_historial")
+@Entity('cultivo_historial')
 export class CultivoHistorialOrmEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(
-    () => CultivoOrmEntity,
-    (cultivo) => cultivo.historiales,
-  )
+  @ManyToOne(() => CultivoOrmEntity, (cultivo) => cultivo.historiales)
   @JoinColumn({
-    name: "cultivo_id",
+    name: 'cultivo_id',
   })
   cultivo!: CultivoOrmEntity;
 
   @Column({
-    name: "usuario_id",
+    name: 'usuario_id',
   })
   usuarioId!: number;
 
@@ -45,5 +41,4 @@ export class CultivoHistorialOrmEntity {
 
   @DeleteDateColumn()
   deleted_at!: Date;
-
 }

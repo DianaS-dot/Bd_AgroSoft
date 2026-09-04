@@ -13,13 +13,9 @@ import { ActualizarIotGlobalConfigUseCase } from './application/use-cases/actual
 import { EliminarIotGlobalConfigUseCase } from './application/use-cases/eliminar-iot-global-config.use-case';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([IotGlobalConfigOrmEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([IotGlobalConfigOrmEntity])],
 
-  controllers: [
-    IotGlobalConfigController,
-  ],
+  controllers: [IotGlobalConfigController],
 
   providers: [
     IotGlobalConfigPostgresRepository,

@@ -7,22 +7,21 @@ import {
   ParseIntPipe,
   Post,
   Put,
-} from "@nestjs/common";
+} from '@nestjs/common';
 
-import { CreateCultivoHistorialDto } from "../dto/create-cultivo-historial.dto";
-import { UpdateCultivoHistorialDto } from "../dto/update-cultivo-historial.dto";
+import { CreateCultivoHistorialDto } from '../dto/create-cultivo-historial.dto';
+import { UpdateCultivoHistorialDto } from '../dto/update-cultivo-historial.dto';
 
-import { CultivoHistorial } from "../../domain/entities/cultivo-historial";
+import { CultivoHistorial } from '../../domain/entities/cultivo-historial';
 
-import { CrearCultivoHistorialUseCase } from "../../application/use-cases/crear-cultivo-historial.use-case";
-import { ObtenerCultivosHistorialUseCase } from "../../application/use-cases/obtener-cultivos-historial.use-case";
-import { ObtenerCultivoHistorialUseCase } from "../../application/use-cases/obtener-cultivo-historial.use-case";
-import { ActualizarCultivoHistorialUseCase } from"../../application/use-cases/actualizar-cultivo-historial.use-case";
-import { EliminarCultivoHistorialUseCase } from "../../application/use-cases/eliminar-cultivo-historial.use-case";
+import { CrearCultivoHistorialUseCase } from '../../application/use-cases/crear-cultivo-historial.use-case';
+import { ObtenerCultivosHistorialUseCase } from '../../application/use-cases/obtener-cultivos-historial.use-case';
+import { ObtenerCultivoHistorialUseCase } from '../../application/use-cases/obtener-cultivo-historial.use-case';
+import { ActualizarCultivoHistorialUseCase } from '../../application/use-cases/actualizar-cultivo-historial.use-case';
+import { EliminarCultivoHistorialUseCase } from '../../application/use-cases/eliminar-cultivo-historial.use-case';
 
-@Controller("cultivo-historial")
+@Controller('cultivo-historial')
 export class CultivoHistorialController {
-
   constructor(
     private readonly crear: CrearCultivoHistorialUseCase,
     private readonly obtenerTodos: ObtenerCultivosHistorialUseCase,
@@ -33,75 +32,54 @@ export class CultivoHistorialController {
 
   @Post()
   crearRegistro(@Body() dto: CreateCultivoHistorialDto) {
-
     const historial = new CultivoHistorial({
-
       cultivoId: dto.cultivoId,
       usuarioId: dto.usuarioId,
       motivo: dto.motivo,
       cambios: dto.cambios,
-
     });
 
     return this.crear.ejecutar(historial);
-
   }
 
   @Get()
   obtener() {
-
     return this.obtenerTodos.ejecutar();
-
   }
 
-  @Get(":id")
+  @Get(':id')
   obtenerPorId(
-
-    @Param("id", ParseIntPipe)
+    @Param('id', ParseIntPipe)
     id: number,
-
   ) {
-
     return this.obtenerUno.ejecutar(id);
-
   }
 
-  @Put(":id")
+  @Put(':id')
   actualizar(
-
-    @Param("id", ParseIntPipe)
+    @Param('id', ParseIntPipe)
     id: number,
 
     @Body()
     dto: UpdateCultivoHistorialDto,
-
   ) {
-
     const historial = new CultivoHistorial({
-
       id,
 
       cultivoId: dto.cultivoId!,
       usuarioId: dto.usuarioId!,
       motivo: dto.motivo!,
       cambios: dto.cambios!,
-
     });
 
     return this.actualizarUseCase.ejecutar(historial);
-
   }
 
-  @Delete(":id")
+  @Delete(':id')
   eliminar(
-
-    @Param("id", ParseIntPipe)
+    @Param('id', ParseIntPipe)
     id: number,
-
   ) {
-
     return this.eliminarUseCase.ejecutar(id);
-
   }
-
 }

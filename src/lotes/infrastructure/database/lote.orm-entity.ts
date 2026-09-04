@@ -6,13 +6,12 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
-} from "typeorm";
+} from 'typeorm';
 
-import { SubloteOrmEntity } from "../../../sublotes/infrastructure/database/sublote.orm-entity";
+import { SubloteOrmEntity } from '../../../sublotes/infrastructure/database/sublote.orm-entity';
 
-@Entity("lotes")
+@Entity('lotes')
 export class LoteOrmEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -22,10 +21,10 @@ export class LoteOrmEntity {
   @Column()
   geom!: string;
 
-  @Column("double precision")
+  @Column('double precision')
   areaM2!: number;
 
-  @Column("double precision")
+  @Column('double precision')
   areaHa!: number;
 
   @Column()
@@ -46,10 +45,6 @@ export class LoteOrmEntity {
   @DeleteDateColumn()
   deleted_at!: Date;
 
-  @OneToMany(
-    () => SubloteOrmEntity,
-    (sublote) => sublote.lote,
-  )
+  @OneToMany(() => SubloteOrmEntity, (sublote) => sublote.lote)
   sublotes!: SubloteOrmEntity[];
-
 }

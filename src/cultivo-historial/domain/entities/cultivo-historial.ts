@@ -1,15 +1,13 @@
 export class CultivoHistorial {
+  id?: number;
 
-    id?: number;
+  cultivoId!: number;
+  usuarioId!: number;
 
-    cultivoId!: number;
-    usuarioId!: number;
+  motivo!: string;
+  cambios!: string;
 
-    motivo!: string;
-    cambios!: string;
-
-    constructor(data: Partial<CultivoHistorial>) {
-        Object.assign(this, data);
-    }
-
+  constructor(data: Partial<CultivoHistorial>) {
+    Object.assign(this, data);
+  }
 }

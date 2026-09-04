@@ -1,5 +1,4 @@
 export class SensorAlerta {
-
   id?: number;
 
   sensorId!: number;
@@ -13,5 +12,4 @@ export class SensorAlerta {
   constructor(data: Partial<SensorAlerta>) {
     Object.assign(this, data);
   }
-
 }

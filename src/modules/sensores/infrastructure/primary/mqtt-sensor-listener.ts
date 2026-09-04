@@ -1,9 +1,7 @@
-import { Injectable, OnModuleInit, Logger } from "@nestjs/common";
-import { Sensor } from "../../domain/entities/sensor";
+import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 
 @Injectable()
 export class MqttSensorListener implements OnModuleInit {
-
   private readonly logger = new Logger(MqttSensorListener.name);
 
   onModuleInit() {
@@ -11,22 +9,17 @@ export class MqttSensorListener implements OnModuleInit {
   }
 
   handleSensorData(topic: string, payload: Buffer) {
-
     this.logger.log(`Mensaje recibido en topic: ${topic}`);
     this.logger.log(`Payload: ${payload.toString()}`);
 
     try {
-
-      const data = JSON.parse(payload.toString());
+      const data: Record<string, unknown> = JSON.parse(
+        payload.toString(),
+      ) as Record<string, unknown>;
 
       this.logger.log(`Datos del sensor: ${JSON.stringify(data)}`);
-
     } catch (error) {
-
       this.logger.error(`Error al procesar mensaje MQTT: ${error}`);
-
     }
-
   }
-
 }

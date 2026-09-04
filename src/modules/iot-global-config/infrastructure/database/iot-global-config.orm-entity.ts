@@ -5,11 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-} from "typeorm";
+} from 'typeorm';
 
 @Entity('iot_global_config')
 export class IotGlobalConfigOrmEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -63,5 +62,4 @@ export class IotGlobalConfigOrmEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deleted_at!: Date;
-
 }

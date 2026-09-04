@@ -1,7 +1,6 @@
-import { SensorAlerta } from "../entities/sensor-alerta";
+import { SensorAlerta } from '../entities/sensor-alerta';
 
 export interface SensorAlertaRepository {
-
   crear(alerta: SensorAlerta): Promise<SensorAlerta>;
 
   obtenerTodas(): Promise<SensorAlerta[]>;
@@ -10,6 +9,7 @@ export interface SensorAlertaRepository {
 
   obtenerPorSensor(sensorId: number): Promise<SensorAlerta[]>;
 
-  eliminar(id: number): Promise<void>;
+  actualizar(alerta: SensorAlerta): Promise<SensorAlerta>;
 
+  eliminar(id: number): Promise<void>;
 }

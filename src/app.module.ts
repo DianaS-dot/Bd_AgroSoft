@@ -6,6 +6,12 @@ import { LotesModule } from './lotes/lotes.module';
 import { SublotesModule } from './sublotes/sublotes.module';
 import { CultivoHistorialModule } from './cultivo-historial/cultivo-historial.module';
 
+import { SensoresModule } from './modules/sensores/sensores.module';
+import { SensorLecturasModule } from './modules/sensor-lecturas/sensor-lecturas.module';
+import { SensorAlertasModule } from './modules/sensor-alertas/sensor-alertas.module';
+import { TiposSensoresModule } from './modules/tipos-sensores/tipos-sensores.module';
+import { IotGlobalConfigModule } from './modules/iot-global-config/iot-global-config.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,6 +29,12 @@ import { CultivoHistorialModule } from './cultivo-historial/cultivo-historial.mo
     LotesModule,
     SublotesModule,
     CultivoHistorialModule,
+
+    SensoresModule,
+    SensorLecturasModule,
+    SensorAlertasModule,
+    TiposSensoresModule,
+    IotGlobalConfigModule,
   ],
 })
 export class AppModule {}

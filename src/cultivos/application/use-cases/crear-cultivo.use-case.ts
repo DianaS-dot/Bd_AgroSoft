@@ -1,18 +1,12 @@
-import { Cultivo } from "../../domain/entities/cultivo";
-import { CultivoRepository } from "../../domain/ports/cultivo.repository";
+import { Cultivo } from '../../domain/entities/cultivo';
+import { CultivoRepository } from '../../domain/ports/cultivo.repository';
 
 export class CrearCultivoUseCase {
+  constructor(private readonly cultivoRepository: CultivoRepository) {}
 
-    constructor(
-        private readonly cultivoRepository: CultivoRepository,
-    ) {}
-
-    async ejecutar(cultivo: Cultivo): Promise<Cultivo> {
-
-        return await this.cultivoRepository.crear(cultivo);
-
-    }
-
+  async ejecutar(cultivo: Cultivo): Promise<Cultivo> {
+    return await this.cultivoRepository.crear(cultivo);
+  }
 }
 
 // Aquí NO estamos creando un PostgreSQLRepository

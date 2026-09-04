@@ -5,11 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-} from "typeorm";
+} from 'typeorm';
 
 @Entity('tipos_sensores')
 export class TipoSensorOrmEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -39,5 +38,4 @@ export class TipoSensorOrmEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deleted_at!: Date;
-
 }

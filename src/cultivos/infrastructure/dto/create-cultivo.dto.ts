@@ -1,9 +1,4 @@
-import {
-  IsString,
-  IsNumber,
-  IsDateString,
-  IsNotEmpty,
-} from 'class-validator';
+import { IsString, IsNumber, IsDateString, IsNotEmpty } from 'class-validator';
 
 export class CreateCultivoDto {
   @IsString()

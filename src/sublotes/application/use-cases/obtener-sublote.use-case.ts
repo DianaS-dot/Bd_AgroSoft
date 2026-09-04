@@ -1,15 +1,9 @@
-import { SubloteRepository } from "../../domain/ports/sublote.repository";
+import { SubloteRepository } from '../../domain/ports/sublote.repository';
 
 export class ObtenerSubloteUseCase {
+  constructor(private readonly repository: SubloteRepository) {}
 
-    constructor(
-        private readonly repository:SubloteRepository,
-    ){}
-
-    async ejecutar(id:number){
-
-        return this.repository.obtenerPorId(id);
-
-    }
-
+  async ejecutar(id: number) {
+    return this.repository.obtenerPorId(id);
+  }
 }

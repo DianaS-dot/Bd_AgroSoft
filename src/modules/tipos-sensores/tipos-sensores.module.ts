@@ -12,13 +12,9 @@ import { ActualizarTipoSensorUseCase } from './application/use-cases/actualizar-
 import { EliminarTipoSensorUseCase } from './application/use-cases/eliminar-tipo-sensor.use-case';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TipoSensorOrmEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([TipoSensorOrmEntity])],
 
-  controllers: [
-    TipoSensorController,
-  ],
+  controllers: [TipoSensorController],
 
   providers: [
     TipoSensorPostgresRepository,

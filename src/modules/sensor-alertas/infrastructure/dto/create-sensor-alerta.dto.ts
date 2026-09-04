@@ -1,9 +1,4 @@
-import {
-  IsNumber,
-  IsString,
-  IsDateString,
-  IsNotEmpty,
-} from 'class-validator';
+import { IsNumber, IsString, IsDateString, IsNotEmpty } from 'class-validator';
 
 export class CreateSensorAlertaDto {
   @IsNumber()

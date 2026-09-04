@@ -1,0 +1,387 @@
+================================================================================
+                    ARQUITECTURA DE MÓDULOS - Bd_AgroSoft
+================================================================================
+
+1. DIAGRAMA DE ARQUITECTURA HEXAGONAL
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        INFRASTRUCTURE (Adapters)                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                         CONTROLLERS                                 │   │
+│  ├─────────────────────────────────────────────────────────────────────┤   │
+│  │  SensorController          /sensores                                │   │
+│  │  TipoSensorController      /tipos-sensores                          │   │
+│  │  SensorLecturaController   /sensor-lecturas                         │   │
+│  │  SensorAlertaController    /sensor-alertas                          │   │
+│  │  IotGlobalConfigController /iot-global-config                       │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                        │
+│                                    ▼                                        │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                         REPOSITORIES                                │   │
+│  ├─────────────────────────────────────────────────────────────────────┤   │
+│  │  SensorPostgresRepository                                          │   │
+│  │  TipoSensorPostgresRepository                                      │   │
+│  │  SensorLecturaPostgresRepository                                   │   │
+│  │  SensorAlertaPostgresRepository                                    │   │
+│  │  IotGlobalConfigPostgresRepository                                 │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                        │
+│                                    ▼                                        │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                              DTOs                                   │   │
+│  ├─────────────────────────────────────────────────────────────────────┤   │
+│  │  CreateSensorDto              UpdateSensorDto                       │   │
+│  │  CreateTipoSensorDto          UpdateTipoSensorDto                   │   │
+│  │  CreateSensorLecturaDto                                          │   │
+│  │  CreateSensorAlertaDto                                            │   │
+│  │  CreateIotGlobalConfigDto     UpdateIotGlobalConfigDto             │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                         MQTT                                        │   │
+│  ├─────────────────────────────────────────────────────────────────────┤   │
+│  │  MqttSensorListener (Primary Adapter for IoT data)                  │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       APPLICATION (Use Cases)                               │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────┐   │
+│  │      SENSORES       │  │   TIPOS SENSORES    │  │ SENSOR LECTURAS │   │
+│  ├─────────────────────┤  ├─────────────────────┤  ├─────────────────┤   │
+│  │ CrearSensor         │  │ CrearTipoSensor     │  │ RegistrarLectura│   │
+│  │ ObtenerSensor       │  │ ObtenerTipoSensor   │  │ ObtenerLecturas │   │
+│  │ ObtenerSensores     │  │ ObtenerTiposSensores│  │ PorSensor       │   │
+│  │ ObtenerActivos      │  │ ActualizarTipoSensor│  │ ObtenerLecturas │   │
+│  │ ActualizarSensor    │  │ EliminarTipoSensor  │  │ PorRangoFechas  │   │
+│  │ EliminarSensor      │  │                     │  │                 │   │
+│  └─────────────────────┘  └─────────────────────┘  └─────────────────┘   │
+│                                                                             │
+│  ┌─────────────────────┐  ┌─────────────────────┐                         │
+│  │   SENSOR ALERTAS    │  │  IOT GLOBAL CONFIG  │                         │
+│  ├─────────────────────┤  ├─────────────────────┤                         │
+│  │ CrearSensorAlerta   │  │ CrearIotGlobalConfig│                         │
+│  │ ObtenerSensorAlerta │  │ ObtenerIotConfig    │                         │
+│  │ ObtenerSensorAlertas│  │ ObtenerIotConfigs   │                         │
+│  │ ObtenerAlertas      │  │ ObtenerConfigActiva │                         │
+│  │ PorSensor           │  │ ActualizarIotConfig │                         │
+│  │ EliminarSensorAlerta│  │ EliminarIotConfig   │                         │
+│  └─────────────────────┘  └─────────────────────┘                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        DOMAIN (Entities & Ports)                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────┐   │
+│  │      ENTITIES       │  │   REPOSITORY PORTS  │  │   EXCEPTIONS    │   │
+│  ├─────────────────────┤  ├─────────────────────┤  ├─────────────────┤   │
+│  │ Sensor              │  │ SensorRepository    │  │ SensorNotFound  │   │
+│  │ TipoSensor          │  │ TipoSensorRepository│  │ SensorAlready   │   │
+│  │ SensorLectura       │  │ SensorLecturaRepo   │  │ Exists          │   │
+│  │ SensorAlerta        │  │ SensorAlertaRepo    │  │ TipoSensor      │   │
+│  │ IotGlobalConfig     │  │ IotGlobalConfigRepo │  │ NotFound        │   │
+│  │                     │  │                     │  │ SensorLectura   │   │
+│  │                     │  │                     │  │ NotFound        │   │
+│  │                     │  │                     │  │ ValorFueraDe    │   │
+│  │                     │  │                     │  │ Rango           │   │
+│  │                     │  │                     │  │ SensorAlerta    │   │
+│  │                     │  │                     │  │ NotFound        │   │
+│  │                     │  │                     │  │ IotGlobalConfig │   │
+│  │                     │  │                     │  │ NotFound        │   │
+│  └─────────────────────┘  └─────────────────────┘  └─────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           DATABASE (PostgreSQL)                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌───────────────────┐   ┌───────────────────┐   ┌───────────────────┐   │
+│  │ tipos_sensores    │   │ sensores          │   │ sensor_lecturas   │   │
+│  │ - id              │──▶│ - id              │──▶│ - id              │   │
+│  │ - nombre          │   │ - nombre_sensor   │   │ - sensor_id       │   │
+│  │ - unidad          │   │ - tipo_sensor_id  │   │ - valor           │   │
+│  │ - decimales       │   │ - protocolo       │   │ - fecha_lectura   │   │
+│  │ - descripcion     │   │ - endpoint_url    │   │ - unidad          │   │
+│  │ - imagen          │   │ - mqtt_topic      │   │ - observaciones   │   │
+│  │ - ttl_minutos     │   │ - valor_minimo    │   │                   │   │
+│  └───────────────────┘   │ - valor_maximo    │   └───────────────────┘   │
+│                          │ - activo          │                             │
+│  ┌───────────────────┐   │ - estadoConexion  │   ┌───────────────────┐   │
+│  │ iot_global_config │──▶│ - estado          │──▶│ sensor_alertas    │   │
+│  │ - id              │   │ - ultimoValor     │   │ - id              │   │
+│  │ - name            │   │ - ultimaMedicion  │   │ - sensor_id       │   │
+│  │ - broker          │   │ - global_config_id│   │ - valor           │   │
+│  │ - port            │   │ - lote_id         │   │ - umbral          │   │
+│  │ - protocol        │   │ - sub_lote_id     │   │ - tipo            │   │
+│  │ - topic_prefix    │   │ - cultivoId       │   │ - fecha_alerta    │   │
+│  │ - default_topics  │   │ - creadoPorUsuario│   │ - lote_id         │   │
+│  │ - custom_topics   │   │                   │   │ - sub_lote_id     │   │
+│  │ - lote_id         │   │                   │   │                   │   │
+│  │ - sub_lote_id     │   │                   │   │                   │   │
+│  │ - username        │   │                   │   │                   │   │
+│  │ - password        │   │                   │   │                   │   │
+│  │ - activo          │   │                   │   │                   │   │
+│  └───────────────────┘   └───────────────────┘   └───────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+2. DIAGRAMA DE ESTRUCTURA DE ARCHIVOS
+================================================================================
+
+src/modules/
+│
+├── sensores/
+│   ├── sensores.module.ts
+│   ├── domain/
+│   │   ├── entities/
+│   │   │   └── sensor.ts
+│   │   ├── ports/
+│   │   │   └── sensor.repository.ts
+│   │   └── exceptions/
+│   │       ├── sensor-not-found.exception.ts
+│   │       └── sensor-already-exists.exception.ts
+│   ├── application/
+│   │   └── use-cases/
+│   │       ├── crear-sensor.use-case.ts
+│   │       ├── obtener-sensor.use-case.ts
+│   │       ├── obtener-sensores.use-case.ts
+│   │       ├── obtener-sensores-activos.use-case.ts
+│   │       ├── actualizar-sensor.use-case.ts
+│   │       └── eliminar-sensor.use-case.ts
+│   └── infrastructure/
+│       ├── database/
+│       │   └── sensor.orm-entity.ts
+│       ├── repositories/
+│       │   └── sensor-postgres.repository.ts
+│       ├── controllers/
+│       │   └── sensor.controller.ts
+│       ├── primary/
+│       │   └── mqtt-sensor-listener.ts
+│       └── dto/
+│           ├── create-sensor.dto.ts
+│           └── update-sensor.dto.ts
+│
+├── tipos-sensores/
+│   ├── tipos-sensores.module.ts
+│   ├── domain/
+│   │   ├── entities/
+│   │   │   └── tipo-sensor.ts
+│   │   ├── ports/
+│   │   │   └── tipo-sensor.repository.ts
+│   │   └── exceptions/
+│   │       └── tipo-sensor-not-found.exception.ts
+│   ├── application/
+│   │   └── use-cases/
+│   │       ├── crear-tipo-sensor.use-case.ts
+│   │       ├── obtener-tipo-sensor.use-case.ts
+│   │       ├── obtener-tipos-sensores.use-case.ts
+│   │       ├── actualizar-tipo-sensor.use-case.ts
+│   │       └── eliminar-tipo-sensor.use-case.ts
+│   └── infrastructure/
+│       ├── database/
+│       │   └── tipo-sensor.orm-entity.ts
+│       ├── repositories/
+│       │   └── tipo-sensor-postgres.repository.ts
+│       ├── controllers/
+│       │   └── tipo-sensor.controller.ts
+│       └── dto/
+│           ├── create-tipo-sensor.dto.ts
+│           └── update-tipo-sensor.dto.ts
+│
+├── sensor-lecturas/
+│   ├── sensor-lecturas.module.ts
+│   ├── domain/
+│   │   ├── entities/
+│   │   │   └── sensor-lectura.ts
+│   │   ├── ports/
+│   │   │   └── sensor-lectura.repository.ts
+│   │   └── exceptions/
+│   │       ├── sensor-lectura-not-found.exception.ts
+│   │       └── valor-fuera-de-rango.exception.ts
+│   ├── application/
+│   │   └── use-cases/
+│   │       ├── registrar-lectura.use-case.ts
+│   │       ├── obtener-lecturas-por-sensor.use-case.ts
+│   │       └── obtener-lecturas-por-rango-fechas.use-case.ts
+│   └── infrastructure/
+│       ├── database/
+│       │   └── sensor-lectura.orm-entity.ts
+│       ├── repositories/
+│       │   └── sensor-lectura-postgres.repository.ts
+│       ├── controllers/
+│       │   └── sensor-lectura.controller.ts
+│       └── dto/
+│           └── create-sensor-lectura.dto.ts
+│
+├── sensor-alertas/
+│   ├── sensor-alertas.module.ts
+│   ├── domain/
+│   │   ├── entities/
+│   │   │   └── sensor-alerta.ts
+│   │   ├── ports/
+│   │   │   └── sensor-alerta.repository.ts
+│   │   └── exceptions/
+│   │       └── sensor-alerta-not-found.exception.ts
+│   ├── application/
+│   │   └── use-cases/
+│   │       ├── crear-sensor-alerta.use-case.ts
+│   │       ├── obtener-sensor-alerta.use-case.ts
+│   │       ├── obtener-sensor-alertas.use-case.ts
+│   │       ├── obtener-alertas-por-sensor.use-case.ts
+│   │       └── eliminar-sensor-alerta.use-case.ts
+│   └── infrastructure/
+│       ├── database/
+│       │   └── sensor-alerta.orm-entity.ts
+│       ├── repositories/
+│       │   └── sensor-alerta-postgres.repository.ts
+│       ├── controllers/
+│       │   └── sensor-alerta.controller.ts
+│       └── dto/
+│           └── create-sensor-alerta.dto.ts
+│
+└── iot-global-config/
+    ├── iot-global-config.module.ts
+    ├── domain/
+    │   ├── entities/
+    │   │   └── iot-global-config.ts
+    │   ├── ports/
+    │   │   └── iot-global-config.repository.ts
+    │   └── exceptions/
+    │       └── iot-global-config-not-found.exception.ts
+    ├── application/
+    │   └── use-cases/
+    │       ├── crear-iot-global-config.use-case.ts
+    │       ├── obtener-iot-global-config.use-case.ts
+    │       ├── obtener-iot-global-configs.use-case.ts
+    │       ├── obtener-config-activa.use-case.ts
+    │       ├── actualizar-iot-global-config.use-case.ts
+    │       └── eliminar-iot-global-config.use-case.ts
+    └── infrastructure/
+        ├── database/
+        │   └── iot-global-config.orm-entity.ts
+        ├── repositories/
+        │   └── iot-global-config-postgres.repository.ts
+        ├── controllers/
+        │   └── iot-global-config.controller.ts
+        └── dto/
+            ├── create-iot-global-config.dto.ts
+            └── update-iot-global-config.dto.ts
+
+
+3. DIAGRAMA DE ENDPOINTS API
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              sensores                                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  POST   /sensores                    Crear sensor                           │
+│  GET    /sensores                    Obtener todos                          │
+│  GET    /sensores/activos            Obtener activos                        │
+│  GET    /sensores/:id                Obtener uno                            │
+│  PUT    /sensores/:id                Actualizar                             │
+│  DELETE /sensores/:id                Eliminar                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           tipos-sensores                                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  POST   /tipos-sensores             Crear tipo                             │
+│  GET    /tipos-sensores             Obtener todos                          │
+│  GET    /tipos-sensores/:id         Obtener uno                            │
+│  PUT    /tipos-sensores/:id         Actualizar                             │
+│  DELETE /tipos-sensores/:id         Eliminar                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           sensor-lecturas                                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  POST   /sensor-lecturas                    Registrar lectura              │
+│  GET    /sensor-lecturas/sensor/:sensorId    Obtener por sensor            │
+│  GET    /sensor-lecturas/sensor/:sensorId/rango  Obtener por rango         │
+│         Query params: ?desde=YYYY-MM-DD&hasta=YYYY-MM-DD                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            sensor-alertas                                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  POST   /sensor-alertas                Crear alerta                        │
+│  GET    /sensor-alertas                Obtener todas                       │
+│  GET    /sensor-alertas/:id            Obtener una                         │
+│  GET    /sensor-alertas/sensor/:sensorId  Obtener por sensor               │
+│  DELETE /sensor-alertas/:id            Eliminar                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          iot-global-config                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  POST   /iot-global-config             Crear config                        │
+│  GET    /iot-global-config             Obtener todas                       │
+│  GET    /iot-global-config/activa      Obtener activa                      │
+│  GET    /iot-global-config/:id         Obtener una                         │
+│  PUT    /iot-global-config/:id         Actualizar                          │
+│  DELETE /iot-global-config/:id         Eliminar                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+4. RESUMEN DE MÓDULOS
+================================================================================
+
+┌─────────────────────┬──────────────────┬───────────┬───────────┐
+│ Módulo              │ Entidad Principal│ Use Cases │ Endpoints │
+├─────────────────────┼──────────────────┼───────────┼───────────┤
+│ sensores            │ Sensor           │     6     │     6     │
+│ tipos-sensores      │ TipoSensor       │     5     │     5     │
+│ sensor-lecturas     │ SensorLectura    │     3     │     3     │
+│ sensor-alertas      │ SensorAlerta     │     5     │     5     │
+│ iot-global-config   │ IotGlobalConfig  │     6     │     6     │
+├─────────────────────┼──────────────────┼───────────┼───────────┤
+│ TOTAL               │                  │    25     │    25     │
+└─────────────────────┴──────────────────┴───────────┴───────────┘
+
+
+5. PATRÓN DE ARQUITECTURA
+================================================================================
+
+Todos los módulos siguen el mismo patrón:
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    ARQUITECTURA HEXAGONAL                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  DOMAIN (Core)                                                  │
+│  ├── entities/        Entidades de negocio puras                │
+│  ├── ports/           Interfaces de repositorio                 │
+│  └── exceptions/      Excepciones de dominio                    │
+│                                                                 │
+│  APPLICATION (Use Cases)                                        │
+│  └── use-cases/       Un caso de uso por clase                  │
+│                                                                 │
+│  INFRASTRUCTURE (Adapters)                                      │
+│  ├── database/        Entidades TypeORM (adaptador BD)          │
+│  ├── repositories/    Implementación repositorio (PostgreSQL)   │
+│  ├── controllers/     Controladores NestJS (REST API)           │
+│  ├── dto/             Objetos de transferencia de datos         │
+│  └── primary/         Adaptadores primarios (MQTT)              │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+Flujo de datos:
+
+  Client HTTP ──▶ Controller ──▶ Use Case ──▶ Repository ──▶ PostgreSQL
+      │                             │
+      │                             │
+      └─── DTO ────────────────────┘
+      
+  MQTT Broker ──▶ MqttSensorListener ──▶ Use Case ──▶ Repository ──▶ PostgreSQL
+
+================================================================================

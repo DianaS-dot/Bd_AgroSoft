@@ -1,20 +1,15 @@
-import {
-    IsInt,
-    IsString,
-} from "class-validator";
+import { IsInt, IsString } from 'class-validator';
 
 export class CreateCultivoHistorialDto {
+  @IsInt()
+  cultivoId!: number;
 
-    @IsInt()
-    cultivoId!: number;
+  @IsInt()
+  usuarioId!: number;
 
-    @IsInt()
-    usuarioId!: number;
+  @IsString()
+  motivo!: string;
 
-    @IsString()
-    motivo!: string;
-
-    @IsString()
-    cambios!: string;
-
+  @IsString()
+  cambios!: string;
 }

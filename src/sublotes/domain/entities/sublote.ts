@@ -1,8 +1,4 @@
-
-
-
 export class Sublote {
-
   id?: number;
 
   nombre!: string;
@@ -24,7 +20,6 @@ export class Sublote {
   constructor(data: Partial<Sublote>) {
     Object.assign(this, data);
   }
-
 }
 
 // aqui si se utiliza loteId porque el dominio solamente neceistasaber que un soblote pertenece a un lote

@@ -1,13 +1,9 @@
-import { CultivoRepository } from "../../domain/ports/cultivo.repository";
+import { CultivoRepository } from '../../domain/ports/cultivo.repository';
 
 export class EliminarCultivoUseCase {
+  constructor(private readonly cultivoRepository: CultivoRepository) {}
 
-  constructor(
-    private readonly cultivoRepository: CultivoRepository,
-  ) {}
-
-  async ejecutar(id:number): Promise<void> {
+  async ejecutar(id: number): Promise<void> {
     return this.cultivoRepository.eliminar(id);
   }
-
 }
