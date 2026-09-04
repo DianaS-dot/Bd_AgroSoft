@@ -19,9 +19,11 @@ async function bootstrap() {
   app.enableCors({
     origin: (origin, callback) => {
       const allowedOrigins = [
+        'http://localhost:3000',
         'http://localhost:5173',
         'http://localhost:5174',
         'http://localhost:5175',
+        'http://localhost:36869',
       ];
       // Permitir requests sin origin (postman, curl, etc.)
       if (!origin || allowedOrigins.includes(origin)) {
