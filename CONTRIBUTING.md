@@ -2,14 +2,14 @@
 
 Gracias por tu interés en contribuir al proyecto AGROSOFT Backend. Esta guía te ayudará a configurar tu entorno de desarrollo y seguir las mejores prácticas del equipo.
 
-## 📋 Requisitos Previos
+## Requisitos Previos
 
 - Node.js v20 (usa `nvm` para gestionar versiones)
 - Docker y Docker Compose
 - Git
 - Un editor de código (VS Code recomendado)
 
-## 🚀 Configuración Inicial
+## Configuración Inicial
 
 ### 1. Clonar el Repositorio
 
@@ -62,7 +62,7 @@ npm run start:dev
 
 El servidor debería iniciar en `http://localhost:3000`
 
-## 🌿 Flujo de Trabajo con Git
+## Flujo de Trabajo con Git
 
 ### Crear una Rama de Trabajo
 
@@ -117,7 +117,7 @@ git push -u origin feature/nombre-de-tu-feature
    - Capturas de pantalla (si aplica)
 4. Solicita revisión a al menos un miembro del equipo
 
-## 📝 Convenciones de Código
+## Convenciones de Código
 
 ### Estilo de Código
 
@@ -146,7 +146,7 @@ Mantén la estructura de capas:
 - **Application**: Casos de uso que orquestan el dominio
 - **Infrastructure**: Implementaciones (HTTP, persistencia)
 
-## 🧪 Testing
+## Testing
 
 ### Escribir Tests
 
@@ -170,7 +170,7 @@ npm run test:e2e
 - Mockea dependencias externas
 - Mantén tests rápidos
 
-## 🐛 Reportar Bugs
+## Reportar Bugs
 
 Al reportar un bug, incluye:
 
@@ -180,14 +180,14 @@ Al reportar un bug, incluye:
 4. **Capturas de pantalla** o logs
 5. **Entorno** (OS, Node.js version, etc.)
 
-## 💡 Sugerencias de Mejoras
+## Sugerencias de Mejoras
 
 1. Abre un issue primero para discutir la mejora
 2. Espera aprobación del equipo antes de implementar
 3. Sigue el flujo de trabajo de Git estándar
 4. Incluye tests para la nueva funcionalidad
 
-## 📦 Scripts Útiles
+## Scripts Útiles
 
 ```bash
 # Desarrollo
@@ -210,7 +210,7 @@ npm run test:e2e         # Tests E2E
 npm run test:cov         # Tests con coverage
 ```
 
-## ⚠️ Problemas Comunes
+## Problemas Comunes
 
 ### Puerto 5433 ya está en uso
 
@@ -243,13 +243,13 @@ rm -rf dist
 npm run build
 ```
 
-## 📞 Contacto
+## Contacto
 
 Para dudas o problemas:
 - Crea un issue en el repositorio
 - Contacta al equipo de desarrollo
 - Revisa la documentación en el README.md
 
-## 📄 Licencia
+## Licencia
 
 Este proyecto es propiedad de AGROSOFT. Todo el código es confidencial y propiedad de la empresa.

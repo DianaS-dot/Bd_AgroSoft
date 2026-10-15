@@ -2,7 +2,7 @@
 
 API RESTful para el módulo de actividades de AGROSOFT, implementada con NestJS y arquitectura hexagonal.
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 - **NestJS** v11.0.1
 - **TypeScript** v5.7.3
@@ -12,7 +12,7 @@ API RESTful para el módulo de actividades de AGROSOFT, implementada con NestJS 
 - **class-transformer** v0.5.1
 - **Node.js** v20
 
-## 📁 Estructura
+## Estructura
 
 ```
 src/
@@ -36,7 +36,7 @@ src/
 └── main.ts                       # Punto de entrada
 ```
 
-## 🚀 Guía de Inicio Rápido (Setup para desarrolladores)
+## Guía de Inicio Rápido (Setup para desarrolladores)
 
 ### Requisitos Previos
 
@@ -102,7 +102,7 @@ npm run start:dev
 
 El servidor estará disponible en `http://localhost:3000`
 
-## 🏃 Ejecución
+## Ejecución
 
 ### Desarrollo
 
@@ -157,7 +157,7 @@ npm run lint
 npm run format
 ```
 
-## 🌿 Trabajo con Ramas (Git Workflow)
+## Trabajo con Ramas (Git Workflow)
 
 Este es un proyecto colaborativo. Cada desarrollador debe trabajar en su propia rama:
 
@@ -175,17 +175,17 @@ git push -u origin feature/tu-feature
 # Crear Pull Request en GitHub para revisión
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Actividades
 
-|| Método | Endpoint | Descripción |
-||--------|----------|-------------|
-|| GET | `/actividades` | Listar todas las actividades |
-|| GET | `/actividades/:id` | Obtener una actividad por ID |
-|| POST | `/actividades` | Crear una nueva actividad |
-|| PUT | `/actividades/:id` | Actualizar una actividad |
-|| DELETE | `/actividades/:id` | Eliminar una actividad |
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/actividades` | Listar todas las actividades |
+| GET | `/actividades/:id` | Obtener una actividad por ID |
+| POST | `/actividades` | Crear una nueva actividad |
+| PUT | `/actividades/:id` | Actualizar una actividad |
+| DELETE | `/actividades/:id` | Eliminar una actividad |
 
 ### Otros módulos
 
@@ -196,7 +196,7 @@ Similar estructura para:
 - `/actividades-responsables`
 - `/actividades-servicios`
 
-## 🏗️ Arquitectura Hexagonal
+## Arquitectura Hexagonal
 
 El proyecto sigue la arquitectura hexagonal (Ports and Adapters):
 
@@ -216,7 +216,7 @@ El proyecto sigue la arquitectura hexagonal (Ports and Adapters):
 - Repositorios TypeORM
 - Configuración externa
 
-## 🔒 Seguridad
+## Seguridad
 
 - Validación de DTOs con class-validator
 - Configuración de CORS
@@ -224,22 +224,22 @@ El proyecto sigue la arquitectura hexagonal (Ports and Adapters):
 - Transformación automática de tipos
 - `.env` excluido de Git (ver `.gitignore`)
 
-## 📝 Scripts Disponibles
+## Scripts Disponibles
 
-|| Script | Descripción |
-||--------|-------------|
-|| `npm run build` | Compila el proyecto |
-|| `npm run format` | Formatea el código con Prettier |
-|| `npm run start` | Inicia la aplicación en modo prod |
-|| `npm run start:dev` | Inicia en modo desarrollo con watch |
-|| `npm run start:debug` | Inicia en modo debug |
-|| `npm run start:prod` | Inicia en modo producción |
-|| `npm run lint` | Ejecuta ESLint |
-|| `npm run test` | Ejecuta tests unitarios |
-|| `npm run test:cov` | Ejecuta tests con coverage |
-|| `npm run test:e2e` | Ejecuta tests E2E |
+| Script | Descripción |
+|--------|-------------|
+| `npm run build` | Compila el proyecto |
+| `npm run format` | Formatea el código con Prettier |
+| `npm run start` | Inicia la aplicación en modo prod |
+| `npm run start:dev` | Inicia en modo desarrollo con watch |
+| `npm run start:debug` | Inicia en modo debug |
+| `npm run start:prod` | Inicia en modo producción |
+| `npm run lint` | Ejecuta ESLint |
+| `npm run test` | Ejecuta tests unitarios |
+| `npm run test:cov` | Ejecuta tests con coverage |
+| `npm run test:e2e` | Ejecuta tests E2E |
 
-## 🐳 Comandos Docker
+## Comandos Docker
 
 ```bash
 # Iniciar servicios de desarrollo
@@ -258,7 +258,7 @@ docker-compose up -d --build
 docker-compose down -v
 ```
 
-## ⚠️ Solución de Problemas Comunes
+## Solución de Problemas Comunes
 
 ### Error: "Connection refused" al conectar a PostgreSQL
 
@@ -293,7 +293,7 @@ sudo usermod -aG docker $USER
 # Cerrar sesión y volver a entrar
 ```
 
-## 📞 Soporte
+## Soporte
 
 Para dudas o problemas:
 - Revisar la documentación de [NestJS](https://docs.nestjs.com/)
