@@ -1,3 +1,4 @@
+import { randomBytes, pbkdf2Sync } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Usuario } from '../../domain/entities/usuario.entity';
 import { CreateUsuarioInput } from '../../domain/entities/usuario.entity';
@@ -7,6 +8,12 @@ import {
 } from '../../domain/ports/usuario-repository.port';
 import { UsuarioAlreadyExistsError } from '../../domain/errors/usuario-already-exists.error';
 
+function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString('hex');
+  const derivedKey = pbkdf2Sync(password, salt, 100000, 64, 'sha512');
+  return `${salt}:${derivedKey.toString('hex')}`;
+}
+
 @Injectable()
 export class CreateUsuarioUseCase {
   constructor(
@@ -15,8 +22,10 @@ export class CreateUsuarioUseCase {
   ) {}
 
   async execute(input: CreateUsuarioInput): Promise<Usuario> {
+    const passwordHash = hashPassword(input.passwordHash);
+
     // Valida las reglas de negocio (nombre, apellido, correo, etc.).
-    const usuario = Usuario.create(input);
+    const usuario = Usuario.create({ ...input, passwordHash });
 
     // Unicidad de correo e identificación (reglas de negocio).
     const usuarioPorCorreo = await this.usuarioRepository.findByCorreo(

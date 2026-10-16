@@ -36,8 +36,6 @@ export class UsuarioController {
       programaFormacionId: dto.programaFormacionId,
       telefono: dto.telefono,
       correo: dto.correo,
-      // En producción se haría hash aquí antes de pasar al caso de uso
-      // ej: passwordHash: await bcrypt.hash(dto.password, 10)
       passwordHash: dto.password,
       rolId: dto.rolId,
       estado: dto.estado,
