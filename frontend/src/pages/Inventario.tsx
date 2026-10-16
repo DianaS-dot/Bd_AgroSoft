@@ -2,8 +2,14 @@ import { useState, useEffect } from "react";
 import AlertaBanner from "../components/AlertaBanner";
 import InventarioTabla from "../components/InventarioTabla";
 import ProductoModal from "../components/ProductoModal";
-import { getProductos, createProducto, updateProducto, deleteProducto, registrarEntrada, registrarSalida } from "../api/productosService";
+import BarraLateral from "../components/sidebar";
+import Topbar from "../components/Topbar";
+// Importamos usando la nueva estructura separada
+import { getInsumos } from "../api/insumos/insumosQueries";
+import { createInsumo, updateInsumo, deleteInsumo } from "../api/insumos/insumosMutations";
+import type { InsumoBackend } from "../api/insumos/insumosTypes";
 
+// Tipo de UI (frontend) - diferente al tipo del backend
 export interface Producto {
   id: string;
   nombre: string;
@@ -12,6 +18,26 @@ export interface Producto {
   unidad: 'L' | 'kg' | string;
   stockMinimo: number;
 }
+
+// Función de mapeo: Backend → Frontend
+const mapInsumoToProducto = (insumo: InsumoBackend): Producto => ({
+  id: String(insumo.id),
+  nombre: insumo.nombre,
+  categoria: insumo.descripcion || 'Sin categoría',
+  cantidad: insumo.stockUso,
+  unidad: insumo.unidadUso as 'L' | 'kg' | string,
+  stockMinimo: 5,
+});
+
+// Función de mapeo: Frontend → Backend
+const mapProductoToInsumoDto = (producto: Omit<Producto, 'id'>) => ({
+  nombre: producto.nombre,
+  descripcion: producto.categoria,
+  stockUso: producto.cantidad,
+  unidadUso: producto.unidad,
+  costoUnitario: 0,
+  estado: 'activo',
+});
 
 function Inventario() {
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -26,8 +52,11 @@ function Inventario() {
   useEffect(() => {
     const loadProductos = async () => {
       try {
-        const data = await getProductos();
-        setProductos(data);
+        // Usamos la nueva función getInsumos
+        const data = await getInsumos();
+        // Mapeamos de InsumoBackend a Producto (UI)
+        const productosMapeados = data.map(mapInsumoToProducto);
+        setProductos(productosMapeados);
         setError(null);
       } catch (err) {
         console.error("Error cargando productos:", err);
@@ -52,8 +81,16 @@ function Inventario() {
   // 1. Registrar Entrada (+1)
   const handleEntrada = async (id: string) => {
     try {
-      const updated = await registrarEntrada(id);
-      setProductos(productos.map((p) => p.id === id ? updated : p));
+      // Obtenemos el producto actual
+      const current = productos.find(p => p.id === id);
+      if (!current) return;
+      
+      // Convertimos a DTO de backend
+      const dto = mapProductoToInsumoDto({ ...current, cantidad: current.cantidad + 1 });
+      // Usamos la nueva función updateInsumo
+      const updated = await updateInsumo(Number(id), dto);
+      // Mapeamos de vuelta a Producto UI
+      setProductos(productos.map((p) => p.id === id ? mapInsumoToProducto(updated) : p));
     } catch (err) {
       console.error("Error registrando entrada:", err);
       // Fallback: actualizar localmente
@@ -64,8 +101,12 @@ function Inventario() {
   // 2. Registrar Salida (-1, mínimo 0)
   const handleSalida = async (id: string) => {
     try {
-      const updated = await registrarSalida(id);
-      setProductos(productos.map((p) => p.id === id ? updated : p));
+      const current = productos.find(p => p.id === id);
+      if (!current) return;
+      
+      const dto = mapProductoToInsumoDto({ ...current, cantidad: Math.max(0, current.cantidad - 1) });
+      const updated = await updateInsumo(Number(id), dto);
+      setProductos(productos.map((p) => p.id === id ? mapInsumoToProducto(updated) : p));
     } catch (err) {
       console.error("Error registrando salida:", err);
       // Fallback: actualizar localmente
@@ -79,7 +120,8 @@ function Inventario() {
   const handleDelete = async (id: string) => {
     if (window.confirm("¿Estás seguro de eliminar este insumo del inventario?")) {
       try {
-        await deleteProducto(id);
+        // Usamos la nueva función deleteInsumo
+        await deleteInsumo(Number(id));
         setProductos(productos.filter((p) => p.id !== id));
       } catch (err) {
         console.error("Error eliminando producto:", err);
@@ -100,12 +142,14 @@ function Inventario() {
     try {
       if (id) {
         // Actualizar producto existente
-        const updated = await updateProducto(id, datos);
-        setProductos(productos.map((p) => p.id === id ? updated : p));
+        const dto = mapProductoToInsumoDto(datos);
+        const updated = await updateInsumo(Number(id), dto);
+        setProductos(productos.map((p) => p.id === id ? mapInsumoToProducto(updated) : p));
       } else {
         // Crear producto nuevo
-        const nuevo = await createProducto(datos);
-        setProductos([...productos, nuevo]);
+        const dto = mapProductoToInsumoDto(datos);
+        const nuevo = await createInsumo(dto);
+        setProductos([...productos, mapInsumoToProducto(nuevo)]);
       }
       setModalAbierto(false);
       setProductoEditando(null);
@@ -130,51 +174,58 @@ function Inventario() {
   };
 
   return (
-    <>
-      {/* Page header */}
-      <div className="page-header animate-fadeIn">
-        <div>
-          <div className="page-header-eyebrow">
-            Stock e inventario
+    <div className="flex min-h-screen">
+      <BarraLateral />
+
+      <div className="flex-1 flex flex-col min-w-0 bg-[#f4f6f8]">
+        <Topbar />
+        <div className="flex-1 p-8 overflow-y-auto">
+          {/* Page header */}
+          <div className="page-header animate-fadeIn">
+            <div>
+              <div className="page-header-eyebrow">
+                Stock e inventario
+              </div>
+              <p className="page-header-sub">Control de insumos y materiales de la finca</p>
+            </div>
+            <button className="btn-primary" onClick={() => { setProductoEditando(null); setModalAbierto(true); }}>
+              + Agregar producto
+            </button>
           </div>
-          <p className="page-header-sub">Control de insumos y materiales de la finca</p>
-        </div>
-        <button className="btn-primary" onClick={() => { setProductoEditando(null); setModalAbierto(true); }}>
-          + Agregar producto
-        </button>
-      </div>
 
-      {loading ? (
-        <div className="text-center py-8">
-          <p className="text-gray-500">Cargando productos...</p>
-        </div>
-      ) : error ? (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-          <p>{error}</p>
-          <p className="text-sm mt-1">Mostrando datos de ejemplo. Verifica que el backend esté corriendo en http://localhost:3000</p>
-        </div>
-      ) : (
-        <>
-          <AlertaBanner productos={productos} />
+          {loading ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">Cargando productos...</p>
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+              <p>{error}</p>
+              <p className="text-sm mt-1">Mostrando datos de ejemplo. Verifica que el backend esté corriendo en http://localhost:3000</p>
+            </div>
+          ) : (
+            <>
+              <AlertaBanner productos={productos} />
 
-          <InventarioTabla
-            productos={productos}
-            onEntrada={handleEntrada}
-            onSalida={handleSalida}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
+              <InventarioTabla
+                productos={productos}
+                onEntrada={handleEntrada}
+                onSalida={handleSalida}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            </>
+          )}
+
+          {/* Modal agregar / editar */}
+          <ProductoModal
+            abierto={modalAbierto}
+            productoEditar={productoEditando}
+            onGuardar={handleGuardar}
+            onCerrar={handleCerrarModal}
           />
-        </>
-      )}
-
-      {/* Modal agregar / editar */}
-      <ProductoModal
-        abierto={modalAbierto}
-        productoEditar={productoEditando}
-        onGuardar={handleGuardar}
-        onCerrar={handleCerrarModal}
-      />
-    </>
+        </div>
+      </div>
+    </div>
   );
 }
 
