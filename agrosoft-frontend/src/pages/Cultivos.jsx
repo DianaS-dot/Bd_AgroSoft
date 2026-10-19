@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import {
   obtenerCultivos,
-  obtenerCultivo,
   crearCultivo,
   actualizarCultivo,
   eliminarCultivo,
@@ -11,13 +10,17 @@ import {
 import TablaCultivos from "../components/cultivos/TablaCultivos";
 import FormularioCultivo from "../components/cultivos/FormularioCultivo";
 import DetalleCultivo from "../components/cultivos/DetalleCultivo";
+
 export default function Cultivos({
   busqueda = "",
 }) {
   const [cultivos, setCultivos] = useState([]);
 
-  const [cargando, setCargando] =
-    useState(true);
+  // PAGINACIÓN
+  const [paginaActual, setPaginaActual] = useState(1);
+  const cultivosPorPagina = 5;
+
+  const [cargando, setCargando] = useState(true);
 
   const [error, setError] = useState("");
 
@@ -32,6 +35,10 @@ export default function Cultivos({
 
   const [cultivoDetalle, setCultivoDetalle] =
     useState(null);
+
+  // =====================================================
+  // CARGAR CULTIVOS
+  // =====================================================
 
   const cargarCultivos = async () => {
     try {
@@ -59,6 +66,18 @@ export default function Cultivos({
     cargarCultivos();
   }, []);
 
+  // =====================================================
+  // REINICIAR PAGINACIÓN AL BUSCAR
+  // =====================================================
+
+  useEffect(() => {
+    setPaginaActual(1);
+  }, [busqueda]);
+
+  // =====================================================
+  // FILTRAR CULTIVOS
+  // =====================================================
+
   const cultivosFiltrados = useMemo(() => {
     const texto = busqueda
       .trim()
@@ -83,11 +102,35 @@ export default function Cultivos({
     });
   }, [cultivos, busqueda]);
 
+  // =====================================================
+  // PAGINACIÓN
+  // =====================================================
+
+  const totalPaginas = Math.ceil(
+    cultivosFiltrados.length / cultivosPorPagina
+  );
+
+  const indiceInicio =
+    (paginaActual - 1) * cultivosPorPagina;
+
+  const cultivosPaginados = cultivosFiltrados.slice(
+    indiceInicio,
+    indiceInicio + cultivosPorPagina
+  );
+
+  // =====================================================
+  // NUEVO CULTIVO
+  // =====================================================
+
   const abrirNuevo = () => {
     setModoEdicion(false);
     setCultivoSeleccionado(null);
     setModalFormulario(true);
   };
+
+  // =====================================================
+  // EDITAR CULTIVO
+  // =====================================================
 
   const abrirEditar = (cultivo) => {
     setModoEdicion(true);
@@ -95,60 +138,79 @@ export default function Cultivos({
     setModalFormulario(true);
   };
 
+  // =====================================================
+  // CERRAR FORMULARIO
+  // =====================================================
+
   const cerrarFormulario = () => {
     setModalFormulario(false);
     setCultivoSeleccionado(null);
   };
 
- const guardarCultivo = async (datos) => {
-  try {
-    setError("");
+  // =====================================================
+  // GUARDAR CULTIVO
+  // =====================================================
 
-    let cultivoGuardado;
+  const guardarCultivo = async (datos) => {
+    try {
+      setError("");
 
-    if (modoEdicion && cultivoSeleccionado?.id) {
-      cultivoGuardado = await actualizarCultivo(
-        cultivoSeleccionado.id,
-        datos
+      let cultivoGuardado;
+
+      if (
+        modoEdicion &&
+        cultivoSeleccionado?.id
+      ) {
+        cultivoGuardado =
+          await actualizarCultivo(
+            cultivoSeleccionado.id,
+            datos
+          );
+      } else {
+        cultivoGuardado =
+          await crearCultivo(datos);
+      }
+
+      console.log(
+        "✅ CULTIVO GUARDADO:",
+        cultivoGuardado
       );
-    } else {
-      cultivoGuardado = await crearCultivo(datos);
-    }
 
-    console.log("✅ CULTIVO GUARDADO:", cultivoGuardado);
+      if (!modoEdicion) {
+        setCultivos((actuales) => [
+          ...actuales,
+          cultivoGuardado,
+        ]);
+      } else {
+        setCultivos((actuales) =>
+          actuales.map((cultivo) =>
+            cultivo.id === cultivoGuardado.id
+              ? cultivoGuardado
+              : cultivo
+          )
+        );
+      }
 
-    // Agregar inmediatamente el cultivo a la tabla
-    if (!modoEdicion) {
-      setCultivos((actuales) => [
-        ...actuales,
-        cultivoGuardado,
-      ]);
-    } else {
-      setCultivos((actuales) =>
-        actuales.map((cultivo) =>
-          cultivo.id === cultivoGuardado.id
-            ? cultivoGuardado
-            : cultivo
-        )
+      setModalFormulario(false);
+      setCultivoSeleccionado(null);
+      setModoEdicion(false);
+
+    } catch (error) {
+      console.error(
+        "❌ Error al guardar cultivo:",
+        error
+      );
+
+      setError(
+        error.response?.data?.message ||
+        "No se pudo guardar el cultivo."
       );
     }
+  };
 
-    setModalFormulario(false);
-    setCultivoSeleccionado(null);
-    setModoEdicion(false);
-
-  } catch (error) {
-    console.error(
-      "❌ Error al guardar cultivo:",
-      error
-    );
-
-    setError(
-      error.response?.data?.message ||
-      "No se pudo guardar el cultivo."
-    );
-  }
-};
+  // =====================================================
+  // ELIMINAR CULTIVO
+  // =====================================================
 
   const eliminar = async (id) => {
     const confirmar = window.confirm(
@@ -169,6 +231,7 @@ export default function Cultivos({
           (cultivo) => cultivo.id !== id
         )
       );
+
     } catch (error) {
       console.error(
         "Error al eliminar cultivo:",
@@ -181,12 +244,19 @@ export default function Cultivos({
     }
   };
 
+  // =====================================================
+  // INTERFAZ
+  // =====================================================
+
   return (
     <section>
-      {/* Encabezado de página */}
+
+      {/* ENCABEZADO */}
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
         <div>
           <div className="flex items-center gap-2">
+
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#ddf9e7] text-[#08753a]">
               <PlantaIcono />
             </div>
@@ -194,6 +264,7 @@ export default function Cultivos({
             <h2 className="text-xl font-bold text-[#173b2a]">
               Mis cultivos
             </h2>
+
           </div>
 
           <p className="mt-1 text-xs text-[#789184]">
@@ -212,11 +283,13 @@ export default function Cultivos({
 
           Nuevo cultivo
         </button>
+
       </div>
 
-      {/* Mensaje de error */}
+      {/* ERROR */}
       {error && (
         <div className="mb-4 flex flex-col gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 sm:flex-row sm:items-center sm:justify-between">
+
           <span>{error}</span>
 
           <button
@@ -226,28 +299,38 @@ export default function Cultivos({
           >
             Reintentar
           </button>
+
         </div>
       )}
 
-      {/* Contenido */}
+      {/* CONTENIDO */}
       {cargando ? (
+
         <div className="rounded-xl border border-[#dce6df] bg-white px-6 py-14 text-center shadow-sm">
+
           <div className="mx-auto mb-3 h-7 w-7 animate-spin rounded-full border-2 border-[#d7e9dd] border-t-[#178343]" />
 
           <p className="text-sm text-[#789184]">
             Cargando cultivos...
           </p>
+
         </div>
+
       ) : (
+
         <TablaCultivos
-          cultivos={cultivosFiltrados}
+          cultivos={cultivosPaginados}
           alVer={setCultivoDetalle}
           alEditar={abrirEditar}
           alEliminar={eliminar}
+          paginaActual={paginaActual}
+          totalPaginas={totalPaginas}
+          alCambiarPagina={setPaginaActual}
         />
+
       )}
 
-      {/* Crear / editar */}
+      {/* CREAR / EDITAR */}
       <FormularioCultivo
         abierto={modalFormulario}
         modoEdicion={modoEdicion}
@@ -256,14 +339,21 @@ export default function Cultivos({
         alGuardar={guardarCultivo}
       />
 
-      {/* Ver detalle */}
+      {/* DETALLE */}
       <DetalleCultivo
         cultivo={cultivoDetalle}
-        alCerrar={() => setCultivoDetalle(null)}
+        alCerrar={() =>
+          setCultivoDetalle(null)
+        }
       />
+
     </section>
   );
 }
+
+// =====================================================
+// ICONO PLANTA
+// =====================================================
 
 function PlantaIcono() {
   return (

@@ -8,136 +8,188 @@ export default function BarraLateral({
   const [menuAbierto, setMenuAbierto] = useState(false);
 
   const opciones = [
-    "Inicio",
-    "Perfil",
-    "Cultivos",
-    "Lotes",
-    "Tratamientos",
-    "Enfermedades",
-    "Stock",
-    "Ventas",
-    "Estadísticas",
-    "Usuarios",
-    "Configuración",
+    { nombre: "Inicio" },
+    { nombre: "Perfil" },
+    { nombre: "Cultivos" },
+    { nombre: "Lotes" },
+
+    { separador: true },
+
+    { nombre: "Tratamientos" },
+    { nombre: "Enfermedades" },
+
+    { separador: true },
+
+    { nombre: "Stock" },
+    { nombre: "Ventas" },
+    { nombre: "IoT / Sensores" },
+
+    { separador: true },
+
+    { nombre: "Sanidad", submenu: true },
+    { nombre: "Administración", submenu: true },
+
+    { separador: true },
+
+    { nombre: "Estadísticas" },
+    { nombre: "Usuarios" },
+    { nombre: "Configuración" },
   ];
 
   const seleccionarPagina = (opcion) => {
-  cambiarPagina(opcion);
-  setMenuAbierto(false);
-};
+    cambiarPagina(opcion);
+    setMenuAbierto(false);
+  };
 
   return (
     <>
-      {/* ================= ESCRITORIO ================= */}
-      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-[245px] border-r border-[#dce6df] bg-white lg:block">
+      {/* =====================================================
+          ESCRITORIO
+      ====================================================== */}
+      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-[270px] flex-col border-r border-[#1B362B] bg-[#12241C] text-[#9CA3AF] lg:flex">
+        
+        {/* Contenedor superior */}
+        <div className="flex h-full flex-col overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#1B362B]">
 
-        {/* Logo */}
-        <div className="flex h-16 items-center gap-3 border-b border-[#e4ebe6] px-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#178343] text-white">
-            <HojaIcono />
+          {/* LOGO */}
+          <div className="flex items-center gap-3 px-6 pb-4 pt-6">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#22c55e] shadow-md">
+              <HojaIcono />
+            </div>
+
+            <div>
+              <h1 className="text-[15px] font-extrabold leading-none tracking-wider text-white">
+                AGROSOFT
+              </h1>
+
+              <span className="mt-1 block text-[11px] font-medium tracking-wide text-[#8C9893]">
+                Gestión de finca
+              </span>
+            </div>
           </div>
 
-          <div>
-            <h1 className="text-[16px] font-bold tracking-wide text-[#126b38]">
-              AGROSOFT
-            </h1>
+          {/* MENÚ */}
+          <nav className="flex-1 space-y-0.5 px-3 py-1">
+            {opciones.map((item, index) => {
+              if (item.separador) {
+                return (
+                  <div
+                    key={`separador-${index}`}
+                    className="mx-3 my-2 h-[1px] bg-[#1C3329]"
+                  />
+                );
+              }
 
-            <p className="text-[10px] text-[#7c9a89]">
-              Gestión de finca
-            </p>
-          </div>
+              const activo = paginaActual === item.nombre;
+
+              return (
+                <button
+                  key={item.nombre}
+                  type="button"
+                  onClick={() => seleccionarPagina(item.nombre)}
+                  className={`group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-[13.5px] font-medium transition-all ${
+                    activo
+                      ? "bg-[#214232] text-white shadow-sm"
+                      : "text-[#9CA3AF] hover:bg-[#183126] hover:text-white"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`${
+                        activo
+                          ? "text-white"
+                          : "text-[#8C9893] group-hover:text-white"
+                      }`}
+                    >
+                      <IconoMenu opcion={item.nombre} />
+                    </span>
+
+                    <span className="tracking-tight">
+                      {item.nombre}
+                    </span>
+                  </div>
+
+                  {item.submenu && (
+                    <ChevronDerechaIcono />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
-        {/* Menú */}
-        <nav className="flex flex-col gap-1 p-3">
-          {opciones.map((opcion) => (
-            <button
-              key={opcion}
-              type="button"
-              onClick={() =>
-                seleccionarPagina(opcion)
-              }
-              className={`flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm transition ${
-                paginaActual === opcion
-                  ? "bg-[#125d32] font-semibold text-white"
-                  : "text-[#285d40] hover:bg-[#eef7f0]"
-              }`}
-            >
-              <IconoMenu opcion={opcion} />
-              {opcion}
-            </button>
-          ))}
-        </nav>
-
-        {/* Cerrar sesión */}
-        <div className="absolute bottom-0 left-0 w-full border-t border-[#e4ebe6] p-3">
+        {/* CERRAR SESIÓN */}
+        <div className="border-t border-[#1C3329] bg-[#12241C] p-3">
           <button
             type="button"
             onClick={cerrarSesion}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#245b3c] transition hover:bg-[#eef7f0]"
+            className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-[13.5px] font-medium text-[#9CA3AF] transition-colors hover:bg-[#183126] hover:text-white"
           >
-            <CerrarSesionIcono />
-            Cerrar sesión
+            <span className="text-[#8C9893] group-hover:text-white">
+              <CerrarSesionIcono />
+            </span>
+
+            <span>Cerrar sesión</span>
           </button>
         </div>
       </aside>
 
-      {/* ================= MÓVIL ================= */}
-
-      {/* Botón hamburguesa */}
+      {/* =====================================================
+          BOTÓN HAMBURGUESA — MÓVIL
+      ====================================================== */}
       <button
         type="button"
-        onClick={() =>
-          setMenuAbierto(true)
-        }
-        className="fixed left-4 top-3 z-50 flex h-10 w-10 items-center justify-center rounded-lg border border-[#dce6df] bg-white text-[#126033] shadow-sm transition hover:bg-[#eef7f0] lg:hidden"
+        onClick={() => setMenuAbierto(true)}
+        className="fixed left-4 top-3 z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-[#dce6df] bg-white text-[#126033] shadow-sm transition hover:bg-[#eef7f0] lg:hidden"
         aria-label="Abrir menú"
       >
         <MenuIcono />
       </button>
 
-      {/* Fondo oscuro */}
+      {/* =====================================================
+          FONDO OSCURO — MÓVIL
+      ====================================================== */}
       {menuAbierto && (
         <div
-          className="fixed inset-0 z-50 bg-black/30 lg:hidden"
-          onClick={() =>
-            setMenuAbierto(false)
-          }
+          className="fixed inset-0 z-50 bg-black/40 lg:hidden"
+          onClick={() => setMenuAbierto(false)}
         />
       )}
 
-      {/* Menú móvil */}
+      {/* =====================================================
+          MENÚ MÓVIL
+      ====================================================== */}
       <aside
-        className={`fixed left-0 top-0 z-[60] h-screen w-[280px] border-r border-[#dce6df] bg-white shadow-xl transition-transform duration-300 lg:hidden ${
+        className={`fixed left-0 top-0 z-[60] flex h-screen w-[280px] flex-col border-r border-[#1B362B] bg-[#12241C] text-[#9CA3AF] shadow-xl transition-transform duration-300 lg:hidden ${
           menuAbierto
             ? "translate-x-0"
             : "-translate-x-full"
         }`}
       >
-        {/* Encabezado del menú */}
-        <div className="flex h-16 items-center justify-between border-b border-[#e4ebe6] px-5">
+        {/* Encabezado */}
+        <div className="flex h-16 items-center justify-between border-b border-[#1C3329] px-5">
+          
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#178343] text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#22c55e] shadow-md">
               <HojaIcono />
             </div>
 
             <div>
-              <h1 className="text-[16px] font-bold tracking-wide text-[#126b38]">
+              <h1 className="text-[15px] font-extrabold leading-none tracking-wider text-white">
                 AGROSOFT
               </h1>
 
-              <p className="text-[10px] text-[#7c9a89]">
+              <span className="mt-1 block text-[11px] font-medium tracking-wide text-[#8C9893]">
                 Gestión de finca
-              </p>
+              </span>
             </div>
           </div>
 
+          {/* Cerrar menú */}
           <button
             type="button"
-            onClick={() =>
-              setMenuAbierto(false)
-            }
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#6d8376] hover:bg-[#eef7f0] hover:text-[#173b2a]"
+            onClick={() => setMenuAbierto(false)}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#8C9893] transition hover:bg-[#183126] hover:text-white"
             aria-label="Cerrar menú"
           >
             <CerrarIcono />
@@ -145,35 +197,66 @@ export default function BarraLateral({
         </div>
 
         {/* Opciones */}
-        <nav className="flex flex-col gap-1 overflow-y-auto p-3">
-          {opciones.map((opcion) => (
-            <button
-              key={opcion}
-              type="button"
-              onClick={() =>
-                seleccionarPagina(opcion)
-              }
-              className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm transition ${
-                paginaActual === opcion
-                  ? "bg-[#125d32] font-semibold text-white"
-                  : "text-[#285d40] hover:bg-[#eef7f0]"
-              }`}
-            >
-              <IconoMenu opcion={opcion} />
-              {opcion}
-            </button>
-          ))}
+        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-3 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#1B362B]">
+          {opciones.map((item, index) => {
+            if (item.separador) {
+              return (
+                <div
+                  key={`separador-mobile-${index}`}
+                  className="mx-3 my-2 h-[1px] bg-[#1C3329]"
+                />
+              );
+            }
+
+            const activo = paginaActual === item.nombre;
+
+            return (
+              <button
+                key={item.nombre}
+                type="button"
+                onClick={() => seleccionarPagina(item.nombre)}
+                className={`group flex w-full items-center justify-between rounded-xl px-3 py-3 text-[13.5px] font-medium transition-all ${
+                  activo
+                    ? "bg-[#214232] text-white shadow-sm"
+                    : "text-[#9CA3AF] hover:bg-[#183126] hover:text-white"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`${
+                      activo
+                        ? "text-white"
+                        : "text-[#8C9893] group-hover:text-white"
+                    }`}
+                  >
+                    <IconoMenu opcion={item.nombre} />
+                  </span>
+
+                  <span className="tracking-tight">
+                    {item.nombre}
+                  </span>
+                </div>
+
+                {item.submenu && (
+                  <ChevronDerechaIcono />
+                )}
+              </button>
+            );
+          })}
         </nav>
 
         {/* Cerrar sesión */}
-        <div className="absolute bottom-0 left-0 w-full border-t border-[#e4ebe6] bg-white p-3">
+        <div className="border-t border-[#1C3329] bg-[#12241C] p-3">
           <button
             type="button"
             onClick={cerrarSesion}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#245b3c] transition hover:bg-[#eef7f0]"
+            className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-[13.5px] font-medium text-[#9CA3AF] transition-colors hover:bg-[#183126] hover:text-white"
           >
-            <CerrarSesionIcono />
-            Cerrar sesión
+            <span className="text-[#8C9893] group-hover:text-white">
+              <CerrarSesionIcono />
+            </span>
+
+            <span>Cerrar sesión</span>
           </button>
         </div>
       </aside>
@@ -181,7 +264,9 @@ export default function BarraLateral({
   );
 }
 
-/* ================= ICONOS ================= */
+/* =========================================================
+   ICONOS DEL MENÚ
+========================================================= */
 
 function IconoMenu({ opcion }) {
   const iconos = {
@@ -193,6 +278,9 @@ function IconoMenu({ opcion }) {
     Enfermedades: <EnfermedadIcono />,
     Stock: <CajaIcono />,
     Ventas: <VentaIcono />,
+    "IoT / Sensores": <SensoresIcono />,
+    Sanidad: <SanidadIcono />,
+    Administración: <AdministracionIcono />,
     Estadísticas: <EstadisticaIcono />,
     Usuarios: <UsuariosIcono />,
     Configuración: <ConfiguracionIcono />,
@@ -200,6 +288,10 @@ function IconoMenu({ opcion }) {
 
   return iconos[opcion] || <CirculoIcono />;
 }
+
+/* =========================================================
+   ICONOS SVG
+========================================================= */
 
 function MenuIcono() {
   return (
@@ -239,17 +331,18 @@ function CerrarIcono() {
 function HojaIcono() {
   return (
     <svg
-      width="19"
-      height="19"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
-      fill="none"
+      fill="currentColor"
       stroke="currentColor"
-      strokeWidth="1.8"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className="text-white"
     >
       <path d="M20 4C12 4 5 8 5 15c0 3 2 5 5 5 7 0 11-7 10-16Z" />
-      <path d="M5 20c3-5 6-8 11-11" />
+      <path d="M5 20c3-5 6-8 11-11" fill="none" />
     </svg>
   );
 }
@@ -336,6 +429,38 @@ function VentaIcono() {
   );
 }
 
+function SensoresIcono() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <circle cx="12" cy="12" r="2" />
+      <path d="M8.5 8.5a5 5 0 0 0 0 7" />
+      <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+      <path d="M5.5 5.5a9 9 0 0 0 0 13" />
+      <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+    </svg>
+  );
+}
+
+function SanidadIcono() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3 4 6v5c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-3Z" />
+      <path d="M12 8v6" />
+      <path d="M9 11h6" />
+    </svg>
+  );
+}
+
+function AdministracionIcono() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3 3 8l9 5 9-5-9-5Z" />
+      <path d="M7 11v5c2.5 2 7.5 2 10 0v-5" />
+      <path d="M21 8v6" />
+    </svg>
+  );
+}
+
 function EstadisticaIcono() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -367,9 +492,34 @@ function ConfiguracionIcono() {
   );
 }
 
+function ChevronDerechaIcono() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-[#6B7280] transition group-hover:text-gray-300"
+    >
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
+}
+
 function CirculoIcono() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
       <circle cx="12" cy="12" r="8" />
     </svg>
   );
@@ -377,7 +527,16 @@ function CirculoIcono() {
 
 function CerrarSesionIcono() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
       <path d="m16 17 5-5-5-5" />
       <path d="M21 12H9" />

@@ -3,6 +3,9 @@ export default function TablaCultivos({
   alVer,
   alEditar,
   alEliminar,
+  paginaActual,
+  totalPaginas,
+  alCambiarPagina,
 }) {
   if (!cultivos || cultivos.length === 0) {
     return (
@@ -23,9 +26,9 @@ export default function TablaCultivos({
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[#dce6df] bg-white shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[950px] text-left">
+ <div className="overflow-hidden rounded-xl border border-[#dce6df] bg-white shadow-sm">
+  <div className="w-full overflow-hidden">
+    <table className="w-full table-fixed text-left">
           <thead className="border-b border-[#dce6df] bg-[#f8faf8]">
             <tr>
               <th className="px-4 py-3 text-[11px] font-semibold text-[#27543a]">
@@ -149,8 +152,71 @@ export default function TablaCultivos({
             ))}
           </tbody>
         </table>
-      </div>
+</div>
+
+{/* PAGINACIÓN */}
+{totalPaginas > 1 && (
+  <div className="flex flex-col gap-3 border-t border-[#e8eee9] px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+
+    {/* Información */}
+    <p className="text-xs text-[#789184]">
+      Página {paginaActual} de {totalPaginas}
+    </p>
+
+    {/* Botones */}
+    <div className="flex items-center justify-center gap-1.5">
+
+      {/* Anterior */}
+      <button
+        type="button"
+        onClick={() =>
+          alCambiarPagina(paginaActual - 1)
+        }
+        disabled={paginaActual === 1}
+        className="rounded-lg border border-[#dce6df] px-3 py-2 text-xs font-semibold text-[#356047] transition hover:bg-[#eef8f1] disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Anterior
+      </button>
+
+      {/* Números */}
+      {Array.from(
+        { length: totalPaginas },
+        (_, indice) => indice + 1
+      ).map((pagina) => (
+        <button
+          key={pagina}
+          type="button"
+          onClick={() =>
+            alCambiarPagina(pagina)
+          }
+          className={`h-8 w-8 rounded-lg text-xs font-semibold transition ${
+            pagina === paginaActual
+              ? "bg-[#126033] text-white"
+              : "border border-[#dce6df] text-[#356047] hover:bg-[#eef8f1]"
+          }`}
+        >
+          {pagina}
+        </button>
+      ))}
+
+      {/* Siguiente */}
+      <button
+        type="button"
+        onClick={() =>
+          alCambiarPagina(paginaActual + 1)
+        }
+        disabled={
+          paginaActual === totalPaginas
+        }
+        className="rounded-lg border border-[#dce6df] px-3 py-2 text-xs font-semibold text-[#356047] transition hover:bg-[#eef8f1] disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Siguiente
+      </button>
+
     </div>
+  </div>
+)}
+</div>
   );
 }
 

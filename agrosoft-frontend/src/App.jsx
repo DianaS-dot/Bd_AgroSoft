@@ -5,6 +5,7 @@ import Encabezado from "./components/diseño/Encabezado";
 import Cultivos from "./pages/Cultivos";
 import Login from "./pages/login";
 import CrearCuenta from "./pages/CrearCuenta";
+import Lotes from "./pages/Lotes";
 
 export default function App() {
   const [autenticado, setAutenticado] = useState(
@@ -64,7 +65,7 @@ export default function App() {
       />
 
       {/* CONTENIDO PRINCIPAL */}
-      <main className="min-w-0 lg:ml-[245px]">
+<main className="min-w-0 lg:ml-[270px]">
 
         <Encabezado
           busqueda={busqueda}
@@ -75,7 +76,10 @@ export default function App() {
 
           {pagina === "Cultivos" ? (
             <Cultivos busqueda={busqueda} />
-          ) : (
+          ) : pagina === "Lotes" ? (
+            <Lotes busqueda={busqueda} />
+          ) :
+          (
             <div className="rounded-xl border border-[#dce6df] bg-white p-8 text-center shadow-sm">
 
               <h2 className="text-lg font-bold text-[#173b2a]">
